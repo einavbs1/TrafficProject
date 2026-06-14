@@ -1,0 +1,29 @@
+[
+  {
+    "id": "flowgrid",
+    "display_name": "Default (4-lane intersection)",
+    "arm_length": 500,
+    "flows": {
+      "ns_straight": 0.08,
+      "ns_left": 0.05,
+      "ns_right": 0.04,
+      "sn_straight": 0.08,
+      "sn_left": 0.05,
+      "sn_right": 0.04,
+      "ew_straight": 0.06,
+      "ew_left": 0.04,
+      "ew_right": 0.03,
+      "we_straight": 0.06,
+      "we_left": 0.04,
+      "we_right": 0.03
+    },
+    "sumocfg_path": "data/maps/flowgrid/map.sumocfg",
+    "policy_path": "data/maps/flowgrid/dqn_policy.pth",
+    "created_at": "2026-06-08T12:30:39.765561+00:00",
+    "phasing_scheme": "opposite_thru_rt_then_thru",
+    "separate_right_turn": true,
+    "lanes_per_approach": 4,
+    "baseline_through_seconds": 60.0,
+    "baseline_left_to_through_ratio": 0.6
+  }
+]

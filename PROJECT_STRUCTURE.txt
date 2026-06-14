@@ -1,0 +1,37 @@
+FlowGrid folder layout
+======================
+
+flowgrid/          Python package (simulation + AI)
+  core/            Intersection graph, actuated signals, SUMO env
+  rl/              DQN agent
+  maps/            Build & save map presets
+  eval/            Baseline vs trained comparison
+  jobs/            Background train/compare for GUI
+  paths.py         All directory locations
+
+gui/               Desktop app (tkinter)
+  flowgrid_gui.py
+
+data/
+  defaults/        Shared default network (flowgrid.sumocfg, my_net.net.xml)
+  maps/            Your saved maps (each subfolder = one intersection)
+    registry.json
+    <map_id>/
+      map.sumocfg
+      network.net.xml
+      routes.rou.xml
+      dqn_policy.pth    <- trained model FOR THIS MAP ONLY
+
+scripts/           Command-line helpers
+legacy/            Old experiments (4WaySimulator, etc.)
+web/               Optional browser dashboard
+outputs/           Charts (comparison_bar.png, etc.)
+
+Run GUI:  python flowgrid_gui.py   or   run_gui.bat
+
+DQN training: PER MAP (not per road)
+------------------------------------
+- A "map" = full intersection + all approaches + traffic flows.
+- Each saved map gets its own dqn_policy.pth in data/maps/<name>/.
+- Lanes/roads are inputs to the model; the AI controls the whole junction.
+- Train map A, then map B = two separate models. Compare each map to its own baseline.

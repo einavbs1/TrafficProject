@@ -1,0 +1,852 @@
+====================================================================================================
+Batch evaluation  2026-06-09 17:11:02 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 500
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 20  Inject until: 800s  Baseline green: 60s
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 641331242       ok      594,420      613,387       753       753     10,717     12,101      52,156      88,167       no       -3.2
+   2 34234836       ok      616,050      315,650       716       716      3,492      1,074      68,217      39,896      yes      +48.8
+   3 1725532990       ok      625,816      390,941       720       720      6,789      3,080      56,344      45,616      yes      +37.5
+   4 1701707376     FAIL      579,564      622,129       711       711      4,629      3,230      39,036      62,988        -          -
+   5 478398343       ok      621,268      351,759       766       766      2,317      188.0      45,715      38,145      yes      +43.4
+   6 2130607999       ok      546,729      203,132       661       661     13,682      1,651      39,627      18,432      yes      +62.8
+   7 2131430281       ok      627,086      797,584       714       714     14,293     16,233      64,324     117,381       no      -27.2
+   8 764461557       ok      631,056    1,202,472       736       736     11,544     21,941      59,731     136,253       no      -90.5
+   9 224303213       ok      585,227      812,217       741       741      9,926     24,672      40,177      65,214       no      -38.8
+  10 685705525       ok      614,280    2,509,749       753       753     10,467     10,765      67,855     320,083       no     -308.6
+  11 133316409       ok      597,157      447,923       721       721      9,506      8,798      51,141      48,578      yes      +25.0
+  12 1127146779       ok      604,783    1,421,452       712       712     10,688     33,522      51,704      99,202       no     -135.0
+  13 628236056       ok      593,564    1,359,470       730       730      4,716     16,073      49,538     180,529       no     -129.0
+  14 1111058551       ok      648,561      416,757       731       731      748.0      1,594      49,650      50,368      yes      +35.7
+  15 507589067       ok      616,313      430,423       730       730      7,584      189.0      64,317      62,459      yes      +30.2
+  16 1043061218       ok      607,677      658,668       723       723     11,617      856.0      53,277     116,011       no       -8.4
+  17 1441336579       ok      546,750      774,436       707       707      2,107     14,899      17,806      52,604       no      -41.6
+  18 980086590       ok      632,124      390,589       725       725     10,424      3,248      67,601      49,089      yes      +38.2
+  19 68503994       ok      569,709    2,234,177       711       711      6,055     38,875      47,888     281,926       no     -292.2
+  20 714487510     FAIL      548,972  332,088,465       693       693      5,661  4,131,736      43,369  27,949,102        -          -
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 500
+Successful runs:     18 / 20  (failed: 2)
+DQN win rate:        8 / 18  (44.4%)
+Avg total wait:      baseline 604,365  |  DQN 851,710
+Avg served:          baseline 725.0  |  DQN 725.0
+Avg emergency wait:  baseline 8,148  |  DQN 11,653
+Avg transit wait:    baseline 52,615  |  DQN 100,553
+Avg wait improvement: -41.83%  (positive = DQN lower wait)
+
+Failed runs:
+  run 4 seed 1701707376: DQN stopped with 6 vehicles on the map (reason: max_time). DQN hit time limit (2511s sim).
+  run 20 seed 714487510: DQN stopped with 516 vehicles on the map (reason: max_time). DQN hit time limit (2508s sim).
+
+====================================================================================================
+Batch evaluation  2026-06-11 11:19:11 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1850
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 50  Inject until: 800s  Baseline green: 60s
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 1811750682       ok      671,983      376,493       726       726     14,486      3,191      57,399      51,006      yes      +44.0
+   2 1122857314       ok      607,799      284,979       731       731      3,526      490.0      70,149      27,789      yes      +53.1
+   3 1395845432     FAIL      568,136  348,782,079       714       714      6,242  3,171,551      42,300  35,244,376        -          -
+   4 1335798873       ok      687,318    1,391,583       779       779      3,692     17,003      64,203     162,010       no     -102.5
+   5 33303470       ok      588,942    2,691,578       742       742      7,018     17,634      43,887     278,651       no     -357.0
+   6 616218398       ok      625,134    1,039,068       749       749      6,159     22,494      69,851     154,586       no      -66.2
+   7 1289479187       ok      573,508      695,248       740       740      5,882      3,790      33,173      63,252       no      -21.2
+   8 1288078479       ok      616,866      573,947       750       750      3,567     11,677      61,426      96,288      yes       +7.0
+   9 544271908       ok      641,790    2,304,822       769       769      6,876     64,913      43,714     285,934       no     -259.1
+  10 973906073       ok      561,655      204,726       704       704      2,204      149.0      50,618      26,140      yes      +63.5
+  11 1333746360       ok      560,398      323,640       739       739      6,571      291.0      30,262      36,519      yes      +42.2
+  12 1111950494       ok      711,349    2,532,393       746       746     13,217     17,909      55,953     205,541       no     -256.0
+  13 328140465       ok      650,544    2,106,456       724       724     13,407     49,845      58,471     248,621       no     -223.8
+  14 405878362       ok      625,386      821,948       730       730      6,939     12,964      34,350      96,974       no      -31.4
+  15 940273115       ok      639,437      429,261       740       740      6,494      2,335      48,476      44,293      yes      +32.9
+  16 333065067       ok      596,948      249,272       727       727      4,998      549.0      48,674      16,808      yes      +58.2
+  17 772456959       ok      663,354      532,281       745       745     11,373      1,010      76,934      58,788      yes      +19.8
+  18 878920303       ok      617,788      900,013       704       704      3,317      8,748      43,895      99,768       no      -45.7
+  19 1835692421       ok      577,188      798,890       737       737      5,230      7,548      33,895      91,366       no      -38.4
+  20 1991183261       ok      655,550    1,658,766       751       751      4,973     48,700      58,648     239,334       no     -153.0
+  21 1463456970       ok      617,549      521,226       766       766     11,153      755.0      46,811      51,015      yes      +15.6
+  22 1671926446       ok      655,987    1,473,909       768       768     11,235     34,511      77,399     252,335       no     -124.7
+  23 1393524207       ok      633,038    1,101,728       744       744      7,294     14,759      68,508     168,684       no      -74.0
+  24 1475278525       ok      638,316    1,125,880       741       741      4,871     21,851      53,554     111,999       no      -76.4
+  25 1633145825       ok      575,592      717,017       708       708      5,523     12,309      60,998     147,982       no      -24.6
+  26 320326599       ok      630,904    1,442,731       768       768      5,776     45,613      36,949     181,407       no     -128.7
+  27 583424373       ok      629,805    1,527,637       714       714     10,106     45,278      49,533     170,479       no     -142.6
+  28 548845942       ok      562,546      718,258       738       738      8,600     12,014      31,612      64,113       no      -27.7
+  29 542504028       ok      625,585      951,075       770       770      6,124     21,030      52,325     101,127       no      -52.0
+  30 1204006077       ok      696,907      894,778       750       750      4,248     10,258      56,104     126,902       no      -28.4
+  31 715576407       ok      552,610      895,215       698       698      7,300      1,840      45,091     107,252       no      -62.0
+  32 1539074436       ok      596,467      935,372       761       761      8,074     13,735      42,091      97,138       no      -56.8
+  33 1664339733       ok      590,893      608,651       748       748      1,572      6,274      31,443      77,253       no       -3.0
+  34 1838360913       ok      582,661      509,606       757       757     13,689      6,297      62,980      82,277      yes      +12.5
+  35 2069664972       ok      728,197    1,047,014       760       760      7,466     12,401      52,998     153,696       no      -43.8
+  36 1879880461       ok      588,269      495,239       733       733     10,296      2,874      55,284      44,453      yes      +15.8
+  37 1035615324       ok      591,235      292,598       741       741      918.0       69.0      39,970      28,780      yes      +50.5
+  38 1521605304       ok      648,485    2,136,037       727       727     11,130     30,299      63,230     250,007       no     -229.4
+  39 1171926401       ok      522,658      910,402       686       686      5,358      9,746      39,115      64,795       no      -74.2
+  40 1474142116       ok      644,356    1,465,287       769       769      9,241      7,414      54,879     101,243       no     -127.4
+  41 215180360       ok      609,364      896,817       755       755      3,885      4,191      41,506     144,780       no      -47.2
+  42 1973334015       ok      614,352    6,663,368       752       752      9,137    179,005      66,207   1,123,896       no     -984.6
+  43 1369872956       ok      610,885      686,731       730       730      2,199      5,380      64,816     111,052       no      -12.4
+  44 1775674731       ok      679,479    1,757,144       754       754      1,835     29,908      54,659     176,131       no     -158.6
+  45 1896798358       ok      633,856    1,746,204       705       705      8,373     72,773      49,253     181,977       no     -175.5
+  46 1893402756       ok      551,965    9,935,466       723       723      4,445    196,590      53,169   1,154,666       no    -1700.0
+  47 263530784       ok      602,251      374,598       749       749      3,198      387.0      54,104      47,006      yes      +37.8
+  48 137413079       ok      584,732      508,341       710       710      1,843      7,877      55,586      74,205      yes      +13.1
+  49 597758373       ok      618,494      305,883       748       748      2,399      883.0      38,336      26,999      yes      +50.5
+  50 1877104895       ok      625,589      678,920       746       746     13,548     12,115      67,494      75,190       no       -8.5
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1850
+Successful runs:     49 / 50  (failed: 1)
+DQN win rate:        15 / 49  (30.6%)
+Avg total wait:      baseline 618,693  |  DQN 1,290,582
+Avg served:          baseline 739.8  |  DQN 739.8
+Avg emergency wait:  baseline 6,750  |  DQN 22,646
+Avg transit wait:    baseline 52,040  |  DQN 158,827
+Avg wait improvement: -110.21%  (positive = DQN lower wait)
+
+Failed runs:
+  run 3 seed 1395845432: DQN stopped with 510 vehicles on the map (reason: max_time). DQN hit time limit (2568s sim).
+
+====================================================================================================
+Batch evaluation  2026-06-11 16:58:29 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1850
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 2  Inject until: 800s  Baseline green: 60s
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1       42       ok      662,587      389,998       778       778      3,901      500.0      49,303      29,782      yes      +41.1
+   2       42       ok      662,587      389,998       778       778      3,901      500.0      49,303      29,782      yes      +41.1
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1850
+Successful runs:     2 / 2  (failed: 0)
+DQN win rate:        2 / 2  (100.0%)
+Avg total wait:      baseline 662,587  |  DQN 389,998
+Avg served:          baseline 778.0  |  DQN 778.0
+Avg emergency wait:  baseline 3,901  |  DQN 500.0
+Avg transit wait:    baseline 49,303  |  DQN 29,782
+Avg wait improvement: +41.14%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-11 17:11:25 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1850
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 2  Inject until: 800s  Baseline green: 60s
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1       42       ok      662,587      389,998       778       778      3,901      500.0      49,303      29,782      yes      +41.1
+   2       42       ok      662,587      389,998       778       778      3,901      500.0      49,303      29,782      yes      +41.1
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1850
+Successful runs:     2 / 2  (failed: 0)
+DQN win rate:        2 / 2  (100.0%)
+Avg total wait:      baseline 662,587  |  DQN 389,998
+Avg served:          baseline 778.0  |  DQN 778.0
+Avg emergency wait:  baseline 3,901  |  DQN 500.0
+Avg transit wait:    baseline 49,303  |  DQN 29,782
+Avg wait improvement: +41.14%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-11 17:20:13 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1850
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 2  Inject until: 800s  Baseline green: 60s
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1       42       ok      762,506      350,582       763       763      6,134      274.0      65,624      36,923      yes      +54.0
+   2       42       ok      762,506      350,582       763       763      6,134      274.0      65,624      36,923      yes      +54.0
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1850
+Successful runs:     2 / 2  (failed: 0)
+DQN win rate:        2 / 2  (100.0%)
+Avg total wait:      baseline 762,506  |  DQN 350,582
+Avg served:          baseline 763.0  |  DQN 763.0
+Avg emergency wait:  baseline 6,134  |  DQN 274.0
+Avg transit wait:    baseline 65,624  |  DQN 36,923
+Avg wait improvement: +54.02%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-11 17:31:31 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1850
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 2  Inject until: 800s  Baseline green: 60s
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1       42       ok      762,506      350,582       763       763      6,134      274.0      65,624      36,923      yes      +54.0
+   2       42       ok      762,506      350,582       763       763      6,134      274.0      65,624      36,923      yes      +54.0
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1850
+Successful runs:     2 / 2  (failed: 0)
+DQN win rate:        2 / 2  (100.0%)
+Avg total wait:      baseline 762,506  |  DQN 350,582
+Avg served:          baseline 763.0  |  DQN 763.0
+Avg emergency wait:  baseline 6,134  |  DQN 274.0
+Avg transit wait:    baseline 65,624  |  DQN 36,923
+Avg wait improvement: +54.02%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 15:42:11 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1       42       ok      762,506      350,582       763       763      6,134      274.0      65,624      36,923      yes      +54.0
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        1 / 1  (100.0%)
+Avg total wait:      baseline 762,506  |  DQN 350,582
+Avg served:          baseline 763.0  |  DQN 763.0
+Avg emergency wait:  baseline 6,134  |  DQN 274.0
+Avg transit wait:    baseline 65,624  |  DQN 36,923
+Avg wait improvement: +54.02%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 15:43:55 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: yes
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1       42       ok      762,506      350,582       763       763      6,134      274.0      65,624      36,923      yes      +54.0
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        1 / 1  (100.0%)
+Avg total wait:      baseline 762,506  |  DQN 350,582
+Avg served:          baseline 763.0  |  DQN 763.0
+Avg emergency wait:  baseline 6,134  |  DQN 274.0
+Avg transit wait:    baseline 65,624  |  DQN 36,923
+Avg wait improvement: +54.02%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 15:50:34 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1       42       ok      762,506      350,582       763       763      6,134      274.0      65,624      36,923      yes      +54.0
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        1 / 1  (100.0%)
+Avg total wait:      baseline 762,506  |  DQN 350,582
+Avg served:          baseline 763.0  |  DQN 763.0
+Avg emergency wait:  baseline 6,134  |  DQN 274.0
+Avg transit wait:    baseline 65,624  |  DQN 36,923
+Avg wait improvement: +54.02%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 15:52:55 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: dqn
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    1,556,145       656       656     11,094     58,705      60,146     119,940       no     -171.5
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 1,556,145
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 58,705
+Avg transit wait:    baseline 60,146  |  DQN 119,940
+Avg wait improvement: -171.47%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 16:04:44 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: dqn
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    1,556,145       656       656     11,094     58,705      60,146     119,940       no     -171.5
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 1,556,145
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 58,705
+Avg transit wait:    baseline 60,146  |  DQN 119,940
+Avg wait improvement: -171.47%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 16:10:01 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    1,556,145       656       656     11,094     58,705      60,146     119,940       no     -171.5
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 1,556,145
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 58,705
+Avg transit wait:    baseline 60,146  |  DQN 119,940
+Avg wait improvement: -171.47%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 16:12:09 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238      859,900       656       656     11,094     20,976      60,146     114,528       no      -50.0
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 859,900
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 20,976
+Avg transit wait:    baseline 60,146  |  DQN 114,528
+Avg wait improvement: -50.01%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 16:20:50 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    1,004,095       656       656     11,094     40,960      60,146     124,457       no      -75.2
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 1,004,095
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 40,960
+Avg transit wait:    baseline 60,146  |  DQN 124,457
+Avg wait improvement: -75.16%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 16:22:28 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1       42       ok      762,506      659,651       763       763      6,134      180.0      65,624      56,223      yes      +13.5
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        1 / 1  (100.0%)
+Avg total wait:      baseline 762,506  |  DQN 659,651
+Avg served:          baseline 763.0  |  DQN 763.0
+Avg emergency wait:  baseline 6,134  |  DQN 180.0
+Avg transit wait:    baseline 65,624  |  DQN 56,223
+Avg wait improvement: +13.49%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 16:22:57 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: dqn
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    1,004,095       656       656     11,094     40,960      60,146     124,457       no      -75.2
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 1,004,095
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 40,960
+Avg transit wait:    baseline 60,146  |  DQN 124,457
+Avg wait improvement: -75.16%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 16:37:52 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: dqn
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    1,004,095       656       656     11,094     40,960      60,146     124,457       no      -75.2
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 1,004,095
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 40,960
+Avg transit wait:    baseline 60,146  |  DQN 124,457
+Avg wait improvement: -75.16%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 16:47:29 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238   14,387,086       656       656     11,094    418,187      60,146   1,795,155       no    -2409.8
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 14,387,086
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 418,187
+Avg transit wait:    baseline 60,146  |  DQN 1,795,155
+Avg wait improvement: -2409.79%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 16:51:23 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238   14,387,086       656       656     11,094    418,187      60,146   1,795,155       no    -2409.8
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 14,387,086
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 418,187
+Avg transit wait:    baseline 60,146  |  DQN 1,795,155
+Avg wait improvement: -2409.79%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 17:01:09 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    5,855,121       656       656     11,094      1,603      60,146       5,417       no     -921.4
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 5,855,121
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 1,603
+Avg transit wait:    baseline 60,146  |  DQN 5,417
+Avg wait improvement: -921.41%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 17:06:16 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    5,855,121       656       656     11,094      1,603      60,146       5,417       no     -921.4
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 5,855,121
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 1,603
+Avg transit wait:    baseline 60,146  |  DQN 5,417
+Avg wait improvement: -921.41%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 17:08:04 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    5,855,121       656       656     11,094      1,603      60,146       5,417       no     -921.4
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 5,855,121
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 1,603
+Avg transit wait:    baseline 60,146  |  DQN 5,417
+Avg wait improvement: -921.41%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-12 17:08:45 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1250
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    5,855,121       656       656     11,094      1,603      60,146       5,417       no     -921.4
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1250
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 5,855,121
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 1,603
+Avg transit wait:    baseline 60,146  |  DQN 5,417
+Avg wait improvement: -921.41%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-13 09:03:26 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 500
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    1,066,252       656       656     11,094      5,338      60,146      24,124       no      -86.0
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 500
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 1,066,252
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 5,338
+Avg transit wait:    baseline 60,146  |  DQN 24,124
+Avg wait improvement: -86.01%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-13 09:36:52 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 500
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    1,262,324       656       656     11,094      1,013      60,146     153,579       no     -120.2
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 500
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 1,262,324
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 1,013
+Avg transit wait:    baseline 60,146  |  DQN 153,579
+Avg wait improvement: -120.21%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-13 09:53:14 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 500
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    5,301,381       656       656     11,094      713.0      60,146     508,068       no     -824.8
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 500
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 5,301,381
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 713.0
+Avg transit wait:    baseline 60,146  |  DQN 508,068
+Avg wait improvement: -824.81%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-13 10:10:16 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 500
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: dqn
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    4,764,266       656       656     11,094      703.0      60,146     389,180       no     -731.1
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 500
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 4,764,266
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 703.0
+Avg transit wait:    baseline 60,146  |  DQN 389,180
+Avg wait improvement: -731.11%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-13 10:32:15 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 500
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: dqn
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    4,457,327       656       656     11,094      968.0      60,146     558,277       no     -677.6
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 500
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 4,457,327
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 968.0
+Avg transit wait:    baseline 60,146  |  DQN 558,277
+Avg wait improvement: -677.57%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-13 11:44:59 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 1
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 1  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 745821098       ok      573,238    5,658,214       656       656     11,094      1,248      60,146     510,017       no     -887.1
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 1
+Successful runs:     1 / 1  (failed: 0)
+DQN win rate:        0 / 1  (0.0%)
+Avg total wait:      baseline 573,238  |  DQN 5,658,214
+Avg served:          baseline 656.0  |  DQN 656.0
+Avg emergency wait:  baseline 11,094  |  DQN 1,248
+Avg transit wait:    baseline 60,146  |  DQN 510,017
+Avg wait improvement: -887.06%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-13 12:42:28 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 10
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 10  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 14410966       ok      649,554      479,426       670       670      4,249      258.0      43,467      57,023      yes      +26.2
+   2 803363966       ok      698,637      771,962       709       709      4,529      124.0      55,331      94,443       no      -10.5
+   3 128015839       ok      586,373      761,286       674       674      7,477      1,044      53,993      61,614       no      -29.8
+   4 1766358592       ok      630,940      614,710       685       685      4,498      828.0      35,370      62,829      yes       +2.6
+   5 1229207002       ok      628,974    1,395,053       741       741     13,840      2,612      48,835     129,684       no     -121.8
+   6 138537574       ok      615,605    1,214,084       665       665      3,371      982.0      69,335     180,036       no      -97.2
+   7 1563564431       ok      698,601      723,198       712       712      8,230      396.0      40,190      84,745       no       -3.5
+   8 1146312799       ok      594,775      899,862       669       669      6,604      1,631      57,934     114,362       no      -51.3
+   9 464334061       ok      598,511    1,152,630       692       692      3,920      226.0      55,152     185,923       no      -92.6
+  10 1330995907       ok      579,453      761,014       685       685      9,661      394.0      55,535      94,445       no      -31.3
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 10
+Successful runs:     10 / 10  (failed: 0)
+DQN win rate:        2 / 10  (20.0%)
+Avg total wait:      baseline 628,142  |  DQN 877,322
+Avg served:          baseline 690.2  |  DQN 690.2
+Avg emergency wait:  baseline 6,638  |  DQN 849.5
+Avg transit wait:    baseline 51,514  |  DQN 106,510
+Avg wait improvement: -40.93%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-13 13:05:27 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 20
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 10  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 950675897       ok      686,587      783,632       741       741      9,100      596.0      51,579     100,140       no      -14.1
+   2 1961048427       ok      670,974      925,974       711       711      5,552      546.0      47,331     145,373       no      -38.0
+   3 1974205803       ok      776,998      994,007       774       774     15,651      2,932      77,380     141,381       no      -27.9
+   4 1145589198       ok      657,639      794,300       699       699      5,088      1,074      53,944      71,814       no      -20.8
+   5 677128213       ok      585,868      728,831       665       665      9,560      666.0      51,872      90,611       no      -24.4
+   6 1774018462       ok      558,278      577,396       664       664      6,181      794.0      38,499      71,071       no       -3.4
+   7 758754314       ok      643,144      484,966       688       688      4,327      429.0      49,022      55,822      yes      +24.6
+   8 1405727837       ok      617,927      543,705       676       676      4,499      299.0      66,073     101,014      yes      +12.0
+   9 583933610       ok      620,579      693,215       714       714      5,067      799.0      57,665      93,595       no      -11.7
+  10 507143658       ok      564,793      322,268       652       652      3,476      171.0      33,697      29,114      yes      +42.9
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 20
+Successful runs:     10 / 10  (failed: 0)
+DQN win rate:        3 / 10  (30.0%)
+Avg total wait:      baseline 638,279  |  DQN 684,829
+Avg served:          baseline 698.4  |  DQN 698.4
+Avg emergency wait:  baseline 6,850  |  DQN 830.6
+Avg transit wait:    baseline 52,706  |  DQN 89,994
+Avg wait improvement: -6.08%  (positive = DQN lower wait)
+
+====================================================================================================
+Batch evaluation  2026-06-13 19:58:16 UTC
+Map: Default (4-lane intersection) (flowgrid)
+Model Training Episodes: 110
+Policy: C:\Users\Einavs_PC\Documents\TrafficProject\data\maps\flowgrid\dqn_policy.pth
+Runs: 20  Inject until: 800s  Baseline green: 60s  GUI: no
+====================================================================================================
+
+ run     seed   status       b_wait       d_wait  b_served  d_served      b_emg      d_emg   b_transit   d_transit  dqn_win   improve%
+---- -------- -------- ------------ ------------ --------- --------- ---------- ---------- ----------- ----------- -------- ----------
+   1 765011704       ok      663,625      728,476       709       709      8,101      376.0      51,864      72,677       no       -9.8
+   2 926946790       ok      719,436      803,022       720       720      6,436      181.0      70,376     136,508       no      -11.6
+   3 299193127       ok      601,646      653,243       685       685      3,474      261.0      58,196     127,575       no       -8.6
+   4 1240948281       ok      629,076      554,063       733       733      1,225      109.0      67,376      79,657      yes      +11.9
+   5 1793257187       ok      673,312    1,818,788       726       726      7,784      3,883      84,935     337,304       no     -170.1
+   6 581166644       ok      741,298      812,334       750       750     10,739      963.0      67,238     107,431       no       -9.6
+   7 1314545163       ok      775,096    1,389,910       748       748     11,343      2,110      80,989     215,588       no      -79.3
+   8 1267370153       ok      635,653    1,006,857       705       705      6,581      656.0      46,836      74,829       no      -58.4
+   9 2006113821       ok      696,125    1,352,497       723       723      2,324      1,210      57,160     122,127       no      -94.3
+  10 93332119       ok      670,454      740,592       699       699      8,846      978.0      68,731     108,117       no      -10.5
+  11 132295320       ok      593,346      800,128       692       692      8,216      868.0      50,378      85,917       no      -34.9
+  12 116862018       ok      630,128    1,647,801       732       732      8,285      755.0      53,664     167,645       no     -161.5
+  13 1746444175       ok      603,528      533,381       676       676     12,690      1,196      48,351      62,896      yes      +11.6
+  14 1141821965       ok      633,309      747,721       720       720      6,328      470.0      60,753      93,892       no      -18.1
+  15 1576530952       ok      650,473    1,390,804       692       692      8,644      483.0      50,536     159,974       no     -113.8
+  16 1690886477       ok      577,427      563,908       668       668      9,062      526.0      42,036      87,808      yes       +2.3
+  17 566199995       ok      617,414      701,542       690       690      4,801      376.0      57,747      61,507       no      -13.6
+  18 881777993       ok      754,052      601,281       752       752      8,002      891.0      58,581      80,014      yes      +20.3
+  19 946314837       ok      586,529      913,167       715       715      9,627      690.0      51,205     169,487       no      -55.7
+  20 2116938432       ok      605,372      662,546       672       672      2,740      456.0      57,193     115,694       no       -9.4
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Model Training Episodes: 110
+Successful runs:     20 / 20  (failed: 0)
+DQN win rate:        4 / 20  (20.0%)
+Avg total wait:      baseline 652,865  |  DQN 921,103
+Avg served:          baseline 710.4  |  DQN 710.4
+Avg emergency wait:  baseline 7,262  |  DQN 871.9
+Avg transit wait:    baseline 59,207  |  DQN 123,332
+Avg wait improvement: -40.65%  (positive = DQN lower wait)
+

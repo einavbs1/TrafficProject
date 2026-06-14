@@ -1,0 +1,39 @@
+<routes>
+<vType id="car" vClass="passenger" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.7" guiShape="passenger" />
+<vType id="bus" vClass="bus" accel="0.7" decel="4.0" sigma="0.3" length="12" minGap="3" maxSpeed="14.0" guiShape="bus" color="yellow" />
+<vType id="emergency" vClass="emergency" accel="1.5" decel="5.0" sigma="0.0" length="6.5" minGap="2.5" maxSpeed="25.0" guiShape="emergency" color="red" />
+<route id="route_ns_straight" edges="n_to_center center_to_s" />
+<route id="route_ns_left" edges="n_to_center center_to_e" />
+<route id="route_sn_straight" edges="s_to_center center_to_n" />
+<route id="route_sn_left" edges="s_to_center center_to_w" />
+<route id="route_ew_straight" edges="e_to_center center_to_w" />
+<route id="route_ew_left" edges="e_to_center center_to_s" />
+<route id="route_we_straight" edges="w_to_center center_to_e" />
+<route id="route_we_left" edges="w_to_center center_to_n" />
+<route id="route_ns_right" edges="n_to_center center_to_w" />
+<route id="route_sn_right" edges="s_to_center center_to_e" />
+<route id="route_ew_right" edges="e_to_center center_to_n" />
+<route id="route_we_right" edges="w_to_center center_to_s" />
+<flow id="f_ns_s" type="car" route="route_ns_straight" departLane="1" departLaneStrict="true" begin="0" end="800" probability="0.08" />
+<flow id="f_ns_s2" type="car" route="route_ns_straight" departLane="2" departLaneStrict="true" begin="0" end="800" probability="0.08" />
+<flow id="f_sn_s" type="car" route="route_sn_straight" departLane="1" departLaneStrict="true" begin="0" end="800" probability="0.08" />
+<flow id="f_sn_s2" type="car" route="route_sn_straight" departLane="2" departLaneStrict="true" begin="0" end="800" probability="0.08" />
+<flow id="f_ew_s" type="car" route="route_ew_straight" departLane="1" departLaneStrict="true" begin="0" end="800" probability="0.06" />
+<flow id="f_ew_s2" type="car" route="route_ew_straight" departLane="2" departLaneStrict="true" begin="0" end="800" probability="0.06" />
+<flow id="f_we_s" type="car" route="route_we_straight" departLane="1" departLaneStrict="true" begin="0" end="800" probability="0.06" />
+<flow id="f_we_s2" type="car" route="route_we_straight" departLane="2" departLaneStrict="true" begin="0" end="800" probability="0.06" />
+<flow id="f_ns_l" type="car" route="route_ns_left" departLane="3" departLaneStrict="true" begin="0" end="800" probability="0.05" />
+<flow id="f_sn_l" type="car" route="route_sn_left" departLane="3" departLaneStrict="true" begin="0" end="800" probability="0.05" />
+<flow id="f_ew_l" type="car" route="route_ew_left" departLane="3" departLaneStrict="true" begin="0" end="800" probability="0.04" />
+<flow id="f_we_l" type="car" route="route_we_left" departLane="3" departLaneStrict="true" begin="0" end="800" probability="0.04" />
+<flow id="f_ns_r" type="car" route="route_ns_right" departLane="0" departLaneStrict="true" begin="0" end="800" probability="0.04" />
+<flow id="f_sn_r" type="car" route="route_sn_right" departLane="0" departLaneStrict="true" begin="0" end="800" probability="0.04" />
+<flow id="f_ew_r" type="car" route="route_ew_right" departLane="0" departLaneStrict="true" begin="0" end="800" probability="0.03" />
+<flow id="f_we_r" type="car" route="route_we_right" departLane="0" departLaneStrict="true" begin="0" end="800" probability="0.03" />
+<flow id="f_ns_s_bus" type="bus" route="route_ns_straight" departLane="1" departLaneStrict="true" begin="0" end="800" probability="0.02" />
+<flow id="f_sn_s_bus" type="bus" route="route_sn_straight" departLane="1" departLaneStrict="true" begin="0" end="800" probability="0.02" />
+<flow id="f_ew_s_bus" type="bus" route="route_ew_straight" departLane="1" departLaneStrict="true" begin="0" end="800" probability="0.02" />
+<flow id="f_we_s_bus" type="bus" route="route_we_straight" departLane="1" departLaneStrict="true" begin="0" end="800" probability="0.02" />
+<flow id="f_ns_s_emg" type="emergency" route="route_ns_straight" departLane="1" begin="0" end="800" probability="0.005" />
+<flow id="f_ew_s_emg" type="emergency" route="route_ew_straight" departLane="1" begin="0" end="800" probability="0.005" />
+</routes>

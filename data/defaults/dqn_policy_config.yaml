@@ -1,0 +1,181 @@
+version: 2
+name: FlowGrid intersection DQN
+
+objectives:
+  primary: "Maximize throughput and frequent control decisions to prevent starvation and enable early gap-out"
+  secondary:
+    - "Minimize waiting time for all vehicles, with modest extra weight for bus and emergency"
+    - "Reward vehicles that clear the intersection (throughput-first flow)"
+    - "Balance wait across N, S, E, W without overpowering delay"
+    - "Avoid queue spillback without freezing the signal (proportional penalties)"
+  enforced_outside_rl:
+    - "Action masking — agent cannot select illegal phase switches"
+    - "Phase ring: N_ALL → S_ALL → E_ALL → W_ALL (thru + left per arm, not dual-left splits)"
+    - "Dynamic min green: max(safety_min, min(min_green_cap, cars*sec_per_car)) — cap is a floor, not fixed phase length"
+    - "Agent may hold green longer than min green cap unless max_green is set"
+    - "Baseline compare: fixed seconds per phase; DQN compare reloads identical snapshot traffic"
+    - "Bulk-first actuated switching when switching is allowed"
+    - "Bus/emergency: next green when switching (min green respected); no instant phase cut"
+
+phasing_schemes:
+  per_arm_full: "Option 1 — full green per direction (left+thru; right free if separate)"
+  opposite_thru_rt_then_thru: "Option 2 — opposite thru+right, then opposite thru, then lefts"
+  opposite_thru_then_thru_rt: "Option 3 — opposite thru, then opposite thru+right, then lefts"
+separate_right_turn_default: true
+baseline_through_seconds_default: 60
+baseline_left_to_through_ratio: 0.60
+
+actions:
+  "0": "Hold current green (only valid action when switch is masked)"
+  "1": "Advance phase (masked when min green / bulk rules block switch)"
+
+observations:
+  - "12 movement queue lengths (normalized)"
+  - "4 arm empty flags"
+  - "4 arm waiting-on-red levels"
+  - "1 time-in-phase (normalized)"
+  - "1 is_emergency_active"
+  - "4 transit vehicle counts per arm (normalized)"
+
+reward:
+  # Main signal: change in wait for ALL vehicles (cars, buses, emergency) equally.
+  delay_delta_scale: 1.0
+  # Steady pressure to keep network wait low (helps align RL with Compare / training wait log).
+  total_wait_scale: 0.001
+  drain_bonus_per_vehicle: 2.0
+  drain_bonus_fleet_drop: 1.0
+  fairness_cap: 500.0
+  transit_priority_scale: 0.4
+  emergency_priority_scale: 0.35
+  transit_delay_multiplier: 1.0
+  spillback_penalty: -1000
+  throughput_per_vehicle: 8.0
+  fairness_imbalance_weight: -0.1
+  starving_arms_weight: -0.4
+  inactive_wait_weight: -0.05
+  inactive_wait_threshold: 30
+  switch_penalty: -18.0
+  platoon_interrupt_penalty: -40.0
+  consecutive_clear_bonus: 3.0
+  invalid_action_penalty: -8.0
+
+# Presets (copy into reward: block above to experiment):
+# balanced_cars — transit_priority_scale: 0.25, emergency_priority_scale: 0.2
+# bus_focus (old) — transit_priority_scale: 1.5, emergency_priority_scale: 0.5
+
+# Bus/emergency: queue for next phase switch, do not cut green instantly.
+priority_service:
+  instant_emergency_preempt: false
+  defer_emergency_to_next_green: true
+  defer_transit_to_next_green: true
+  starvation_queue_margin: 2
+  starvation_wait_ratio: 1.5
+
+constraints:
+  min_green_base_seconds: 5
+  min_green_cap_seconds: 60
+  absolute_safety_min_seconds: 4
+  sec_per_car: 2.5
+  switch_min_vehicles: 3
+  switch_min_wait_seconds: 25
+  demand_ratio_to_preempt: 0.4
+  queue_threshold: 1
+  gap_out_seconds: 3.0
+  flow_speed_threshold: 1.0
+  platoon_min_moving: 2
+  starvation_override_seconds: 90.0
+  all_red_seconds: 2.0
+  camera_range_meters: 150.0
+  stop_line_zone_meters: 50.0
+
+training:
+  learning_rate: 0.001
+  gamma: 0.99
+  epsilon_start: 1.0
+  epsilon_end: 0.01
+  # 0.995 → ε≈0.08 after 500 episodes (fresh start needs more than 500 to beat baseline).
+  epsilon_decay: 0.995
+  batch_size: 64
+  buffer_capacity: 10000
+  target_update_freq: 10
+  step_length: 3
+  device: auto
+
+# Compare tab: inject randomly until inject_seconds, then drain until 0 vehicles.
+compare:
+  # Random traffic until this sim time (s). ~800 s → ~400+ vehicles on Plan 2 (seed 42).
+  inject_seconds: 800
+  max_drain_sim_seconds: 3600
+  dqn_drain_time_multiplier: 1.5
+  dqn_drain_flat_buffer_seconds: 1000
+  dqn_drain_extra_seconds: 1500
+  dqn_drain_max_sim_seconds: 10800
+  dqn_max_green_seconds: 60
+  # 0 = disabled; stall stop was ending Compare while cars still queued (gridlock at ~300s unchanged queue).
+  stall_control_steps: 0
+
+# Episode ends when junction clears; safety caps prevent infinite runs.
+episode_training:
+  min_sim_seconds: 30
+  clear_streak_steps: 2
+  max_steps: 1000
+  max_sim_seconds: 2400
+  busy_fraction: 0.4
+  busy_warmup_sim_seconds: 450
+  train_base_seed: 42
+
+random_traffic_training:
+  rebalance_phases: true
+  phase_bands:
+    easy:
+      flow_min: 0.10
+      flow_max: 0.30
+      busy_min: 0.0
+      busy_max: 0.0
+      bus_min: 0.0
+      bus_max: 0.0
+      emg_min: 0.0
+      emg_max: 0.0
+    medium:
+      flow_min: 0.40
+      flow_max: 0.70
+      busy_min: 0.10
+      busy_max: 0.25
+      bus_min: 0.005
+      bus_max: 0.015
+      emg_min: 0.001
+      emg_max: 0.003
+    hard:
+      flow_min: 0.80
+      flow_max: 1.00
+      busy_min: 0.30
+      busy_max: 0.50
+      bus_min: 0.015
+      bus_max: 0.025
+      emg_min: 0.003
+      emg_max: 0.008
+
+# Auto train → compare → analyze → repeat (Train tab or scripts/run_curriculum.py).
+curriculum:
+  episodes_per_cycle: 500
+  max_cycles: 10
+  compare_seed: 42
+  compare_inject_seconds: 800
+  compare_gui: false
+  compare_delay_ms: 0
+  baseline_green_seconds: 60
+  stop_when_all_improvement_pct: 0.0
+  min_cycles: 1
+  resume_after_first_cycle: true
+
+# Applied when resuming dqn_policy.pth (--resume); keeps weights, no exploration shock.
+fine_tune:
+  apply_on_resume: true
+  # Keep epsilon from checkpoint (or last line of dqn_training_log.jsonl for old .pth files).
+  preserve_epsilon: true
+  epsilon_resume_bump: 0.0
+  # Only if no saved epsilon (legacy checkpoint + empty log).
+  epsilon_start: 0.05
+  epsilon_decay: 0.995
+  learning_rate: 0.0005
+  target_update_freq: 5

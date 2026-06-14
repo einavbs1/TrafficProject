@@ -1,0 +1,15 @@
+{
+  "action": "train",
+  "options": {
+    "label": "",
+    "map": "flowgrid",
+    "episodes": 500,
+    "checkpoint_every": 10,
+    "fresh": false,
+    "resume": false,
+    "seed": null,
+    "compact_progress": false,
+    "device": "auto"
+  },
+  "last_argv": []
+}

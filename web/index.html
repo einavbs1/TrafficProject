@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowGrid — Traffic RL Control Panel</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        :root {
+            --bg: #0d1117;
+            --panel: #161b22;
+            --border: rgba(255,255,255,0.08);
+            --text: #c9d1d9;
+            --muted: #8b949e;
+            --accent: #58a6ff;
+            --purple: #bc8cff;
+            --green: #3fb950;
+            --red: #f85149;
+            --yellow: #d29922;
+        }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; }
+        header {
+            padding: 1.25rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(13,17,23,0.9);
+            position: sticky; top: 0; z-index: 50;
+        }
+        h1 {
+            font-size: 1.5rem; font-weight: 800;
+            background: linear-gradient(90deg, var(--accent), var(--purple));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 1.5rem;
+            padding: 1.5rem 2rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } }
+        .sidebar { display: flex; flex-direction: column; gap: 1rem; }
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.25rem;
+        }
+        .panel h2 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+        label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.35rem; }
+        input, select {
+            width: 100%;
+            padding: 0.55rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+        .flow-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+        .flow-grid label { font-size: 0.7rem; margin-bottom: 0.2rem; }
+        .flow-grid input { margin-bottom: 0.4rem; }
+        button {
+            width: 100%;
+            padding: 0.65rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: opacity 0.2s, transform 0.15s;
+        }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+        button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+        .btn-primary { background: var(--accent); color: #0d1117; }
+        .btn-purple { background: var(--purple); color: #0d1117; margin-top: 0.5rem; }
+        .btn-compare { background: linear-gradient(90deg, #f85149, #3fb950); color: #fff; margin-top: 0.5rem; }
+        .main { display: flex; flex-direction: column; gap: 1.25rem; }
+        .phase-banner {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+            background: linear-gradient(135deg, rgba(88,166,255,0.12), rgba(188,140,255,0.08));
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+        .phase-banner .title { font-size: 1.25rem; font-weight: 700; }
+        .pulse {
+            width: 12px; height: 12px; border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 0 0 rgba(63,185,80,0.6);
+            animation: pulse 2s infinite;
+            display: inline-block;
+            margin-right: 0.6rem;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(63,185,80,0.6); }
+            70% { box-shadow: 0 0 0 12px rgba(63,185,80,0); }
+            100% { box-shadow: 0 0 0 0 rgba(63,185,80,0); }
+        }
+        .intersection {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 0.75rem;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .arm-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+        .arm-card h3 { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+        .arm-card.north { grid-column: 2; grid-row: 1; }
+        .arm-card.west  { grid-column: 1; grid-row: 2; }
+        .arm-card.center { grid-column: 2; grid-row: 2; display: flex; align-items: center; justify-content: center; min-height: 100px;
+            background: rgba(88,166,255,0.06); font-size: 0.75rem; color: var(--muted); text-align: center; }
+        .arm-card.east  { grid-column: 3; grid-row: 2; }
+        .arm-card.south { grid-column: 2; grid-row: 3; }
+        .movement {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.45rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+        .movement:last-child { border-bottom: none; }
+        .signal {
+            width: 14px; height: 14px; border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .signal.green { background: var(--green); box-shadow: 0 0 8px var(--green); }
+        .signal.yellow { background: var(--yellow); }
+        .signal.red { background: var(--red); }
+        .jobs-list { font-size: 0.8rem; max-height: 160px; overflow-y: auto; }
+        .job-item { padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+        .job-item .status { font-weight: 600; }
+        .job-item.running .status { color: var(--accent); }
+        .job-item.completed .status { color: var(--green); }
+        .job-item.failed .status { color: var(--red); }
+        .compare-result {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .stat-box {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .stat-box .val { font-size: 1.75rem; font-weight: 800; }
+        .stat-box.baseline .val { color: var(--red); }
+        .stat-box.dqn .val { color: var(--green); }
+        .chart-img { width: 100%; border-radius: 10px; margin-top: 1rem; border: 1px solid var(--border); }
+        .hint { font-size: 0.75rem; color: var(--muted); line-height: 1.4; margin-top: 0.5rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FlowGrid Control Panel</h1>
+        <span id="conn-status" style="font-size:0.85rem;color:var(--muted)">Ready</span>
+    </header>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <section class="panel">
+                <h2>Map &amp; Roads</h2>
+                <label>Map name</label>
+                <input id="map-name" value="flowgrid" />
+                <label>Arm length (m)</label>
+                <input id="arm-length" type="number" value="500" min="200" max="2000" />
+                <p class="hint">Each approach has 2 lanes: straight and left. Traffic rates are per movement (probability).</p>
+                <div class="flow-grid" id="flow-inputs">
+                    <div><label>N straight</label><input data-key="ns_straight" type="number" step="0.01" value="0.08" /></div>
+                    <div><label>N left</label><input data-key="ns_left" type="number" step="0.01" value="0.05" /></div>
+                    <div><label>S straight</label><input data-key="sn_straight" type="number" step="0.01" value="0.08" /></div>
+                    <div><label>S left</label><input data-key="sn_left" type="number" step="0.01" value="0.05" /></div>
+                    <div><label>E straight</label><input data-key="ew_straight" type="number" step="0.01" value="0.06" /></div>
+                    <div><label>E left</label><input data-key="ew_left" type="number" step="0.01" value="0.04" /></div>
+                    <div><label>W straight</label><input data-key="we_straight" type="number" step="0.01" value="0.06" /></div>
+                    <div><label>W left</label><input data-key="we_left" type="number" step="0.01" value="0.04" /></div>
+                </div>
+                <button class="btn-primary" id="btn-build-map">Build / Rebuild Map</button>
+            </section>
+
+            <section class="panel">
+                <h2>Train RL Agent</h2>
+                <label>Config file</label>
+                <select id="train-sumocfg"><option value="flowgrid.sumocfg">flowgrid.sumocfg</option></select>
+                <label>Episodes</label>
+                <input id="train-episodes" type="number" value="50" min="1" max="500" />
+                <button class="btn-purple" id="btn-train">Start Training</button>
+            </section>
+
+            <section class="panel">
+                <h2>Baseline vs DQN</h2>
+                <label>Config file</label>
+                <select id="compare-sumocfg"><option value="flowgrid.sumocfg">flowgrid.sumocfg</option></select>
+                <label>Fixed-time baseline — green phase duration (seconds)</label>
+                <input id="baseline-seconds" type="number" value="60" min="5" max="300" step="5" />
+                <p class="hint">Baseline caps green time per arm phase (N/S/E/W: thru+left). Actual hold is shorter when few vehicles (dynamic min green). DQN uses the same traffic seed.</p>
+                <label>Random seed</label>
+                <input id="compare-seed" type="number" value="42" />
+                <button class="btn-compare" id="btn-compare">Run Comparison</button>
+            </section>
+
+            <section class="panel">
+                <h2>Jobs</h2>
+                <div class="jobs-list" id="jobs-list"><p class="hint">No jobs yet.</p></div>
+            </section>
+        </aside>
+
+        <main class="main">
+            <div class="phase-banner">
+                <div>
+                    <span class="pulse" id="phase-pulse"></span>
+                    <span class="title" id="current-phase">Idle — start training or comparison</span>
+                </div>
+                <div style="text-align:right;font-size:0.85rem;color:var(--muted)">
+                    Sim time: <strong id="sim-time">0</strong>s · In phase: <strong id="phase-time">0</strong>s
+                </div>
+            </div>
+
+            <section class="panel">
+                <h2>Intersection — protected signals</h2>
+                <p class="hint" style="margin-bottom:1rem">Straight and left turns never share green with conflicting traffic. Left turns only get green when cross traffic is red.</p>
+                <div class="intersection" id="intersection">
+                    <!-- filled by JS -->
+                </div>
+            </section>
+
+            <section class="panel" id="compare-panel" style="display:none">
+                <h2>Comparison results</h2>
+                <div class="compare-result">
+                    <div class="stat-box baseline">
+                        <div class="val" id="res-baseline">—</div>
+                        <div>Baseline wait</div>
+                    </div>
+                    <div class="stat-box dqn">
+                        <div class="val" id="res-dqn">—</div>
+                        <div>DQN wait</div>
+                    </div>
+                </div>
+                <p id="res-improvement" style="margin-top:0.75rem;font-weight:600"></p>
+                <img class="chart-img" id="compare-chart" alt="Comparison chart" />
+            </section>
+
+            <section class="panel" id="train-panel" style="display:none">
+                <h2>Training curve</h2>
+                <img class="chart-img" id="train-chart" alt="Learning curve" />
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const ARMS = [
+            { id: 'N', label: 'North', class: 'north' },
+            { id: 'W', label: 'West', class: 'west' },
+            { id: 'E', label: 'East', class: 'east' },
+            { id: 'S', label: 'South', class: 'south' },
+        ];
+
+        function buildIntersectionDOM() {
+            const root = document.getElementById('intersection');
+            root.innerHTML = '';
+            ARMS.forEach(arm => {
+                const el = document.createElement('div');
+                el.className = `arm-card ${arm.class}`;
+                el.id = `arm-${arm.id}`;
+                el.innerHTML = `
+                    <h3>${arm.label}</h3>
+                    <div class="movement">
+                        <span>Straight</span>
+                        <span><span id="q-${arm.id}-s">0</span> veh · <span id="w-${arm.id}-s">0</span>s wait</span>
+                        <span class="signal red" id="sig-${arm.id}-s"></span>
+                    </div>
+                    <div class="movement">
+                        <span>Left turn</span>
+                        <span><span id="q-${arm.id}-l">0</span> veh · <span id="w-${arm.id}-l">0</span>s wait</span>
+                        <span class="signal red" id="sig-${arm.id}-l"></span>
+                    </div>
+                `;
+                root.appendChild(el);
+            });
+            const center = document.createElement('div');
+            center.className = 'arm-card center';
+            center.innerHTML = 'Per-arm cycle<br>North → South → East → West<br>(thru + left each)';
+            root.appendChild(center);
+        }
+
+        function setSignal(el, state) {
+            el.className = 'signal ' + (state || 'red');
+        }
+
+        function collectFlows() {
+            const flows = {};
+            document.querySelectorAll('#flow-inputs input[data-key]').forEach(inp => {
+                flows[inp.dataset.key] = parseFloat(inp.value) || 0;
+            });
+            return flows;
+        }
+
+        async function refreshMaps() {
+            try {
+                const res = await fetch('/api/maps');
+                const data = await res.json();
+                ['train-sumocfg', 'compare-sumocfg'].forEach(id => {
+                    const sel = document.getElementById(id);
+                    sel.innerHTML = '';
+                    (data.maps || []).forEach(m => {
+                        const opt = document.createElement('option');
+                        opt.value = m.sumocfg;
+                        opt.textContent = m.sumocfg;
+                        sel.appendChild(opt);
+                    });
+                });
+            } catch (e) { console.warn(e); }
+        }
+
+        async function pollLive() {
+            try {
+                const res = await fetch('/api/live');
+                const data = await res.json();
+                if (!data || !data.phase) return;
+
+                document.getElementById('current-phase').textContent = data.phase;
+                document.getElementById('sim-time').textContent = Math.round(data.sim_time || 0);
+                document.getElementById('phase-time').textContent = Math.round(data.time_in_phase || 0);
+
+                const pulse = document.getElementById('phase-pulse');
+                if (data.phase.includes('Yellow')) {
+                    pulse.style.background = '#d29922';
+                } else if (data.phase.includes('Green')) {
+                    pulse.style.background = '#3fb950';
+                } else {
+                    pulse.style.background = '#8b949e';
+                }
+
+                const arms = data.arms || {};
+                ARMS.forEach(({ id }) => {
+                    const a = arms[id];
+                    if (!a) return;
+                    document.getElementById(`q-${id}-s`).textContent = a.queue_straight;
+                    document.getElementById(`q-${id}-l`).textContent = a.queue_left;
+                    document.getElementById(`w-${id}-s`).textContent = Math.round(a.wait_straight);
+                    document.getElementById(`w-${id}-l`).textContent = Math.round(a.wait_left);
+                    setSignal(document.getElementById(`sig-${id}-s`), a.signal_straight);
+                    setSignal(document.getElementById(`sig-${id}-l`), a.signal_left);
+                });
+                document.getElementById('conn-status').textContent = 'Simulation live';
+            } catch (e) {
+                document.getElementById('conn-status').textContent = 'Idle';
+            }
+        }
+
+        let activeJobId = null;
+
+        async function pollJob(jobId) {
+            const res = await fetch(`/api/jobs/${jobId}`);
+            const job = await res.json();
+            renderJobs();
+            if (job.status === 'running' || job.status === 'queued') {
+                setTimeout(() => pollJob(jobId), 1500);
+            } else if (job.status === 'completed') {
+                if (job.kind === 'compare' && job.result) {
+                    showCompareResult(job.result);
+                }
+                if (job.kind === 'train') {
+                    document.getElementById('train-panel').style.display = 'block';
+                    document.getElementById('train-chart').src = '/api/charts/learning_curve.png?t=' + Date.now();
+                }
+            }
+            return job;
+        }
+
+        function showCompareResult(r) {
+            document.getElementById('compare-panel').style.display = 'block';
+            document.getElementById('res-baseline').textContent = Math.round(r.fixed_wait);
+            document.getElementById('res-dqn').textContent = r.dqn_wait ? Math.round(r.dqn_wait) : 'N/A';
+            const imp = document.getElementById('res-improvement');
+            if (r.dqn_wait > 0) {
+                imp.textContent = `DQN reduced wait by ${r.improvement_percent.toFixed(1)}% (baseline ${r.baseline_green_seconds}s green)`;
+                imp.style.color = '#3fb950';
+            } else {
+                imp.textContent = 'Train a model first, then compare again.';
+                imp.style.color = '#d29922';
+            }
+            document.getElementById('compare-chart').src = '/api/charts/comparison_bar.png?t=' + Date.now();
+        }
+
+        async function renderJobs() {
+            const res = await fetch('/api/jobs');
+            const data = await res.json();
+            const el = document.getElementById('jobs-list');
+            if (!data.jobs || !data.jobs.length) {
+                el.innerHTML = '<p class="hint">No jobs yet.</p>';
+                return;
+            }
+            el.innerHTML = data.jobs.slice().reverse().map(j => `
+                <div class="job-item ${j.status}">
+                    <span class="status">${j.status}</span> · ${j.kind} · ${Math.round(j.progress * 100)}%
+                    <br><span style="color:var(--muted)">${j.message || ''}</span>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('btn-build-map').onclick = async () => {
+            const btn = document.getElementById('btn-build-map');
+            btn.disabled = true;
+            try {
+                const res = await fetch('/api/maps/build', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: document.getElementById('map-name').value,
+                        arm_length: parseInt(document.getElementById('arm-length').value, 10),
+                        flows: collectFlows(),
+                    }),
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.detail || 'Build failed');
+                alert('Map built: ' + data.map.sumocfg);
+                await refreshMaps();
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+            btn.disabled = false;
+        };
+
+        document.getElementById('btn-train').onclick = async () => {
+            const res = await fetch('/api/train', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    sumocfg: document.getElementById('train-sumocfg').value,
+                    episodes: parseInt(document.getElementById('train-episodes').value, 10),
+                }),
+            });
+            const data = await res.json();
+            activeJobId = data.job_id;
+            pollJob(activeJobId);
+        };
+
+        document.getElementById('btn-compare').onclick = async () => {
+            const res = await fetch('/api/compare', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    sumocfg: document.getElementById('compare-sumocfg').value,
+                    baseline_green_seconds: parseFloat(document.getElementById('baseline-seconds').value),
+                    seed: parseInt(document.getElementById('compare-seed').value, 10),
+                }),
+            });
+            const data = await res.json();
+            activeJobId = data.job_id;
+            pollJob(activeJobId);
+        };
+
+        buildIntersectionDOM();
+        refreshMaps();
+        setInterval(pollLive, 1000);
+        setInterval(renderJobs, 3000);
+        pollLive();
+    </script>
+</body>
+</html>
+
+

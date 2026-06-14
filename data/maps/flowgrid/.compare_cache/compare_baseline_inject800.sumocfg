@@ -1,0 +1,10 @@
+<configuration>
+    <input>
+        <net-file value="../network.net.xml"/>
+        <route-files value="compare_baseline_inject800.rou.xml"/>
+    </input>
+    <time>
+        <begin value="0"/>
+        <end value="8000"/>
+    </time>
+</configuration>

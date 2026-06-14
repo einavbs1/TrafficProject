@@ -1,0 +1,10 @@
+<configuration>
+    <input>
+        <net-file value="../network.net.xml"/>
+        <route-files value="compare_replay_seed1973334015_n752.rou.xml"/>
+    </input>
+    <time>
+        <begin value="0"/>
+        <end value="1137"/>
+    </time>
+</configuration>

@@ -1,0 +1,30 @@
+<edges>
+    <edge id="n_to_center" from="n" to="center" priority="2" numLanes="4" speed="15.0">
+        <lane index="0" changeLeft="authority"/>
+        <lane index="1" changeLeft="authority" changeRight="authority"/>
+        <lane index="2" changeLeft="authority" changeRight="authority"/>
+        <lane index="3" changeRight="authority"/>
+    </edge>
+    <edge id="center_to_n" from="center" to="n" priority="2" numLanes="4" speed="15.0"/>
+    <edge id="s_to_center" from="s" to="center" priority="2" numLanes="4" speed="15.0">
+        <lane index="0" changeLeft="authority"/>
+        <lane index="1" changeLeft="authority" changeRight="authority"/>
+        <lane index="2" changeLeft="authority" changeRight="authority"/>
+        <lane index="3" changeRight="authority"/>
+    </edge>
+    <edge id="center_to_s" from="center" to="s" priority="2" numLanes="4" speed="15.0"/>
+    <edge id="e_to_center" from="e" to="center" priority="2" numLanes="4" speed="15.0">
+        <lane index="0" changeLeft="authority"/>
+        <lane index="1" changeLeft="authority" changeRight="authority"/>
+        <lane index="2" changeLeft="authority" changeRight="authority"/>
+        <lane index="3" changeRight="authority"/>
+    </edge>
+    <edge id="center_to_e" from="center" to="e" priority="2" numLanes="4" speed="15.0"/>
+    <edge id="w_to_center" from="w" to="center" priority="2" numLanes="4" speed="15.0">
+        <lane index="0" changeLeft="authority"/>
+        <lane index="1" changeLeft="authority" changeRight="authority"/>
+        <lane index="2" changeLeft="authority" changeRight="authority"/>
+        <lane index="3" changeRight="authority"/>
+    </edge>
+    <edge id="center_to_w" from="center" to="w" priority="2" numLanes="4" speed="15.0"/>
+</edges>
