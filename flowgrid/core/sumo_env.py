@@ -17,6 +17,14 @@ ARMS = ("N", "S", "E", "W")
 TRANSIT_VCLASS = frozenset({"bus", "coach", "tram", "trolleybus"})
 TRANSIT_TYPE_HINTS = ("bus", "transit", "coach")
 
+CYCLE_PHASE_IDS = ("NS_LEFT", "NS_THRU", "EW_LEFT", "EW_THRU")
+
+SKIP_CHECK_MOVEMENTS = {
+    "NS_LEFT": ("N_LT", "S_LT"),
+    "NS_THRU": ("N_TH", "S_TH"),
+    "EW_LEFT": ("E_LT", "W_LT"),
+    "EW_THRU": ("E_TH", "W_TH"),
+}
 
 class SumoEnv(gym.Env):
     def __init__(
@@ -105,10 +113,7 @@ class SumoEnv(gym.Env):
         self.sim_time = 0.0
         self.tls_id = "center"
         self.action_space = spaces.Discrete(2)
-        n_mov = len(self.topology.movements)
-        n_arms = len(self.topology.arms)
-        obs_dim = n_mov + n_arms + n_arms + 1 + 1 + n_arms
-        self.observation_space = spaces.Box(low=0, high=1, shape=(obs_dim,), dtype=np.float32)
+        self.observation_space = spaces.Box(low=0, high=1, shape=(10,), dtype=np.float32)
         self.lanes = self._lanes_from_topology(self.topology)
         self.lane_lengths = {lane: 489.60 for lanes in self.lanes.values() for lane in lanes}
         self._tls_state = "r" * self.topology.num_links
@@ -123,6 +128,7 @@ class SumoEnv(gym.Env):
         self._consecutive_clears_since_switch = 0
         self._platoon_active_prev_step = False
         self._phase_switched_this_step = False
+        self._cycle_position = 0
         self._reset_episode_transparency()
 
         sumo_binary = "sumo-gui" if self.gui else "sumo"
@@ -207,8 +213,8 @@ class SumoEnv(gym.Env):
         else:
             base_ring = self._phase_ring or build_phase_ring("per_arm_full", self.separate_right_turn)
             if self.topology.num_links == 16:
-                ring = build_actuated_ring_with_directionals(base_ring)
-                directional = True
+                ring = build_baseline_balanced_ring(self.separate_right_turn)
+                directional = False
             else:
                 ring = base_ring
                 directional = False
@@ -233,11 +239,9 @@ class SumoEnv(gym.Env):
         self.controller._debug_rotation_enabled = self.log_phase_tracker
         self.controller._skip_tracking_enabled = self.log_phase_tracker
         self.controller._debug_dump_rotation_config()
-        start_phase = self.controller.ring[0]
-        if self.controller.directional_phases_enabled:
-            sequence = self.controller._build_rotation_sequence()
-            if sequence:
-                start_phase = sequence[0]
+        self._cycle_position = 0
+        start_phase_id = CYCLE_PHASE_IDS[self._cycle_position]
+        start_phase = next((p for p in self.controller.ring if p.id == start_phase_id), self.controller.ring[0])
         active = self.controller.apply_phase(start_phase, context="init_controller")
         active = self._enforce_phase_safety(active, context="init_controller_tls")
         self._tls_state = build_tls_state(self.topology, active)
@@ -399,44 +403,32 @@ class SumoEnv(gym.Env):
             return set(movements)
         return gate.resolve_movements(set(movements), self.controller.ring, context=context)
 
-    def _apply_phase_switch(
-        self,
-        queues: dict[str, int],
-        lane_totals: dict[str, int] | None = None,
-    ) -> None:
+    def _phase_lanes_empty(self, phase_id: str) -> bool:
+        movement_ids = SKIP_CHECK_MOVEMENTS.get(phase_id, ())
+        for mid in movement_ids:
+            mov = self.topology.movements.get(mid)
+            if mov is None:
+                continue
+            for lane in self.topology.queue_lanes_for_movement(mov):
+                if self._lane_vehicle_total(lane) > 0:
+                    return False
+        return True
+
+    def _apply_phase_switch(self) -> None:
         if self.baseline_green_seconds is not None:
             self._run_yellow()
             self._run_all_red()
             active = self.controller.advance_fixed_time()
             switch_context = "advance_fixed_time"
         else:
-            if lane_totals is None:
-                lane_totals = self._read_lane_totals()
-            emg_arms, bus_arms = self._priority_arms_on_red()
-            next_phase = self.controller.peek_next_phase(
-                queues,
-                self._arm_wait_times(),
-                emergency_arms=emg_arms,
-                transit_arms=bus_arms,
-                priority_service=self.policy_config.priority_service,
-                lane_totals=lane_totals,
-            )
-            overlap = self.controller.movements_overlap(
-                self.controller.current_movements,
-                set(next_phase.movements),
-            )
-            if not overlap:
-                self._run_yellow()
-                self._run_all_red()
-            active = self.controller.advance(
-                queues,
-                self._arm_wait_times(),
-                emergency_arms=emg_arms,
-                transit_arms=bus_arms,
-                priority_service=self.policy_config.priority_service,
-                lane_totals=lane_totals,
-            )
+            self._run_yellow()
+            self._run_all_red()
+            self._cycle_position = (self._cycle_position + 1) % len(CYCLE_PHASE_IDS)
+            next_phase_id = CYCLE_PHASE_IDS[self._cycle_position]
+            next_phase = next((p for p in self.controller.ring if p.id == next_phase_id), self.controller.ring[0])
+            active = self.controller.apply_phase(next_phase, context="advance_actuated")
             switch_context = "advance_actuated"
+            
         active = self._enforce_phase_safety(active, context=f"{switch_context}_tls")
         self._tls_state = build_tls_state(self.topology, active)
         traci.trafficlight.setRedYellowGreenState(self.tls_id, self._tls_state)
@@ -457,28 +449,23 @@ class SumoEnv(gym.Env):
 
         if self.baseline_green_seconds is not None:
             if self._switch_required(queues, lane_totals) and self._switch_allowed(queues):
-                self._apply_phase_switch(queues, lane_totals)
+                self._apply_phase_switch()
                 switched = True
                 applied = 1
             else:
                 applied = 0
         else:
-            min_switch = self.controller.min_green_time
-            if requested == 1 and self.time_since_last_switch >= min_switch:
-                applied = 1
-                invalid = False
-            elif mask[1] and not mask[0]:
-                applied = 1
-                invalid = requested == 0
-            elif not mask[1]:
-                applied = 0
-                invalid = requested == 1
-            else:
-                applied = requested
+            if requested == 1:
+                min_switch = self.controller.min_green_time
+                if self.time_since_last_switch < min_switch:
+                    if not self._phase_lanes_empty(depart_phase_id):
+                        applied = 0
+                        invalid = True
 
-            if applied == 1 and not invalid:
-                self._apply_phase_switch(queues, lane_totals)
+            if applied == 1:
+                self._apply_phase_switch()
                 switched = True
+                
             self._record_step_action(mask, applied)
 
         if switched and self.log_phase_tracker:
@@ -659,15 +646,21 @@ class SumoEnv(gym.Env):
             lane_totals = self._read_lane_totals()
         self._sync_controller_phase_duration()
         self._emergency_active = self._detect_emergency_arm() is not None
-        required = self._switch_required(queues, lane_totals)
-        allowed = self._switch_allowed(queues)
-        if required:
-            if allowed:
-                return np.array([False, True], dtype=bool)
-            return np.array([True, False], dtype=bool)
-        if not allowed:
-            return np.array([True, False], dtype=bool)
-        return np.array([True, True], dtype=bool)
+        
+        allow_hold = True
+        allow_advance = False
+        
+        min_switch = self.controller.min_green_time
+        if self.time_since_last_switch >= min_switch:
+            allow_advance = True
+        else:
+            if self._phase_lanes_empty(CYCLE_PHASE_IDS[self._cycle_position]):
+                allow_advance = True
+                
+        if self.max_green_seconds and self.time_since_last_switch >= self.max_green_seconds:
+            allow_hold = False
+            
+        return np.array([allow_hold, allow_advance], dtype=bool)
 
     def _run_yellow(self):
         yellow = build_all_yellow(self.topology, self._tls_state)
@@ -1150,26 +1143,25 @@ class SumoEnv(gym.Env):
 
     def _get_state(self):
         obs_queues = self._read_observation_queues()
-        full_queues = self._read_queues()
         max_q = 20.0
-        max_transit = 8.0
-        mov_features = [min(obs_queues.get(mid, 0) / max_q, 1.0) for mid in sorted(self.topology.movements.keys())]
-        arm_empty = [1.0 if self.controller.is_arm_empty(obs_queues, arm) else 0.0 for arm in ARMS]
-        green = self.controller.green_arms()
-        arm_waits = self._observation_arm_wait_times()
-        arm_red_wait = [
-            0.0 if arm in green else min(arm_waits.get(arm, 0.0) / 120.0, 1.0) for arm in ARMS
-        ]
-        floor = self._effective_min_green(full_queues)
+        
+        n_lt = min(obs_queues.get("N_LT", 0) / max_q, 1.0)
+        n_th = min(obs_queues.get("N_TH", 0) / max_q, 1.0)
+        s_lt = min(obs_queues.get("S_LT", 0) / max_q, 1.0)
+        s_th = min(obs_queues.get("S_TH", 0) / max_q, 1.0)
+        e_lt = min(obs_queues.get("E_LT", 0) / max_q, 1.0)
+        e_th = min(obs_queues.get("E_TH", 0) / max_q, 1.0)
+        w_lt = min(obs_queues.get("W_LT", 0) / max_q, 1.0)
+        w_th = min(obs_queues.get("W_TH", 0) / max_q, 1.0)
+        
+        cycle_norm = self._cycle_position / 3.0
+        
+        floor = self._effective_min_green(self._read_queues())
         cap = self._min_green_cap()
-        time_norm = [min(self.time_since_last_switch / max(floor * 2.0, cap, 30.0), 1.0)]
-        emergency_flag = [1.0 if self._emergency_active else 0.0]
-        transit = self._observation_transit_counts()
-        transit_norm = [min(transit.get(arm, 0) / max_transit, 1.0) for arm in ARMS]
-        return np.array(
-            mov_features + arm_empty + arm_red_wait + time_norm + emergency_flag + transit_norm,
-            dtype=np.float32,
-        )
+        time_norm = min(self.time_since_last_switch / max(floor * 2.0, cap, 30.0), 1.0)
+        
+        state = [n_lt, n_th, s_lt, s_th, e_lt, e_th, w_lt, w_th, cycle_norm, time_norm]
+        return np.array(state, dtype=np.float32)
 
     def _compute_reward(self) -> tuple[float, dict[str, float]]:
         rw = self.policy_config.reward

@@ -905,6 +905,36 @@
       "switch_min_vehicles": 3,
       "max_green_seconds": null,
       "model_error": ""
+    },
+    {
+      "id": "294bce0f-4c8c-4806-a32c-e082cd722b1a",
+      "timestamp": "2026-06-14T21:34:02+03:00",
+      "timestamp_display": "2026-06-14 21:34:02",
+      "map_id": "flowgrid",
+      "map_name": "Default (4-lane intersection)",
+      "baseline_green_seconds": 60.0,
+      "seed": 42,
+      "baseline_wait": 71758.0,
+      "dqn_wait": 65701.0,
+      "baseline_wait_all": 762506.0,
+      "dqn_wait_all": 510992.0,
+      "improvement_percent": 8.440870704311715,
+      "improvement_percent_all": 32.985183067411924,
+      "baseline_priority_wait": 71758.0,
+      "dqn_priority_wait": 65701.0,
+      "baseline_emergency_wait": 6134.0,
+      "dqn_emergency_wait": 3608.0,
+      "emergency_improvement_percent": 41.180306488425174,
+      "baseline_transit_wait": 65624.0,
+      "dqn_transit_wait": 62093.0,
+      "transit_improvement_percent": 5.380653419480677,
+      "baseline_emergency_preempt_steps": 111,
+      "dqn_emergency_preempt_steps": 109,
+      "min_green_seconds": 60.0,
+      "min_green_base_seconds": 5.0,
+      "switch_min_vehicles": 3,
+      "max_green_seconds": null,
+      "model_error": ""
     }
   ]
 }

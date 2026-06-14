@@ -20,4 +20,4 @@ Actions:
   0 = Hold current green (only valid action when switch is masked)
   1 = Advance phase (masked when min green / bulk rules block switch)
 
-Updated: 2026-06-14T21:35:01+03:00
+Updated: 2026-06-14T00:03:18+03:00

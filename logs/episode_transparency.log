@@ -153725,3 +153725,1554 @@ Reward Components (episode sum):
 Sim Time: 2401s | Steps: 697 | End: max_time | Epsilon: 0.0125
 ================================================================================
 
+================================================================================
+Episode 1 | 2026-06-14T21:24:18+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Medium | scale=0.41 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 662s
+  EW_THRU: 645s
+  NS_LEFT: 569s
+  EW_LEFT: 524s
+Action Distribution (agent-chosen):
+  Hold: 67
+  Advance: 75
+Action Distribution (forced):
+  Hold: 533
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -384865.96
+  consecutive_clear: 580.20
+  delay_delta: -232.00
+  drain_bonus: 849.00
+  fairness: -149871.35
+  inactive_penalty: -132822.24
+  invalid_action: 0.00
+  platoon_interrupt: -2080.00
+  progressive_red_wait: -89149.77
+  spillback: 0.00
+  starvation_queue: -12430.55
+  switch: 0.00
+  throughput: 599.70
+  total_wait: -308.95
+Sim Time: 2400s | Steps: 675 | End: max_time | Epsilon: 0.9950
+================================================================================
+
+================================================================================
+Episode 2 | 2026-06-14T21:35:29+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.24 | busy_snapshot=False
+Phase Distribution:
+  EW_THRU: 662s
+  NS_THRU: 643s
+  NS_LEFT: 553s
+  EW_LEFT: 542s
+Action Distribution (agent-chosen):
+  Hold: 84
+  Advance: 78
+Action Distribution (forced):
+  Hold: 508
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -312324.42
+  consecutive_clear: 412.20
+  delay_delta: -115.00
+  drain_bonus: 602.00
+  fairness: -131903.10
+  inactive_penalty: -121698.98
+  invalid_action: 0.00
+  platoon_interrupt: -1720.00
+  progressive_red_wait: -51283.29
+  spillback: 0.00
+  starvation_queue: -7046.65
+  switch: 0.00
+  throughput: 593.37
+  total_wait: -164.97
+Sim Time: 2400s | Steps: 670 | End: max_time | Epsilon: 0.9900
+================================================================================
+
+================================================================================
+Episode 3 | 2026-06-14T21:36:39+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Busy Snapshot | scale=0.56 | busy_snapshot=True
+Phase Distribution:
+  NS_THRU: 532s
+  NS_LEFT: 508s
+  EW_LEFT: 467s
+  EW_THRU: 443s
+Action Distribution (agent-chosen):
+  Hold: 71
+  Advance: 54
+Action Distribution (forced):
+  Hold: 435
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -547510.84
+  consecutive_clear: 914.70
+  delay_delta: 33309.00
+  drain_bonus: 1278.00
+  fairness: -225071.16
+  inactive_penalty: 0.00
+  invalid_action: 0.00
+  platoon_interrupt: -2080.00
+  progressive_red_wait: -245467.97
+  spillback: 0.00
+  starvation_queue: -105109.11
+  switch: 0.00
+  throughput: 182.47
+  total_wait: -5466.77
+Sim Time: 2400s | Steps: 560 | End: max_time | Epsilon: 0.9851
+================================================================================
+
+================================================================================
+Episode 4 | 2026-06-14T21:37:04+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.20 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 781s
+  EW_THRU: 668s
+  NS_LEFT: 508s
+  EW_LEFT: 448s
+Action Distribution (agent-chosen):
+  Hold: 72
+  Advance: 103
+Action Distribution (forced):
+  Hold: 455
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -176678.99
+  consecutive_clear: 300.00
+  delay_delta: -5.00
+  drain_bonus: 439.00
+  fairness: -81394.19
+  inactive_penalty: -76573.31
+  invalid_action: 0.00
+  platoon_interrupt: -1280.00
+  progressive_red_wait: -15529.46
+  spillback: 0.00
+  starvation_queue: -3139.86
+  switch: 0.00
+  throughput: 559.12
+  total_wait: -55.28
+Sim Time: 2405s | Steps: 630 | End: max_time | Epsilon: 0.9801
+================================================================================
+
+================================================================================
+Episode 5 | 2026-06-14T21:38:09+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Heavy | scale=0.88 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 624s
+  EW_LEFT: 609s
+  EW_THRU: 589s
+  NS_LEFT: 579s
+Action Distribution (agent-chosen):
+  Hold: 54
+  Advance: 71
+Action Distribution (forced):
+  Hold: 557
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -494907.11
+  consecutive_clear: 1034.70
+  delay_delta: -2372.40
+  drain_bonus: 1425.00
+  fairness: -179554.76
+  inactive_penalty: -13016.83
+  invalid_action: 0.00
+  platoon_interrupt: -2560.00
+  progressive_red_wait: -230841.04
+  spillback: 0.00
+  starvation_queue: -66793.88
+  switch: 0.00
+  throughput: 293.53
+  total_wait: -2521.42
+Sim Time: 2401s | Steps: 682 | End: max_time | Epsilon: 0.9752
+================================================================================
+
+================================================================================
+Episode 6 | 2026-06-14T21:38:47+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Medium | scale=0.53 | busy_snapshot=False
+Phase Distribution:
+  EW_THRU: 651s
+  NS_THRU: 624s
+  NS_LEFT: 582s
+  EW_LEFT: 543s
+Action Distribution (agent-chosen):
+  Hold: 67
+  Advance: 72
+Action Distribution (forced):
+  Hold: 541
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -358088.88
+  consecutive_clear: 677.40
+  delay_delta: -1235.45
+  drain_bonus: 1036.00
+  fairness: -123779.55
+  inactive_penalty: -96122.62
+  invalid_action: 0.00
+  platoon_interrupt: -2320.00
+  progressive_red_wait: -120276.68
+  spillback: 0.00
+  starvation_queue: -16227.44
+  switch: 0.00
+  throughput: 593.85
+  total_wait: -434.38
+Sim Time: 2400s | Steps: 680 | End: max_time | Epsilon: 0.9704
+================================================================================
+
+================================================================================
+Episode 7 | 2026-06-14T21:40:03+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Busy Snapshot | scale=0.83 | busy_snapshot=True
+Phase Distribution:
+  NS_THRU: 499s
+  EW_LEFT: 490s
+  EW_THRU: 484s
+  NS_LEFT: 484s
+Action Distribution (agent-chosen):
+  Hold: 55
+  Advance: 56
+Action Distribution (forced):
+  Hold: 448
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -579718.64
+  consecutive_clear: 919.20
+  delay_delta: 32507.05
+  drain_bonus: 1246.00
+  fairness: -236462.31
+  inactive_penalty: 0.00
+  invalid_action: 0.00
+  platoon_interrupt: -2080.00
+  progressive_red_wait: -256532.31
+  spillback: 0.00
+  starvation_queue: -113774.80
+  switch: 0.00
+  throughput: 150.32
+  total_wait: -5691.79
+Sim Time: 2407s | Steps: 559 | End: max_time | Epsilon: 0.9655
+================================================================================
+
+================================================================================
+Episode 8 | 2026-06-14T21:40:29+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.18 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 766s
+  EW_THRU: 736s
+  NS_LEFT: 477s
+  EW_LEFT: 427s
+Action Distribution (agent-chosen):
+  Hold: 82
+  Advance: 93
+Action Distribution (forced):
+  Hold: 472
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -226265.13
+  consecutive_clear: 281.40
+  delay_delta: -89.00
+  drain_bonus: 442.00
+  fairness: -104809.47
+  inactive_penalty: -99081.62
+  invalid_action: 0.00
+  platoon_interrupt: -1560.00
+  progressive_red_wait: -18081.69
+  spillback: 0.00
+  starvation_queue: -3820.36
+  switch: 0.00
+  throughput: 519.04
+  total_wait: -65.42
+Sim Time: 2406s | Steps: 647 | End: max_time | Epsilon: 0.9607
+================================================================================
+
+================================================================================
+Episode 9 | 2026-06-14T21:41:26+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Heavy | scale=0.85 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 615s
+  EW_THRU: 601s
+  NS_LEFT: 597s
+  EW_LEFT: 588s
+Action Distribution (agent-chosen):
+  Hold: 60
+  Advance: 71
+Action Distribution (forced):
+  Hold: 551
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -482257.59
+  consecutive_clear: 944.70
+  delay_delta: -2991.00
+  drain_bonus: 1334.00
+  fairness: -169631.66
+  inactive_penalty: -39000.00
+  invalid_action: 0.00
+  platoon_interrupt: -2520.00
+  progressive_red_wait: -210681.49
+  spillback: 0.00
+  starvation_queue: -58100.89
+  switch: 0.00
+  throughput: 394.97
+  total_wait: -2006.22
+Sim Time: 2401s | Steps: 682 | End: max_time | Epsilon: 0.9559
+================================================================================
+
+================================================================================
+Episode 10 | 2026-06-14T21:41:53+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.20 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 796s
+  EW_THRU: 655s
+  NS_LEFT: 480s
+  EW_LEFT: 469s
+Action Distribution (agent-chosen):
+  Hold: 65
+  Advance: 93
+Action Distribution (forced):
+  Hold: 487
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -235873.89
+  consecutive_clear: 308.40
+  delay_delta: 0.00
+  drain_bonus: 469.00
+  fairness: -106741.36
+  inactive_penalty: -101106.80
+  invalid_action: 0.00
+  platoon_interrupt: -1280.00
+  progressive_red_wait: -24125.84
+  spillback: 0.00
+  starvation_queue: -3861.34
+  switch: 0.00
+  throughput: 540.26
+  total_wait: -76.21
+Sim Time: 2400s | Steps: 645 | End: max_time | Epsilon: 0.9511
+================================================================================
+
+================================================================================
+Episode 11 | 2026-06-14T21:43:05+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Busy Snapshot | scale=0.81 | busy_snapshot=True
+Phase Distribution:
+  EW_THRU: 514s
+  EW_LEFT: 484s
+  NS_THRU: 481s
+  NS_LEFT: 472s
+Action Distribution (agent-chosen):
+  Hold: 52
+  Advance: 56
+Action Distribution (forced):
+  Hold: 449
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -567210.67
+  consecutive_clear: 982.50
+  delay_delta: 32138.35
+  drain_bonus: 1277.00
+  fairness: -231215.88
+  inactive_penalty: 0.00
+  invalid_action: 0.00
+  platoon_interrupt: -2200.00
+  progressive_red_wait: -255693.63
+  spillback: 0.00
+  starvation_queue: -107455.02
+  switch: 0.00
+  throughput: 163.84
+  total_wait: -5207.84
+Sim Time: 2401s | Steps: 557 | End: max_time | Epsilon: 0.9464
+================================================================================
+
+================================================================================
+Episode 12 | 2026-06-14T21:43:47+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Medium | scale=0.67 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 650s
+  EW_THRU: 624s
+  NS_LEFT: 575s
+  EW_LEFT: 558s
+Action Distribution (agent-chosen):
+  Hold: 48
+  Advance: 74
+Action Distribution (forced):
+  Hold: 557
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -370662.87
+  consecutive_clear: 739.20
+  delay_delta: -729.40
+  drain_bonus: 1129.00
+  fairness: -121339.48
+  inactive_penalty: -86000.00
+  invalid_action: 0.00
+  platoon_interrupt: -2360.00
+  progressive_red_wait: -141231.20
+  spillback: 0.00
+  starvation_queue: -20827.07
+  switch: 0.00
+  throughput: 533.31
+  total_wait: -577.24
+Sim Time: 2407s | Steps: 679 | End: max_time | Epsilon: 0.9416
+================================================================================
+
+================================================================================
+Episode 13 | 2026-06-14T21:45:00+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Busy Snapshot | scale=0.83 | busy_snapshot=True
+Phase Distribution:
+  NS_LEFT: 499s
+  NS_THRU: 493s
+  EW_LEFT: 490s
+  EW_THRU: 469s
+Action Distribution (agent-chosen):
+  Hold: 49
+  Advance: 56
+Action Distribution (forced):
+  Hold: 452
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -567651.18
+  consecutive_clear: 817.50
+  delay_delta: 34123.70
+  drain_bonus: 1237.00
+  fairness: -230726.17
+  inactive_penalty: 0.00
+  invalid_action: 0.00
+  platoon_interrupt: -2200.00
+  progressive_red_wait: -256676.18
+  spillback: 0.00
+  starvation_queue: -108817.34
+  switch: 0.00
+  throughput: 139.96
+  total_wait: -5549.65
+Sim Time: 2401s | Steps: 557 | End: max_time | Epsilon: 0.9369
+================================================================================
+
+================================================================================
+Episode 14 | 2026-06-14T21:45:30+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.29 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 647s
+  NS_LEFT: 638s
+  EW_THRU: 612s
+  EW_LEFT: 509s
+Action Distribution (agent-chosen):
+  Hold: 81
+  Advance: 75
+Action Distribution (forced):
+  Hold: 521
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -316949.14
+  consecutive_clear: 378.30
+  delay_delta: -56.00
+  drain_bonus: 604.00
+  fairness: -130447.07
+  inactive_penalty: -118417.51
+  invalid_action: 0.00
+  platoon_interrupt: -1760.00
+  progressive_red_wait: -60119.92
+  spillback: 0.00
+  starvation_queue: -7444.54
+  switch: 0.00
+  throughput: 497.56
+  total_wait: -183.96
+Sim Time: 2406s | Steps: 677 | End: max_time | Epsilon: 0.9322
+================================================================================
+
+================================================================================
+Episode 15 | 2026-06-14T21:46:35+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Heavy | scale=0.91 | busy_snapshot=False
+Phase Distribution:
+  EW_LEFT: 609s
+  NS_THRU: 609s
+  EW_THRU: 597s
+  NS_LEFT: 585s
+Action Distribution (agent-chosen):
+  Hold: 45
+  Advance: 72
+Action Distribution (forced):
+  Hold: 563
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -539010.08
+  consecutive_clear: 1094.40
+  delay_delta: -8217.15
+  drain_bonus: 1437.00
+  fairness: -197289.17
+  inactive_penalty: -23500.00
+  invalid_action: 0.00
+  platoon_interrupt: -2520.00
+  progressive_red_wait: -230986.69
+  spillback: 0.00
+  starvation_queue: -76707.18
+  switch: 0.00
+  throughput: 334.37
+  total_wait: -2655.66
+Sim Time: 2400s | Steps: 680 | End: max_time | Epsilon: 0.9276
+================================================================================
+
+================================================================================
+Episode 16 | 2026-06-14T21:47:02+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.22 | busy_snapshot=False
+Phase Distribution:
+  EW_THRU: 705s
+  NS_THRU: 692s
+  EW_LEFT: 525s
+  NS_LEFT: 479s
+Action Distribution (agent-chosen):
+  Hold: 99
+  Advance: 86
+Action Distribution (forced):
+  Hold: 472
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -259483.46
+  consecutive_clear: 282.90
+  delay_delta: -209.00
+  drain_bonus: 457.00
+  fairness: -114356.53
+  inactive_penalty: -107564.68
+  invalid_action: 0.00
+  platoon_interrupt: -1400.00
+  progressive_red_wait: -32192.64
+  spillback: 0.00
+  starvation_queue: -4869.06
+  switch: 0.00
+  throughput: 471.86
+  total_wait: -103.32
+Sim Time: 2401s | Steps: 657 | End: max_time | Epsilon: 0.9229
+================================================================================
+
+================================================================================
+Episode 17 | 2026-06-14T21:47:39+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Medium | scale=0.46 | busy_snapshot=False
+Phase Distribution:
+  EW_THRU: 654s
+  NS_THRU: 641s
+  NS_LEFT: 563s
+  EW_LEFT: 542s
+Action Distribution (agent-chosen):
+  Hold: 62
+  Advance: 75
+Action Distribution (forced):
+  Hold: 538
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -374039.49
+  consecutive_clear: 664.20
+  delay_delta: -954.00
+  drain_bonus: 955.00
+  fairness: -137745.49
+  inactive_penalty: -115903.80
+  invalid_action: 0.00
+  platoon_interrupt: -2280.00
+  progressive_red_wait: -104693.05
+  spillback: 0.00
+  starvation_queue: -14332.60
+  switch: 0.00
+  throughput: 621.23
+  total_wait: -370.98
+Sim Time: 2400s | Steps: 675 | End: max_time | Epsilon: 0.9183
+================================================================================
+
+================================================================================
+Episode 18 | 2026-06-14T21:48:22+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Medium | scale=0.68 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 630s
+  EW_THRU: 601s
+  NS_LEFT: 588s
+  EW_LEFT: 582s
+Action Distribution (agent-chosen):
+  Hold: 63
+  Advance: 71
+Action Distribution (forced):
+  Hold: 548
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -357229.85
+  consecutive_clear: 826.80
+  delay_delta: -134.00
+  drain_bonus: 1246.00
+  fairness: -112202.11
+  inactive_penalty: -70481.47
+  invalid_action: 0.00
+  platoon_interrupt: -2480.00
+  progressive_red_wait: -152834.75
+  spillback: 0.00
+  starvation_queue: -21138.59
+  switch: 0.00
+  throughput: 595.98
+  total_wait: -627.72
+Sim Time: 2401s | Steps: 682 | End: max_time | Epsilon: 0.9137
+================================================================================
+
+================================================================================
+Episode 19 | 2026-06-14T21:48:49+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.22 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 751s
+  EW_THRU: 709s
+  EW_LEFT: 484s
+  NS_LEFT: 456s
+Action Distribution (agent-chosen):
+  Hold: 67
+  Advance: 93
+Action Distribution (forced):
+  Hold: 485
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -235329.29
+  consecutive_clear: 300.60
+  delay_delta: -103.00
+  drain_bonus: 456.00
+  fairness: -105242.78
+  inactive_penalty: -99375.75
+  invalid_action: 0.00
+  platoon_interrupt: -1480.00
+  progressive_red_wait: -25712.39
+  spillback: 0.00
+  starvation_queue: -4592.56
+  switch: 0.00
+  throughput: 501.99
+  total_wait: -81.40
+Sim Time: 2400s | Steps: 645 | End: max_time | Epsilon: 0.9092
+================================================================================
+
+================================================================================
+Episode 20 | 2026-06-14T21:49:30+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Medium | scale=0.57 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 624s
+  EW_THRU: 603s
+  NS_LEFT: 590s
+  EW_LEFT: 585s
+Action Distribution (agent-chosen):
+  Hold: 41
+  Advance: 73
+Action Distribution (forced):
+  Hold: 565
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -343881.37
+  consecutive_clear: 656.10
+  delay_delta: -359.60
+  drain_bonus: 1045.00
+  fairness: -118415.49
+  inactive_penalty: -86000.00
+  invalid_action: 0.00
+  platoon_interrupt: -2440.00
+  progressive_red_wait: -120788.33
+  spillback: 0.00
+  starvation_queue: -17619.89
+  switch: 0.00
+  throughput: 516.71
+  total_wait: -475.87
+Sim Time: 2402s | Steps: 679 | End: max_time | Epsilon: 0.9046
+================================================================================
+
+================================================================================
+Episode 21 | 2026-06-14T21:50:29+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Heavy | scale=0.83 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 633s
+  NS_LEFT: 606s
+  EW_THRU: 601s
+  EW_LEFT: 562s
+Action Distribution (agent-chosen):
+  Hold: 73
+  Advance: 70
+Action Distribution (forced):
+  Hold: 541
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -425398.09
+  consecutive_clear: 1029.60
+  delay_delta: -1172.60
+  drain_bonus: 1378.00
+  fairness: -149115.34
+  inactive_penalty: -19070.79
+  invalid_action: 0.00
+  platoon_interrupt: -2440.00
+  progressive_red_wait: -202020.02
+  spillback: 0.00
+  starvation_queue: -52464.56
+  switch: 0.00
+  throughput: 354.83
+  total_wait: -1877.20
+Sim Time: 2402s | Steps: 684 | End: max_time | Epsilon: 0.9001
+================================================================================
+
+================================================================================
+Episode 22 | 2026-06-14T21:51:06+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Medium | scale=0.49 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 645s
+  EW_THRU: 612s
+  NS_LEFT: 587s
+  EW_LEFT: 558s
+Action Distribution (agent-chosen):
+  Hold: 62
+  Advance: 73
+Action Distribution (forced):
+  Hold: 544
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -349821.46
+  consecutive_clear: 652.50
+  delay_delta: -309.80
+  drain_bonus: 972.00
+  fairness: -126794.56
+  inactive_penalty: -103652.82
+  invalid_action: 0.00
+  platoon_interrupt: -2280.00
+  progressive_red_wait: -104041.73
+  spillback: 0.00
+  starvation_queue: -14642.54
+  switch: 0.00
+  throughput: 632.01
+  total_wait: -356.53
+Sim Time: 2402s | Steps: 679 | End: max_time | Epsilon: 0.8956
+================================================================================
+
+================================================================================
+Episode 23 | 2026-06-14T21:51:50+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Medium | scale=0.59 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 639s
+  EW_THRU: 598s
+  NS_LEFT: 585s
+  EW_LEFT: 579s
+Action Distribution (agent-chosen):
+  Hold: 72
+  Advance: 71
+Action Distribution (forced):
+  Hold: 539
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -392999.05
+  consecutive_clear: 784.20
+  delay_delta: -489.40
+  drain_bonus: 1105.00
+  fairness: -129630.86
+  inactive_penalty: -91563.71
+  invalid_action: 0.00
+  platoon_interrupt: -2280.00
+  progressive_red_wait: -148925.19
+  spillback: 0.00
+  starvation_queue: -21936.19
+  switch: 0.00
+  throughput: 557.12
+  total_wait: -620.02
+Sim Time: 2401s | Steps: 682 | End: max_time | Epsilon: 0.8911
+================================================================================
+
+================================================================================
+Episode 24 | 2026-06-14T21:52:16+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.16 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 738s
+  EW_THRU: 678s
+  NS_LEFT: 515s
+  EW_LEFT: 471s
+Action Distribution (agent-chosen):
+  Hold: 107
+  Advance: 97
+Action Distribution (forced):
+  Hold: 435
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -198638.95
+  consecutive_clear: 220.20
+  delay_delta: 0.00
+  drain_bonus: 363.00
+  fairness: -89403.74
+  inactive_penalty: -84523.59
+  invalid_action: 0.00
+  platoon_interrupt: -1160.00
+  progressive_red_wait: -21346.86
+  spillback: 0.00
+  starvation_queue: -3139.18
+  switch: 0.00
+  throughput: 414.23
+  total_wait: -63.02
+Sim Time: 2402s | Steps: 639 | End: max_time | Epsilon: 0.8867
+================================================================================
+
+================================================================================
+Episode 25 | 2026-06-14T21:52:43+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.19 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 755s
+  EW_THRU: 633s
+  NS_LEFT: 548s
+  EW_LEFT: 464s
+Action Distribution (agent-chosen):
+  Hold: 85
+  Advance: 87
+Action Distribution (forced):
+  Hold: 483
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -231236.70
+  consecutive_clear: 288.90
+  delay_delta: -38.00
+  drain_bonus: 447.00
+  fairness: -101765.99
+  inactive_penalty: -95241.77
+  invalid_action: 0.00
+  platoon_interrupt: -1400.00
+  progressive_red_wait: -29689.26
+  spillback: 0.00
+  starvation_queue: -4236.75
+  switch: 0.00
+  throughput: 492.79
+  total_wait: -93.62
+Sim Time: 2400s | Steps: 655 | End: max_time | Epsilon: 0.8822
+================================================================================
+
+================================================================================
+Episode 26 | 2026-06-14T21:53:12+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.25 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 754s
+  EW_THRU: 727s
+  NS_LEFT: 508s
+  EW_LEFT: 412s
+Action Distribution (agent-chosen):
+  Hold: 69
+  Advance: 92
+Action Distribution (forced):
+  Hold: 486
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -247653.89
+  consecutive_clear: 313.80
+  delay_delta: -354.00
+  drain_bonus: 505.00
+  fairness: -112540.33
+  inactive_penalty: -105308.47
+  invalid_action: 0.00
+  platoon_interrupt: -1760.00
+  progressive_red_wait: -24123.10
+  spillback: 0.00
+  starvation_queue: -4801.56
+  switch: 0.00
+  throughput: 506.25
+  total_wait: -91.48
+Sim Time: 2401s | Steps: 647 | End: max_time | Epsilon: 0.8778
+================================================================================
+
+================================================================================
+Episode 27 | 2026-06-14T21:54:27+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Heavy | scale=0.99 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 621s
+  EW_LEFT: 603s
+  EW_THRU: 601s
+  NS_LEFT: 576s
+Action Distribution (agent-chosen):
+  Hold: 51
+  Advance: 71
+Action Distribution (forced):
+  Hold: 560
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -585882.74
+  consecutive_clear: 1088.40
+  delay_delta: -6521.35
+  drain_bonus: 1472.00
+  fairness: -220412.36
+  inactive_penalty: -8532.21
+  invalid_action: 0.00
+  platoon_interrupt: -2600.00
+  progressive_red_wait: -256477.94
+  spillback: 0.00
+  starvation_queue: -90610.53
+  switch: 0.00
+  throughput: 258.58
+  total_wait: -3547.32
+Sim Time: 2401s | Steps: 682 | End: max_time | Epsilon: 0.8734
+================================================================================
+
+================================================================================
+Episode 28 | 2026-06-14T21:55:26+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Heavy | scale=0.82 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 650s
+  EW_THRU: 615s
+  NS_LEFT: 605s
+  EW_LEFT: 537s
+Action Distribution (agent-chosen):
+  Hold: 42
+  Advance: 74
+Action Distribution (forced):
+  Hold: 563
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -458589.19
+  consecutive_clear: 988.20
+  delay_delta: -4336.40
+  drain_bonus: 1337.00
+  fairness: -157694.91
+  inactive_penalty: -30094.13
+  invalid_action: 0.00
+  platoon_interrupt: -2680.00
+  progressive_red_wait: -211042.43
+  spillback: 0.00
+  starvation_queue: -53473.76
+  switch: 0.00
+  throughput: 386.13
+  total_wait: -1978.89
+Sim Time: 2407s | Steps: 679 | End: max_time | Epsilon: 0.8691
+================================================================================
+
+================================================================================
+Episode 29 | 2026-06-14T21:56:42+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Busy Snapshot | scale=0.86 | busy_snapshot=True
+Phase Distribution:
+  NS_LEFT: 523s
+  NS_THRU: 484s
+  EW_LEFT: 475s
+  EW_THRU: 469s
+Action Distribution (agent-chosen):
+  Hold: 55
+  Advance: 56
+Action Distribution (forced):
+  Hold: 446
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -588531.67
+  consecutive_clear: 884.70
+  delay_delta: 33597.15
+  drain_bonus: 1202.00
+  fairness: -242618.38
+  inactive_penalty: 0.00
+  invalid_action: 0.00
+  platoon_interrupt: -2120.00
+  progressive_red_wait: -256802.43
+  spillback: 0.00
+  starvation_queue: -117058.98
+  switch: 0.00
+  throughput: 142.93
+  total_wait: -5758.66
+Sim Time: 2401s | Steps: 557 | End: max_time | Epsilon: 0.8647
+================================================================================
+
+================================================================================
+Episode 30 | 2026-06-14T21:57:25+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Medium | scale=0.59 | busy_snapshot=False
+Phase Distribution:
+  EW_THRU: 633s
+  NS_THRU: 624s
+  NS_LEFT: 593s
+  EW_LEFT: 552s
+Action Distribution (agent-chosen):
+  Hold: 48
+  Advance: 73
+Action Distribution (forced):
+  Hold: 558
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -369958.15
+  consecutive_clear: 808.20
+  delay_delta: -601.40
+  drain_bonus: 1137.00
+  fairness: -121458.76
+  inactive_penalty: -79873.71
+  invalid_action: 0.00
+  platoon_interrupt: -2280.00
+  progressive_red_wait: -143909.05
+  spillback: 0.00
+  starvation_queue: -23705.74
+  switch: 0.00
+  throughput: 562.71
+  total_wait: -637.39
+Sim Time: 2402s | Steps: 679 | End: max_time | Epsilon: 0.8604
+================================================================================
+
+================================================================================
+Episode 31 | 2026-06-14T21:57:53+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.22 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 769s
+  EW_THRU: 671s
+  NS_LEFT: 523s
+  EW_LEFT: 439s
+Action Distribution (agent-chosen):
+  Hold: 69
+  Advance: 91
+Action Distribution (forced):
+  Hold: 489
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -216198.23
+  consecutive_clear: 296.70
+  delay_delta: -249.00
+  drain_bonus: 463.00
+  fairness: -98620.15
+  inactive_penalty: -92818.94
+  invalid_action: 0.00
+  platoon_interrupt: -1400.00
+  progressive_red_wait: -20449.82
+  spillback: 0.00
+  starvation_queue: -3880.04
+  switch: 0.00
+  throughput: 534.20
+  total_wait: -74.18
+Sim Time: 2402s | Steps: 649 | End: max_time | Epsilon: 0.8561
+================================================================================
+
+================================================================================
+Episode 32 | 2026-06-14T21:58:34+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Medium | scale=0.55 | busy_snapshot=False
+Phase Distribution:
+  EW_THRU: 642s
+  NS_THRU: 609s
+  NS_LEFT: 590s
+  EW_LEFT: 561s
+Action Distribution (agent-chosen):
+  Hold: 61
+  Advance: 73
+Action Distribution (forced):
+  Hold: 545
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -385838.58
+  consecutive_clear: 694.20
+  delay_delta: -190.40
+  drain_bonus: 1051.00
+  fairness: -134577.16
+  inactive_penalty: -104500.00
+  invalid_action: 0.00
+  platoon_interrupt: -2320.00
+  progressive_red_wait: -126955.98
+  spillback: 0.00
+  starvation_queue: -19071.93
+  switch: 0.00
+  throughput: 549.80
+  total_wait: -518.12
+Sim Time: 2402s | Steps: 679 | End: max_time | Epsilon: 0.8518
+================================================================================
+
+================================================================================
+Episode 33 | 2026-06-14T21:59:36+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Heavy | scale=0.90 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 621s
+  EW_LEFT: 610s
+  EW_THRU: 601s
+  NS_LEFT: 570s
+Action Distribution (agent-chosen):
+  Hold: 57
+  Advance: 70
+Action Distribution (forced):
+  Hold: 557
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -506658.04
+  consecutive_clear: 976.50
+  delay_delta: -3000.75
+  drain_bonus: 1355.00
+  fairness: -179466.35
+  inactive_penalty: -39000.00
+  invalid_action: 0.00
+  platoon_interrupt: -2440.00
+  progressive_red_wait: -217644.78
+  spillback: 0.00
+  starvation_queue: -65528.77
+  switch: 0.00
+  throughput: 401.38
+  total_wait: -2310.26
+Sim Time: 2402s | Steps: 684 | End: max_time | Epsilon: 0.8475
+================================================================================
+
+================================================================================
+Episode 34 | 2026-06-14T22:00:23+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Medium | scale=0.53 | busy_snapshot=False
+Phase Distribution:
+  EW_THRU: 641s
+  NS_THRU: 632s
+  EW_LEFT: 572s
+  NS_LEFT: 562s
+Action Distribution (agent-chosen):
+  Hold: 35
+  Advance: 77
+Action Distribution (forced):
+  Hold: 562
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -360018.48
+  consecutive_clear: 729.30
+  delay_delta: -357.40
+  drain_bonus: 1071.00
+  fairness: -133824.59
+  inactive_penalty: -109225.99
+  invalid_action: 0.00
+  platoon_interrupt: -2320.00
+  progressive_red_wait: -100990.28
+  spillback: 0.00
+  starvation_queue: -15338.15
+  switch: 0.00
+  throughput: 641.06
+  total_wait: -403.43
+Sim Time: 2407s | Steps: 674 | End: max_time | Epsilon: 0.8433
+================================================================================
+
+================================================================================
+Episode 35 | 2026-06-14T22:00:57+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.29 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 726s
+  EW_THRU: 667s
+  NS_LEFT: 573s
+  EW_LEFT: 436s
+Action Distribution (agent-chosen):
+  Hold: 53
+  Advance: 82
+Action Distribution (forced):
+  Hold: 529
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -334852.08
+  consecutive_clear: 333.30
+  delay_delta: -216.00
+  drain_bonus: 581.00
+  fairness: -147448.60
+  inactive_penalty: -139843.36
+  invalid_action: 0.00
+  platoon_interrupt: -1720.00
+  progressive_red_wait: -40954.57
+  spillback: 0.00
+  starvation_queue: -5957.05
+  switch: 0.00
+  throughput: 505.13
+  total_wait: -131.94
+Sim Time: 2402s | Steps: 664 | End: max_time | Epsilon: 0.8391
+================================================================================
+
+================================================================================
+Episode 36 | 2026-06-14T22:02:05+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Heavy | scale=0.87 | busy_snapshot=False
+Phase Distribution:
+  EW_THRU: 619s
+  NS_THRU: 615s
+  EW_LEFT: 612s
+  NS_LEFT: 555s
+Action Distribution (agent-chosen):
+  Hold: 49
+  Advance: 71
+Action Distribution (forced):
+  Hold: 562
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -406849.11
+  consecutive_clear: 941.10
+  delay_delta: -3144.50
+  drain_bonus: 1343.00
+  fairness: -132327.33
+  inactive_penalty: -16526.89
+  invalid_action: 0.00
+  platoon_interrupt: -2760.00
+  progressive_red_wait: -202543.60
+  spillback: 0.00
+  starvation_queue: -50451.61
+  switch: 0.00
+  throughput: 346.65
+  total_wait: -1725.93
+Sim Time: 2401s | Steps: 682 | End: max_time | Epsilon: 0.8349
+================================================================================
+
+================================================================================
+Episode 37 | 2026-06-14T22:03:33+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Busy Snapshot | scale=0.82 | busy_snapshot=True
+Phase Distribution:
+  NS_LEFT: 498s
+  NS_THRU: 489s
+  EW_THRU: 487s
+  EW_LEFT: 478s
+Action Distribution (agent-chosen):
+  Hold: 29
+  Advance: 58
+Action Distribution (forced):
+  Hold: 467
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -551981.59
+  consecutive_clear: 856.50
+  delay_delta: 34997.65
+  drain_bonus: 1192.00
+  fairness: -236699.61
+  inactive_penalty: 0.00
+  invalid_action: 0.00
+  platoon_interrupt: -2240.00
+  progressive_red_wait: -238115.31
+  spillback: 0.00
+  starvation_queue: -106898.87
+  switch: 0.00
+  throughput: 157.93
+  total_wait: -5231.88
+Sim Time: 2402s | Steps: 554 | End: max_time | Epsilon: 0.8307
+================================================================================
+
+================================================================================
+Episode 38 | 2026-06-14T22:04:02+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.17 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 697s
+  EW_THRU: 653s
+  EW_LEFT: 565s
+  NS_LEFT: 487s
+Action Distribution (agent-chosen):
+  Hold: 67
+  Advance: 103
+Action Distribution (forced):
+  Hold: 459
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -152678.73
+  consecutive_clear: 237.60
+  delay_delta: -32.00
+  drain_bonus: 390.00
+  fairness: -69666.40
+  inactive_penalty: -65534.81
+  invalid_action: 0.00
+  platoon_interrupt: -960.00
+  progressive_red_wait: -15101.92
+  spillback: 0.00
+  starvation_queue: -2436.59
+  switch: 0.00
+  throughput: 474.15
+  total_wait: -48.76
+Sim Time: 2402s | Steps: 629 | End: max_time | Epsilon: 0.8266
+================================================================================
+
+================================================================================
+Episode 39 | 2026-06-14T22:04:50+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Medium | scale=0.56 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 638s
+  NS_LEFT: 608s
+  EW_THRU: 606s
+  EW_LEFT: 548s
+Action Distribution (agent-chosen):
+  Hold: 47
+  Advance: 75
+Action Distribution (forced):
+  Hold: 553
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -378802.09
+  consecutive_clear: 747.30
+  delay_delta: -374.00
+  drain_bonus: 1126.00
+  fairness: -133387.69
+  inactive_penalty: -103124.56
+  invalid_action: 0.00
+  platoon_interrupt: -2280.00
+  progressive_red_wait: -122404.36
+  spillback: 0.00
+  starvation_queue: -19156.15
+  switch: 0.00
+  throughput: 574.12
+  total_wait: -522.75
+Sim Time: 2400s | Steps: 675 | End: max_time | Epsilon: 0.8224
+================================================================================
+
+================================================================================
+Episode 40 | 2026-06-14T22:06:19+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Busy Snapshot | scale=0.54 | busy_snapshot=True
+Phase Distribution:
+  NS_LEFT: 528s
+  NS_THRU: 481s
+  EW_LEFT: 478s
+  EW_THRU: 463s
+Action Distribution (agent-chosen):
+  Hold: 39
+  Advance: 57
+Action Distribution (forced):
+  Hold: 459
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -569995.31
+  consecutive_clear: 903.60
+  delay_delta: 34131.75
+  drain_bonus: 1274.00
+  fairness: -233070.99
+  inactive_penalty: 0.00
+  invalid_action: 0.00
+  platoon_interrupt: -2160.00
+  progressive_red_wait: -253276.40
+  spillback: 0.00
+  starvation_queue: -112366.32
+  switch: 0.00
+  throughput: 143.51
+  total_wait: -5574.46
+Sim Time: 2400s | Steps: 555 | End: max_time | Epsilon: 0.8183
+================================================================================
+
+================================================================================
+Episode 41 | 2026-06-14T22:06:49+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.20 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 730s
+  EW_THRU: 697s
+  NS_LEFT: 544s
+  EW_LEFT: 430s
+Action Distribution (agent-chosen):
+  Hold: 52
+  Advance: 92
+Action Distribution (forced):
+  Hold: 503
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -238281.48
+  consecutive_clear: 255.30
+  delay_delta: -166.00
+  drain_bonus: 411.00
+  fairness: -107975.49
+  inactive_penalty: -102372.24
+  invalid_action: 0.00
+  platoon_interrupt: -1360.00
+  progressive_red_wait: -23640.75
+  spillback: 0.00
+  starvation_queue: -3788.24
+  switch: 0.00
+  throughput: 429.88
+  total_wait: -74.94
+Sim Time: 2401s | Steps: 647 | End: max_time | Epsilon: 0.8142
+================================================================================
+
+================================================================================
+Episode 42 | 2026-06-14T22:08:08+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Heavy | scale=0.97 | busy_snapshot=False
+Phase Distribution:
+  NS_LEFT: 612s
+  NS_THRU: 609s
+  EW_THRU: 606s
+  EW_LEFT: 573s
+Action Distribution (agent-chosen):
+  Hold: 39
+  Advance: 72
+Action Distribution (forced):
+  Hold: 569
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -498302.69
+  consecutive_clear: 1052.10
+  delay_delta: -8842.95
+  drain_bonus: 1383.00
+  fairness: -179878.26
+  inactive_penalty: -18000.00
+  invalid_action: 0.00
+  platoon_interrupt: -2560.00
+  progressive_red_wait: -221646.16
+  spillback: 0.00
+  starvation_queue: -67962.57
+  switch: 0.00
+  throughput: 329.90
+  total_wait: -2177.76
+Sim Time: 2400s | Steps: 680 | End: max_time | Epsilon: 0.8102
+================================================================================
+
+================================================================================
+Episode 43 | 2026-06-14T22:09:26+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Heavy | scale=0.98 | busy_snapshot=False
+Phase Distribution:
+  EW_THRU: 627s
+  EW_LEFT: 594s
+  NS_THRU: 594s
+  NS_LEFT: 585s
+Action Distribution (agent-chosen):
+  Hold: 35
+  Advance: 72
+Action Distribution (forced):
+  Hold: 573
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -523865.01
+  consecutive_clear: 1046.10
+  delay_delta: -8567.00
+  drain_bonus: 1424.00
+  fairness: -186902.41
+  inactive_penalty: -23500.00
+  invalid_action: 0.00
+  platoon_interrupt: -2760.00
+  progressive_red_wait: -227119.44
+  spillback: 0.00
+  starvation_queue: -75483.77
+  switch: 0.00
+  throughput: 360.45
+  total_wait: -2362.94
+Sim Time: 2400s | Steps: 680 | End: max_time | Epsilon: 0.8061
+================================================================================
+
+================================================================================
+Episode 44 | 2026-06-14T22:09:59+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.22 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 695s
+  EW_THRU: 686s
+  EW_LEFT: 518s
+  NS_LEFT: 502s
+Action Distribution (agent-chosen):
+  Hold: 61
+  Advance: 89
+Action Distribution (forced):
+  Hold: 502
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -266075.11
+  consecutive_clear: 279.00
+  delay_delta: -9.00
+  drain_bonus: 469.00
+  fairness: -120669.03
+  inactive_penalty: -113506.03
+  invalid_action: 0.00
+  platoon_interrupt: -1440.00
+  progressive_red_wait: -26697.19
+  spillback: 0.00
+  starvation_queue: -4854.14
+  switch: 0.00
+  throughput: 448.70
+  total_wait: -96.42
+Sim Time: 2401s | Steps: 652 | End: max_time | Epsilon: 0.8021
+================================================================================
+
+================================================================================
+Episode 45 | 2026-06-14T22:11:34+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Busy Snapshot | scale=0.81 | busy_snapshot=True
+Phase Distribution:
+  EW_LEFT: 496s
+  NS_THRU: 493s
+  NS_LEFT: 490s
+  EW_THRU: 478s
+Action Distribution (agent-chosen):
+  Hold: 55
+  Advance: 56
+Action Distribution (forced):
+  Hold: 448
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -587072.87
+  consecutive_clear: 945.00
+  delay_delta: 33108.80
+  drain_bonus: 1290.00
+  fairness: -244477.89
+  inactive_penalty: 0.00
+  invalid_action: 0.00
+  platoon_interrupt: -2200.00
+  progressive_red_wait: -253029.21
+  spillback: 0.00
+  starvation_queue: -117050.47
+  switch: 0.00
+  throughput: 150.21
+  total_wait: -5809.30
+Sim Time: 2407s | Steps: 559 | End: max_time | Epsilon: 0.7981
+================================================================================
+
+================================================================================
+Episode 46 | 2026-06-14T22:12:02+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Sparse | scale=0.14 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 796s
+  EW_THRU: 727s
+  NS_LEFT: 457s
+  EW_LEFT: 421s
+Action Distribution (agent-chosen):
+  Hold: 89
+  Advance: 104
+Action Distribution (forced):
+  Hold: 434
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -102640.45
+  consecutive_clear: 158.70
+  delay_delta: 0.00
+  drain_bonus: 295.00
+  fairness: -47874.62
+  inactive_penalty: -44117.52
+  invalid_action: 0.00
+  platoon_interrupt: -960.00
+  progressive_red_wait: -8412.10
+  spillback: 0.00
+  starvation_queue: -2040.05
+  switch: 0.00
+  throughput: 341.56
+  total_wait: -31.42
+Sim Time: 2401s | Steps: 627 | End: max_time | Epsilon: 0.7941
+================================================================================
+
+================================================================================
+Episode 47 | 2026-06-14T22:12:47+03:00
+--------------------------------------------------------------------------------
+Traffic Profile: Medium | scale=0.46 | busy_snapshot=False
+Phase Distribution:
+  NS_THRU: 665s
+  EW_THRU: 630s
+  NS_LEFT: 575s
+  EW_LEFT: 530s
+Action Distribution (agent-chosen):
+  Hold: 58
+  Advance: 75
+Action Distribution (forced):
+  Hold: 542
+  Advance: 0
+Reward Components (episode sum):
+  Total Reward: -387481.46
+  consecutive_clear: 603.90
+  delay_delta: -524.20
+  drain_bonus: 922.00
+  fairness: -146623.40
+  inactive_penalty: -124967.73
+  invalid_action: 0.00
+  platoon_interrupt: -2160.00
+  progressive_red_wait: -100731.46
+  spillback: 0.00
+  starvation_queue: -14220.69
+  switch: 0.00
+  throughput: 581.24
+  total_wait: -361.12
+Sim Time: 2400s | Steps: 675 | End: max_time | Epsilon: 0.7901
+================================================================================
+
