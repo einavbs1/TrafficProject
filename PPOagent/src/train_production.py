@@ -52,8 +52,9 @@ def main():
         if args.resume:
             resume_path = args.resume
         else:
-            # Auto-find latest PPO zip in the models folder
-            zips = glob.glob(os.path.join("models", "ppo_*.zip")) + glob.glob("ppo_*.zip")
+            # Auto-find latest PPO zip in the models folder (exclude backup files)
+            zips = [z for z in glob.glob(os.path.join("models", "ppo_*.zip")) + glob.glob("ppo_*.zip")
+                    if "_backup_" not in os.path.basename(z)]
             if zips:
                 resume_path = max(zips, key=os.path.getmtime)
                 print(f"--- AUTO-RESUME MODE --- Found latest model: {resume_path}")
@@ -116,18 +117,39 @@ def main():
         model = MaskablePPO.load(resume_path, env=vec_env, device="cuda")
         # Fine-tuning LR: use a low constant rate (3e-5) instead of restarting
         # the aggressive 3e-4 schedule. Restarting from 3e-4 causes catastrophic
-        # forgetting — the near-zero end-of-training LR is violently overwritten.
+        # forgetting -- the near-zero end-of-training LR is violently overwritten.
         model.learning_rate = 3e-5
-        model.ent_coef = 0.0   # No entropy injection: agent is already converged
+        # Small non-zero entropy keeps slight exploration alive so the agent
+        # can escape local optima (e.g. always-keep bias). 0.0 locks the
+        # policy permanently -- 0.005 is small enough to not destabilize
+        # already-learned weights but large enough to allow refinement.
+        model.ent_coef = 0.01
         model.policy.optimizer.param_groups[0]["lr"] = 3e-5
         model.policy.optimizer.param_groups[0]["eps"] = 1e-5
+
+        # Tighter rollout window: 512 steps/env vs the original 2048.
+        # With 10 parallel envs and 20,000s episodes (4000 steps each),
+        # n_steps=2048 meant <1 policy update per episode per env.
+        # n_steps=512 gives 8 updates per episode -- much faster feedback.
+        # Policy weights are unchanged; only the rollout buffer is rebuilt.
+        from sb3_contrib.common.maskable.buffers import MaskableRolloutBuffer
+        model.n_steps = 512
+        model.rollout_buffer = MaskableRolloutBuffer(
+            model.n_steps,
+            model.observation_space,
+            model.action_space,
+            device=model.device,
+            gae_lambda=model.gae_lambda,
+            gamma=model.gamma,
+            n_envs=model.n_envs,
+        )
 
     else:
         print("Building brand new MaskablePPO Model with GPU Acceleration...")
         # 3. ALGORITHMIC FIDELITY (The 37 Implementation Details)
         policy_kwargs = dict(
             activation_fn=nn.Tanh,
-            # Use plain dict (not list-of-dict) — required by SB3 >= v1.8.0
+            # Use plain dict (not list-of-dict) -- required by SB3 >= v1.8.0
             net_arch=dict(pi=[128, 128], vf=[128, 128]),
             ortho_init=True
         )
@@ -138,13 +160,13 @@ def main():
             "MlpPolicy",
             vec_env,
             learning_rate=lr_schedule,
-            n_steps=2048,
+            n_steps=512,
             batch_size=256,
             n_epochs=10,
             gamma=0.99,
             gae_lambda=0.95,
             clip_range=0.2,
-            ent_coef=0.01,       # Entropy bonus: prevents premature convergence in binary action space
+            ent_coef=0.02,       # Entropy bonus: higher exploration for fresh training
             target_kl=0.03,
             policy_kwargs=policy_kwargs,
             device="cuda",

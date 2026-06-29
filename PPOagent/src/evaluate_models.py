@@ -17,60 +17,131 @@ def run_evaluation_task(args):
     df = evaluate_model_on_seed(model_name, model_type, route_file, seed, cycle_time, model_path, use_gui)
     return model_name, seed, df
 
-def get_mp_pressures(sumo):
-    phase_lanes = {
-        0: ["n_to_center_3", "s_to_center_3"],
-        1: ["n_to_center_1", "n_to_center_2", "s_to_center_1", "s_to_center_2"],
-        2: ["e_to_center_3", "w_to_center_3"],
-        3: ["e_to_center_1", "e_to_center_2", "w_to_center_1", "w_to_center_2"],
-    }
-    pressures = {}
-    for phase, lanes in phase_lanes.items():
-        pressures[phase] = sum(sumo.lane.getLastStepVehicleNumber(lane) for lane in lanes)
-    return pressures
-
-
-
 def evaluate_mp_on_seed(route_file, seed, use_gui=False):
+    """
+    Max-Pressure baseline with camera constraints, matching the PPO agent's field of view.
+
+    Parameters
+    ----------
+    CAMERA_RANGE : metres from the stop line within which vehicles are visible.
+    MIN_GREEN    : minimum green duration before a switch is allowed.
+    MAX_GREEN    : safety cap -- forces a phase change after this many seconds.
+    YELLOW_TIME  : fixed yellow-transition duration.
+
+    Pressure formula (per phase j):
+        P_j = Σ ( V_in(lane) − V_out(lane) )
+    where V_in  = vehicles in incoming green lanes within CAMERA_RANGE of stop line
+          V_out = vehicles in downstream (outgoing) lanes within CAMERA_RANGE of the
+                  intersection entry point.
+    Only vehicles within the camera's field of view are counted; all others are
+    treated as invisible, exactly as in the PPO agent's observation.
+
+    Phase -> lane mapping (derived from connections.con.xml):
+        Phase 0 -- N/S left-turns
+            in : n_to_center_3, s_to_center_3
+            out: center_to_e_3, center_to_w_3
+        Phase 1 -- N/S straight
+            in : n_to_center_1, n_to_center_2, s_to_center_1, s_to_center_2
+            out: center_to_s_1, center_to_s_2, center_to_n_1, center_to_n_2
+        Phase 2 -- E/W left-turns
+            in : e_to_center_3, w_to_center_3
+            out: center_to_s_3, center_to_n_3
+        Phase 3 -- E/W straight
+            in : e_to_center_1, e_to_center_2, w_to_center_1, w_to_center_2
+            out: center_to_w_1, center_to_w_2, center_to_e_1, center_to_e_2
+    """
+    # -- Parameters --------------------------------------------------------------
+    CAMERA_RANGE = 100        # metres
+    MIN_GREEN    = 10         # seconds
+    MAX_GREEN    = 60         # seconds (safety cap)
+    YELLOW_TIME  = 3          # seconds
+    DELTA_TIME   = 5          # seconds per decision step
+
     GREEN_STATES = {
         0: "grrGgrrrgrrGgrrr",
         1: "gGGrgrrrgGGrgrrr",
         2: "grrrgrrGgrrrgrrG",
         3: "grrrgGGrgrrrgGGr",
     }
-    MIN_GREEN    = 10
-    MAX_GREEN    = 60   # physical constraint: prevents phase starvation
-    YELLOW_TIME  = 3
-    DELTA_TIME   = 5
 
+    # Incoming and outgoing lanes for each valid phase (from connections.con.xml)
+    PHASE_LANES = {
+        0: {
+            "in":  ["n_to_center_3", "s_to_center_3"],
+            "out": ["center_to_e_3", "center_to_w_3"],
+        },
+        1: {
+            "in":  ["n_to_center_1", "n_to_center_2", "s_to_center_1", "s_to_center_2"],
+            "out": ["center_to_s_1", "center_to_s_2", "center_to_n_1", "center_to_n_2"],
+        },
+        2: {
+            "in":  ["e_to_center_3", "w_to_center_3"],
+            "out": ["center_to_s_3", "center_to_n_3"],
+        },
+        3: {
+            "in":  ["e_to_center_1", "e_to_center_2", "w_to_center_1", "w_to_center_2"],
+            "out": ["center_to_w_1", "center_to_w_2", "center_to_e_1", "center_to_e_2"],
+        },
+    }
+
+    # -- SUMO setup ---------------------------------------------------------------
     base_env = create_sumo_env(
         net_file=r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\network.net.xml",
         route_file=route_file,
-        use_gui=False,
+        use_gui=use_gui,
         sumo_seed=seed
     )
     base_env.reset()
-    sumo = base_env.unwrapped.sumo
-    ts_id = list(base_env.unwrapped.traffic_signals.keys())[0]
+    sumo    = base_env.unwrapped.sumo
+    ts_id   = list(base_env.unwrapped.traffic_signals.keys())[0]
+    ts_obj  = base_env.unwrapped.traffic_signals[ts_id]
 
-    current_phase   = 0
-    elapsed_green   = 0
-    sim_time        = 0
-    sim_end         = base_env.unwrapped.sim_max_time
+    # Cache lane lengths to avoid repeated TraCI calls
+    _lane_len_cache = {}
 
-    sumo.trafficlight.setRedYellowGreenState(ts_id, GREEN_STATES[current_phase])
+    def _lane_length(lane_id):
+        if lane_id not in _lane_len_cache:
+            _lane_len_cache[lane_id] = sumo.lane.getLength(lane_id)
+        return _lane_len_cache[lane_id]
 
-    queues        = []
-    waiting_times = []
-    max_wait_times = []
-    episode_peak  = 0.0
-    total_switches = 0
-    total_arrived = 0
+    # -- Camera-filtered vehicle counts -------------------------------------------
+    def _count_incoming(lane_id):
+        """Vehicles within CAMERA_RANGE of the stop line on an incoming lane.
 
-    ts_obj = base_env.unwrapped.traffic_signals[ts_id]
+        Stop line is at the far end of the lane (position = lane_length).
+        A vehicle at position p is (lane_length - p) metres from the stop line.
+        Visible if: lane_length - p <= CAMERA_RANGE  ->  p >= lane_length - CAMERA_RANGE
+        """
+        threshold = max(0.0, _lane_length(lane_id) - CAMERA_RANGE)
+        return sum(
+            1 for v in sumo.lane.getLastStepVehicleIDs(lane_id)
+            if sumo.vehicle.getLanePosition(v) >= threshold
+        )
 
+    def _count_outgoing(lane_id):
+        """Vehicles within CAMERA_RANGE of the intersection entry on an outgoing lane.
+
+        Outgoing lanes start at the intersection (position 0).
+        A vehicle at position p is p metres from the entry point.
+        Visible if: p <= CAMERA_RANGE
+        """
+        return sum(
+            1 for v in sumo.lane.getLastStepVehicleIDs(lane_id)
+            if sumo.vehicle.getLanePosition(v) <= CAMERA_RANGE
+        )
+
+    # -- Pressure computation -----------------------------------------------------
+    def _compute_pressures():
+        """P_j = Σ(V_in − V_out) for each phase, camera-range constrained."""
+        result = {}
+        for phase, lanes in PHASE_LANES.items():
+            v_in  = sum(_count_incoming(l) for l in lanes["in"])
+            v_out = sum(_count_outgoing(l) for l in lanes["out"])
+            result[phase] = v_in - v_out
+        return result
+
+    # -- Yellow-transition helpers -------------------------------------------------
     def _compute_yellow_state(from_state, to_state):
-        """Safe per-character yellow transition: G/g→r becomes y, else keep from-char."""
         yellow = []
         for f, t in zip(from_state, to_state):
             if f.lower() in ('g', 'y') and t == 'r':
@@ -88,25 +159,57 @@ def evaluate_mp_on_seed(route_file, seed, use_gui=False):
             sim_time += 1
         sumo.trafficlight.setRedYellowGreenState(ts_id, GREEN_STATES[to_phase])
 
+    # -- State --------------------------------------------------------------------
+    current_phase = 0
+    elapsed_green = 0
+    sim_time      = 0
+    sim_end       = base_env.unwrapped.sim_max_time
+
+    sumo.trafficlight.setRedYellowGreenState(ts_id, GREEN_STATES[current_phase])
+
+    queues         = []
+    waiting_times  = []
+    max_wait_times = []
+    episode_peak   = 0.0
+    total_switches = 0
+    total_arrived  = 0
+
+    # -- Main simulation loop ------------------------------------------------------
     while sim_time < sim_end:
-        pressures = get_mp_pressures(sumo)
-        best_phase = max(pressures, key=pressures.get)
+        # Step 1 -- Re-assert current green state so SUMO's internal TL timer
+        #          cannot override our manually set state between decisions.
+        sumo.trafficlight.setRedYellowGreenState(ts_id, GREEN_STATES[current_phase])
 
-        force_switch = elapsed_green >= MAX_GREEN
-        want_switch  = best_phase != current_phase and elapsed_green >= MIN_GREEN
+        # Step 2 -- Safety check: only consider switching after MIN_GREEN has elapsed.
+        if elapsed_green >= MIN_GREEN:
+            # Step 3 -- Sensor read + pressure computation (camera-constrained).
+            pressures = _compute_pressures()
 
-        if force_switch or want_switch:
-            # When forced, pick the highest-pressure phase that isn't current
-            if force_switch and best_phase == current_phase:
-                best_phase = max(
-                    (p for p in pressures if p != current_phase),
-                    key=pressures.get
-                )
-            _apply_yellow_then_green(current_phase, best_phase)
-            current_phase = best_phase
-            elapsed_green = 0
-            total_switches += 1
+            # Step 4 -- Select action: phase with maximum pressure score.
+            best_phase = max(pressures, key=pressures.get)
 
+            # Step 5 -- Execute transition.
+            force_switch = elapsed_green >= MAX_GREEN
+
+            # Only switch on genuine pressure advantage -- ties keep the current phase.
+            # Without this guard, dict ordering makes max() always return phase 0 on
+            # equal pressures, starving phases 1-3 to just MIN_GREEN each.
+            want_switch = (
+                best_phase != current_phase
+                and pressures[best_phase] > pressures[current_phase]
+            )
+
+            if force_switch or want_switch:
+                if not want_switch:
+                    # Force-switch: cycle to next phase in round-robin order so all
+                    # phases are guaranteed service when pressures are equal.
+                    best_phase = (current_phase + 1) % 4
+                _apply_yellow_then_green(current_phase, best_phase)
+                current_phase = best_phase
+                elapsed_green = 0
+                total_switches += 1
+
+        # Advance simulation by one DELTA_TIME window
         for _ in range(DELTA_TIME):
             if sim_time >= sim_end:
                 break
@@ -114,13 +217,11 @@ def evaluate_mp_on_seed(route_file, seed, use_gui=False):
             sim_time += 1
         elapsed_green += DELTA_TIME
 
+        # -- Metrics collection ------------------------------------------------
         try:
-            total_queued = sum(ts_obj.get_lanes_queue())
-            total_wait   = sum(ts_obj.get_accumulated_waiting_time_per_lane())
-            all_waits    = [
-                sumo.vehicle.getWaitingTime(v)
-                for v in sumo.vehicle.getIDList()
-            ]
+            total_queued  = sum(ts_obj.get_lanes_queue())
+            total_wait    = sum(ts_obj.get_accumulated_waiting_time_per_lane())
+            all_waits     = [sumo.vehicle.getWaitingTime(v) for v in sumo.vehicle.getIDList()]
             step_max_wait = max(all_waits) if all_waits else 0.0
         except Exception:
             total_queued  = 0
@@ -139,13 +240,13 @@ def evaluate_mp_on_seed(route_file, seed, use_gui=False):
 
     base_env.close()
     return pd.DataFrame({
-        "step":                    range(0, len(queues) * DELTA_TIME, DELTA_TIME),
-        "system_total_stopped":    queues,
+        "step":                      range(0, len(queues) * DELTA_TIME, DELTA_TIME),
+        "system_total_stopped":      queues,
         "system_total_waiting_time": waiting_times,
-        "system_max_wait_time":    max_wait_times,
-        "episode_peak_max_wait":   [episode_peak] * len(queues),
-        "total_switches":          [total_switches] * len(queues),
-        "total_arrived":           [total_arrived] * len(queues),
+        "system_max_wait_time":      max_wait_times,
+        "episode_peak_max_wait":     [episode_peak]   * len(queues),
+        "total_switches":            [total_switches]  * len(queues),
+        "total_arrived":             [total_arrived]   * len(queues),
     })
 
 
@@ -230,7 +331,7 @@ def evaluate_model_on_seed(model_name, model_type, route_file, seed, cycle_time=
             scalar_action = action[0] if isinstance(action, (list, np.ndarray)) else action
             if scalar_action == 1:
                 total_switches += 1
-        # Unified info extraction — handles both raw env and VecEnv (list of dicts)
+        # Unified info extraction -- handles both raw env and VecEnv (list of dicts)
         if model_type == "fixed":
             current_max_wait = info.get("max_vehicle_wait_time", 0.0)
         elif model_type == "ppo":
@@ -392,9 +493,10 @@ def main():
     parser.add_argument("--seeds", type=int, default=5, help="Number of seeds to run (set to 1 when using GUI for quicker tests)")
     args = parser.parse_args()
 
-    # Create a unique timestamped folder for this specific evaluation run
+    # Create a unique timestamped folder in PPOagent/results/ (one level up from src/)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    eval_dir = os.path.join("results", f"eval_{timestamp}")
+    _ppo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    eval_dir = os.path.join(_ppo_root, "results", f"eval_{timestamp}")
     os.makedirs(eval_dir, exist_ok=True)
     
     # Save the seeds configuration for future reproducibility
@@ -420,7 +522,7 @@ def main():
     ]
     
     import glob
-    # Search BOTH models/ and checkpoints/ — always take the most recently written file
+    # Search BOTH models/ and checkpoints/ -- always take the most recently written file
     # so the evaluator uses the current run's 21-dim model, not an old 13-dim checkpoint.
     all_zips = (
         glob.glob(os.path.join("models", "ppo_model_*.zip")) +
