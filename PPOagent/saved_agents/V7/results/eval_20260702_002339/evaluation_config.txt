@@ -1,0 +1,3 @@
+Run: 20260702_002339
+Seeds: [42, 123, 1337, 2026, 9999]
+Agent: V7 (diff_wait + starvation@45s + idle_switch_penalty + camera150m)

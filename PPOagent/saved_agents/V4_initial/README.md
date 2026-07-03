@@ -1,50 +1,62 @@
-# V4 Initial — Best Known Agent Snapshot
+# V4 Initial
 
-Saved: 2026-06-29  
-Model ID: 20260628_013031  
-Training: 6M steps, fresh from random weights
+**Model ID:** 20260628_013031  
+**Training:** ~4M steps fresh from random weights  
+**Restored from:** `PPOagent/results/eval_20260628_113537/` (original eval snapshot)
 
-## Results (5-seed average)
+## Results (5-seed average, confirmed twice)
 
-| Scenario | PPO V4 | Fixed_60s | Result |
-|----------|--------|-----------|--------|
-| Low      | 68M    | 4.6M      | ❌ Losing |
-| Medium   | 24.7M  | 27.0M     | ✅ Winning (-9%) |
-| High     | 61.8M  | 64.3M     | ✅ Winning (-4%) |
+| Scenario | PPO V4 | Fixed_60s | Gap |
+|----------|--------|-----------|-----|
+| Low      | 68.3M  | 4.6M      | ❌ -1385% |
+| Medium   | 24.7M  | 27.0M     | ✅ +8.8% |
+| High     | 61.8M  | 64.3M     | ✅ +3.9% |
 
-First agent in the project to beat any baseline model.
+First agent to beat any baseline. Low traffic is structurally unsolvable with
+diff_waiting_time alone (near-zero gradient in sparse traffic).
 
-## Files
+## Additional training runs (from this base)
+
+| Run | Extra steps | Low | Medium | High |
+|-----|------------|-----|--------|------|
+| +6M steps (equal thirds) | 6M | 38.6M | 23.2M ✅ | 61.8M ✅ |
+| +3M low50weighted | 3M | 39.2M | **21.6M ✅** | 61.8M ✅ |
+
+Best combined result: Low=39.2M, Medium=21.6M, High=61.8M
+
+## Environment
+
+- Reward: `diff_waiting_time = (prev_total_wait - current_wait) / num_lanes`
+- Observation: 21-dim `[phase(4), elapsed(1), lane_demands(8), lane_starvation(8)]`
+- Camera: full lane (no range limit)
+- Starvation penalty in reward: NO (starvation only in observation)
+- Action masking: MIN_GREEN=10s, MAX_GREEN=60s
+
+## Hyperparameters
+
+| Param | Value |
+|-------|-------|
+| learning_rate | 3e-4 → 0.0 linear |
+| ent_coef | 0.02 |
+| n_steps | 512 |
+| batch_size | 256 |
+| n_epochs | 10 |
+| gamma | 0.99 |
+| gae_lambda | 0.95 |
+| net_arch | [128, 128] Tanh |
+
+## Scripts
 
 | File | Purpose |
 |------|---------|
-| `ppo_model_V4_initial.zip` | Trained model weights |
-| `vec_normalize_V4_initial.pkl` | Observation normalization stats (must be loaded together with the model) |
-| `train_production_V4.py` | Exact training script used to produce this agent |
-| `sumo_rl_env_V4.py` | Exact environment (diff_waiting_time reward, fixed MIN_GREEN=10) |
-| `evaluate_models_V4.py` | Evaluation script |
+| `sumo_rl_env_V4.py` | Environment (diff_waiting_time, no starvation penalty) |
+| `train_V4_initial.py` | Fresh training, equal-thirds routing |
+| `train_V4_initial_low50weighted.py` | Resume with 50% low-traffic route probability |
+| `evaluate_V4.py` | Evaluation script |
 
-## Key config for this agent
-
-- Reward: `diff_waiting_time = (prev_total_wait - current_wait) / num_lanes`
-- Action masking: MIN_GREEN=10 fixed, MAX_GREEN=60 (no dynamic MIN_GREEN)
-- Observation: 21-dim (phase one-hot [4], elapsed [1], demand [8], starvation [8])
-- ent_coef: 0.02 | learning_rate: 3e-4 → 0 linear | n_steps: 512 | batch_size: 256
-
-## How to resume training from this snapshot
+## How to evaluate
 
 ```
-cd PPOagent/src
-python train_production.py --resume ..\saved_agents\V4_initial\ppo_model_V4_initial.zip --timesteps 3000000
+cd PPOagent/saved_agents/V4_initial
+python evaluate_V4.py --seeds 5
 ```
-
-## How to evaluate this snapshot
-
-```
-cd PPOagent/src
-python evaluate_models.py --model ..\saved_agents\V4_initial\ppo_model_V4_initial.zip --vec-normalize ..\saved_agents\V4_initial\vec_normalize_V4_initial.pkl --seeds 5
-```
-
-## Why this was saved
-
-The V4 resume (6M additional steps) regressed performance — medium/high traffic got worse and low traffic collapsed to 495M. This snapshot is the fallback if V5 or future experiments do not beat these results.

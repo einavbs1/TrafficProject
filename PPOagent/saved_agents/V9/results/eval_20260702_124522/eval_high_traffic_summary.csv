@@ -1,0 +1,6 @@
+Model,Total_Wait_Time,Peak_Max_Wait_s
+Maskable_PPO_V9,59382698.2,0.0
+Fixed_60s,64284917.4,0.0
+Fixed_45s,80248446.6,0.0
+Fixed_30s,126369455.4,0.0
+Max_Pressure,1183692052.4,15100.6

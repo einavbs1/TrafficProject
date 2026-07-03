@@ -1,0 +1,6 @@
+Model,Total_Wait_Time,Wait_Per_Vehicle,Peak_Max_Wait_s,Switch_Rate_per100s,Total_Arrived
+Fixed_60s,64284917.4,37271.0,0.0,1.7,1724.8
+Maskable_PPO_V6_camera,67023441.2,38559.0,0.0,5.4,1738.2
+Fixed_45s,80120218.0,46302.0,0.0,2.2,1730.4
+Fixed_30s,125880708.8,72554.0,0.0,3.3,1735.0
+Max_Pressure,1183692052.4,1122834.0,15100.6,3.5,1054.2

@@ -203,31 +203,131 @@ Pressure = (red - green) = negative. Agent immediately wants to switch. Trigger 
 
 ---
 
-## V6 (new) — diff_waiting_time + Starvation Penalty — saved_agents/V6/
-**Date:** 2026-06-29
-**Total Wait:** PENDING — training in progress
-**Status:** Training
+## V6 Camera — diff_waiting_time + Starvation Penalty + 100m Camera — saved_agents/V6/
+**Date:** 2026-07-01  
+**Total Wait:** Low=4.66M ✅ | Medium=26.9M ✅ | High=67.0M ❌  
+**vs Fixed_60s (Low=4.61M / Med=27.0M / High=64.3M):** Low −1% ❌ | Med +0.5% ✅ | High −4.3% ❌  
+**Status:** Complete. Breakthrough on low traffic. High traffic regressed due to 100m camera cutoff.
 
-### Changes from V4 (FRESH TRAINING)
-| What | V4 | V6 (new) |
-|------|-----|----------|
+### Changes from V4 (FRESH TRAINING, 6M steps)
+| What | V4 | V6-camera |
+|------|-----|-----------|
+| Camera range | Full lane | **100m from stop line** |
 | Reward | `diff_waiting_time` only | `diff_waiting_time - starvation_penalty` |
 | starvation_penalty | — | `max(starvation_score_per_lane_group) * 0.05` |
 | starvation_score | observation only | `min(max_consecutive_wait_in_group / 90s, 1.0)` |
+| STARVATION_THRESHOLD | 90s (obs only) | 90s |
 
-### Why this should fix low-traffic failures
-V4 low-traffic failures: diff_waiting_time ≈ 0 in sparse conditions → no gradient signal.
-Agent sometimes locks onto one direction, starving others → seed variance 4M to 923M (23x!).
-The starvation penalty fires proportionally to any vehicle's consecutive wait:
-  - 1 vehicle waiting 45s  → penalty = -0.025 per step (non-zero gradient)
-  - 1 vehicle waiting 90s  → penalty = -0.05 per step (max, clear push to serve that lane)
-  - Dense traffic: diff_waiting_time = -1 to -10 per step → penalty is secondary (1-5%)
-Hypothesis: adding this small, consistent signal will prevent catastrophic starvation
-without disrupting the well-converged medium/high policy.
+### Key results
+- Low traffic: 68M → **4.66M** (15x improvement). Starvation penalty gave non-zero gradient in sparse traffic.
+- High traffic: 61.8M → **67.0M** (regression). 100m camera blind to queue buildup beyond stop line vicinity.
+- Switch rate: 5.7/100s vs Fixed_60s 1.7/100s — higher but still reasonable.
 
 ### New evaluation metrics added
 - Wait_Per_Vehicle = Total_Wait_Time / Total_Arrived (volume-normalized)
 - Switch_Rate_per100s = Total_Switches / 200 (diagnostic for over/under-switching)
+
+### Root cause of high traffic regression
+Dense queues extend beyond 100m from the stop line. V6-camera's observation misses the
+full queue length — it "sees" a shorter queue and under-reacts to congestion building far back.
+V7 raises camera to 150m to fix this.
+
+---
+
+## V7 — Starvation@45s + 150m Camera + Idle Switch Penalty — saved_agents/V7/
+**Date:** 2026-07-01  
+**Total Wait (best, 4.7M steps):** Low=4.66M ❌ | Medium=25.9M ✅ | High=62.2M ✅  
+**Status:** Complete at 4.7M steps. Beat Fixed_60s on Medium+High; Low 1% behind.
+
+### Changes from V6-camera (FRESH TRAINING)
+| What | V6-camera | V7 |
+|------|-----------|-----|
+| Camera range | 100m | **150m** |
+| Starvation threshold | 90s | **45s** (fires earlier, stronger early signal) |
+| Idle switch penalty | — | **0.03 when intersection is empty** |
+
+### Why each change
+- **150m camera**: Fix V6-camera high traffic regression. 150m captures full near-intersection queue. WORKED — High 67.0M → 62.2M.
+- **45s threshold**: Stronger early starvation gradient. Neutral — Low unchanged vs V6.
+- **Idle switch penalty (-0.03)**: FAILED — too weak, absorbed into gradient noise. Low identical to V6 (4.66M). Led directly to V8's hard mask.
+
+### V7 Resume Incident (2026-07-02) — CRITICAL LESSON
+Original training crashed at 4.7M before saving VecNormalize stats. A resume
+run silently created FRESH normalization stats → observation distribution
+shifted under the trained policy → total collapse after 1.2M more steps
+(Low 4.66M→35.4M, Med 25.9M→62.1M, High 62.2M→77.0M). The resume run's
+checkpoints also overwrote the original run's 100k-1.2M checkpoints.
+The good 4.7M checkpoint was restored from `checkpoints/`.
+
+**Fixes applied to ALL training scripts:**
+1. `save_vecnormalize=True` — every checkpoint saves matching stats
+2. Hard abort if resuming without the matching stats .pkl
+3. Resume runs get their own checkpoint filename prefix (no overwrites)
+4. Crash recovery: if no final model but checkpoints exist, training
+   auto-continues from the latest checkpoint with the original LR schedule
+   and step counter (use `--fresh` to override)
+
+---
+
+## V8 — Hard Empty-Intersection Mask — saved_agents/V8/ ← CHAMPION 🏆
+**Date:** 2026-07-02  
+**Model:** 20260702_011233 (6M steps fresh)  
+**Total Wait:** Low=2.29M ✅ | Medium=17.3M ✅ | High=59.2M ✅  
+**vs Fixed_60s:** Low **-50%** | Medium **-36%** | High **-8%**  
+**Status:** FIRST AGENT TO BEAT ALL BASELINES IN ALL SCENARIOS.
+
+### Changes from V7 (FRESH TRAINING, 6M steps)
+| What | V7 | V8 |
+|------|-----|-----|
+| Idle switch penalty | -0.03 (soft, in reward) | **Removed** |
+| Empty intersection rule | Penalty only | **Hard mask: Switch blocked when total_visible == 0** |
+| batch_size | 256 | 512 (hardware optimization) |
+
+### Why the hard mask won where the penalty failed
+The -0.03 penalty was invisible next to the diff_waiting_time signal. The hard
+mask removes the action entirely — consistent with MIN_GREEN/MAX_GREEN philosophy
+(structural constraints, not penalties). The policy never wastes a single
+gradient step learning "don't switch at nothing."
+
+### Behavioral evidence (low traffic, 5-seed avg)
+| Metric | V8 | Fixed_60s |
+|--------|-----|-----------|
+| Switch rate /100s | **0.4** | 1.7 |
+| Wait per vehicle | **3,293s** | 6,602s |
+
+The agent holds green on an empty intersection indefinitely and switches only
+when a real vehicle needs service — impossible for any fixed-cycle controller.
+
+---
+
+## V9 — De-saturated Observation — saved_agents/V9/ — HYPOTHESIS REJECTED
+**Date:** 2026-07-02  
+**Total Wait:** Low=2.78M | Medium=17.29M | High=59.38M  
+**Status:** No improvement over V8. Kept for the record; V8 stays champion.
+
+### Change from V8 (FRESH TRAINING, 6M steps, camera stays 150m)
+| What | V8 | V9 |
+|------|-----|-----|
+| Starvation obs | `min(wait/45s, 1)` (saturates) | `log(1+wait)/log(1+300s)` |
+| Total-wait obs | — | NEW 8 dims, log-normalized |
+| Observation | 21-dim | 29-dim |
+| Reward / mask | — | unchanged |
+
+### Hypothesis (rejected)
+In extreme traffic the 150m camera saturates → all demand+starvation dims read
+1.0 → agent can't prioritize. De-saturating the observation should improve High.
+
+### Why it failed — the key finding
+V9 High is identical to V8 seed-by-seed, with the SAME bimodal split
+(3 seeds ≈57M, 2 seeds ≈63M). The split tracks the SUMO demand seed, not the
+policy. **The high-traffic ceiling is demand-driven (queuing physics when
+demand ≈ capacity), not perception-driven.** Extra obs dims also slightly hurt
+Low (2.29M→2.78M) by adding noise to an already-solved scenario.
+
+**Implication:** V8's -7.9% on High is near the practical ceiling for signal
+control on this map. Future high-traffic gains, if any, must come from the
+demand/capacity side (e.g. coordinating multiple intersections), not from a
+smarter single-intersection observation.
 
 ---
 

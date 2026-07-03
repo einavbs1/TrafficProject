@@ -1,0 +1,4 @@
+Run: 20260701_072958
+Seeds: [42, 123, 1337, 2026, 9999]
+Agent: V6-camera (diff_waiting_time + starvation_penalty + CAMERA_RANGE=100m)
+Extra metrics: Wait_Per_Vehicle, Switch_Rate_per100s

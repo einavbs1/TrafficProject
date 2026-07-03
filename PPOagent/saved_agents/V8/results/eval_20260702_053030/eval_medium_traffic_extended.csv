@@ -1,0 +1,6 @@
+Model,Total_Wait_Time,Wait_Per_Vehicle,Peak_Max_Wait_s,Switch_Rate_per100s,Total_Arrived
+Maskable_PPO_V8,17315661.8,16611.0,0.0,0.4,1042.4
+Fixed_60s,27017519.6,25829.0,0.0,1.7,1046.0
+Fixed_45s,32728343.8,31271.0,0.0,2.2,1046.6
+Fixed_30s,45118318.0,42548.0,0.0,3.3,1060.4
+Max_Pressure,572592833.2,734282.0,8110.0,3.4,779.8
