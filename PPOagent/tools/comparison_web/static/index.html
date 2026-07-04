@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowGrid -- Model Comparison</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <img src="/static/logo.png" class="logo" alt="FlowGrid">
+  </header>
+
+  <div class="page">
+
+    <section class="card">
+      <h2><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Models to Compare</h2>
+      <div id="models-list" class="models-list"></div>
+      <div class="add-row">
+        <input id="model-path-input" type="text"
+               placeholder="Absolute path to a .zip, e.g. ...\saved_agents\V8_replicate\models\ppo_model_...zip">
+        <button id="add-model-btn" class="btn">+ Add Model</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="8.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="15.5" r="1.3" fill="currentColor" stroke="none"/></svg>Baselines to Include</h2>
+      <div id="baselines-list" class="models-list"></div>
+    </section>
+
+    <section class="card run-config">
+      <div class="config-col">
+        <h2><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="7" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="7" cy="17" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="17" r="1.4" fill="currentColor" stroke="none"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg>Seeds</h2>
+        <div class="segmented" id="seed-mode-toggle">
+          <button class="seg-btn active" data-value="random">Random</button>
+          <button class="seg-btn" data-value="manual">Manual</button>
+        </div>
+        <div id="random-seed-controls" class="sub-controls">
+          <label>Count: <input id="seed-count" type="number" min="1" max="50" value="5"></label>
+        </div>
+        <div id="manual-seed-controls" class="sub-controls" style="display:none;">
+          <div class="add-row">
+            <input id="seed-value-input" type="number" placeholder="e.g. 42">
+            <button id="add-seed-btn" class="btn btn-small">Add</button>
+          </div>
+          <div id="seed-chips" class="chips"></div>
+        </div>
+      </div>
+      <div class="config-col">
+        <h2><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20 L10 4 H14 L20 20"/><path d="M7.5 13 H16.5"/></svg>Scenario</h2>
+        <div class="segmented" id="scenario-toggle">
+          <button class="seg-btn active" data-value="Low">Low</button>
+          <button class="seg-btn" data-value="Medium">Medium</button>
+          <button class="seg-btn" data-value="High">High</button>
+          <button class="seg-btn" data-value="All">All</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card start-card">
+      <p id="estimate-text" class="muted"></p>
+      <label class="watch-live-row">
+        <input type="checkbox" id="watch-live-checkbox">
+        <span>Watch Live (opens a real SUMO window)</span>
+      </label>
+      <p class="muted watch-live-help">
+        Requires exactly 1 seed and one specific scenario (not "All"). Any number of
+        models/baselines run one at a time, one visible window at a time.
+      </p>
+      <div class="start-row">
+        <button id="start-btn" class="btn btn-primary btn-big">Start Comparison</button>
+        <div id="progress-wrap" class="progress-wrap" style="display:none;">
+          <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+          <span id="progress-text" class="muted"></span>
+        </div>
+      </div>
+      <p id="current-task-text" class="current-task"></p>
+      <p id="status-message" class="status-message"></p>
+    </section>
+
+    <section class="card results-box">
+      <h2><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19 V5 M4 19 H20"/><rect x="7" y="12" width="3" height="7"/><rect x="12.5" y="8" width="3" height="11"/><rect x="18" y="4" width="3" height="15"/></svg>Results</h2>
+      <div id="results-content">
+        <p class="muted placeholder">Run a comparison to see results here.</p>
+      </div>
+    </section>
+
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

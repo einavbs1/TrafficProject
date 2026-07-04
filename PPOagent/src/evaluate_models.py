@@ -238,6 +238,18 @@ def evaluate_mp_on_seed(route_file, seed, use_gui=False):
         waiting_times.append(total_wait)
         max_wait_times.append(step_max_wait)
 
+        # Stop immediately once the road is genuinely empty: no vehicles left
+        # AND none still expected to depart later in this route file. Total
+        # wait/arrived can't change after this point either way -- this just
+        # skips simulating an empty network for the remainder of sim_end,
+        # which matters a lot for Watch Live (a real SUMO window sitting on
+        # an empty intersection for thousands of steps otherwise).
+        try:
+            if sumo.simulation.getMinExpectedNumber() == 0:
+                break
+        except Exception:
+            pass
+
     base_env.close()
     return pd.DataFrame({
         "step":                      range(0, len(queues) * DELTA_TIME, DELTA_TIME),
@@ -355,6 +367,17 @@ def evaluate_model_on_seed(model_name, model_type, route_file, seed, cycle_time=
         
         queues.append(total_queued)
         waiting_times.append(total_wait)
+
+        # Stop immediately once the road is genuinely empty: no vehicles left
+        # AND none still expected to depart later in this route file. Same
+        # reasoning as evaluate_mp_on_seed's early-stop -- total wait/arrived
+        # can't change after this point, it just wastes time (and, for Watch
+        # Live, leaves a real SUMO window sitting on an empty intersection).
+        try:
+            if base_env.unwrapped.sumo.simulation.getMinExpectedNumber() == 0:
+                done_flag = True
+        except Exception:
+            pass
 
     env.close()
     

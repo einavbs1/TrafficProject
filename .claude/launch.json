@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "comparison-web",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["PPOagent/tools/comparison_web/server.py"],
+      "port": 8000
+    }
+  ]
+}
