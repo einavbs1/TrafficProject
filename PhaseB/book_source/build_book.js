@@ -282,12 +282,12 @@ const references = [
 const appendixA = [
   new Paragraph({ children: [new PageBreak()] }),
   h1("Appendix A, User Guide"),
-  p("This guide describes the normal, successful operating flow of the FlowGrid comparison tool (available as both a desktop application and a browser based application, with an identical feature set). It intentionally does not cover error conditions or unusual inputs, only the flow a user follows to get a result."),
+  p("This appendix is a condensed version of the project's standalone User Guide, delivered alongside this book as PhaseB/User_Guide.docx, which additionally covers system requirements, installation, a quick start walkthrough, the original DQN agent's own tools, and a troubleshooting section. What follows here covers the normal, successful operating flow of the current agent's comparison tool (available as both a desktop application and a browser based application, with an identical feature set)."),
   h2("A.1 Starting the Application"),
-  bullet("Desktop version: run comparison_gui.py from the project's tools folder. The application window opens directly."),
-  bullet("Web version: run server.py from the comparison_web folder; a browser tab opens automatically at the local address shown in the terminal."),
+  bullet("Desktop version: run comparison_gui.py from PPO_Agent/scripts. The application window opens directly."),
+  bullet("Web version: run server.py from PPO_Agent/scripts/comparison_web; a browser tab opens automatically at the local address shown in the terminal."),
   h2("A.2 Selecting Models to Compare"),
-  p("The Models panel lists every trained agent currently registered, with the project's champion model pre selected. Tick the checkbox beside any additional model you want included in the comparison. To compare against an agent not yet in the list, use \"Add Model\" and browse to its saved file; it will appear in the list immediately and persist for future sessions."),
+  p("The Models panel lists every trained agent currently registered, with the project's champion model pre selected. Tick the checkbox beside any additional model you want included in the comparison. To compare against an agent not yet in the list, use \"Add Model\" and browse to its saved file (default location: PPO_Agent/models); it will appear in the list immediately and persist for future sessions."),
   h2("A.3 Selecting Baselines"),
   p("The Baselines panel lists the fixed time controllers available for comparison (30, 45, and 60 second cycles). Tick any you want included alongside the selected model(s)."),
   h2("A.4 Choosing Seeds and a Traffic Scenario"),
@@ -296,6 +296,8 @@ const appendixA = [
   p("Click \"Start Comparison.\" A progress indicator tracks how many of the required simulation runs have completed. Optionally, tick \"Watch Live\" beforehand (with exactly one seed and one specific scenario selected) to have the actual SUMO simulation window open and play out visibly while the comparison runs, rather than entirely in the background."),
   h2("A.6 Reading the Results"),
   p("Once complete, a results table appears for each tested scenario, listing every selected model and baseline with its total waiting time for each seed and an overall average. The best performing entry in each table is highlighted, and a bar chart beneath the table gives the same comparison visually."),
+  h2("A.7 The Original DQN Agent's Own Tools"),
+  p("The project's original agent, DQN_Agent, has its own separate desktop application (DQN_Agent/gui) and browser dashboard (DQN_Agent/web), including a Compare tab with the same fair, same traffic comparison logic. See PhaseB/User_Guide.docx (Section 6) and DQN_Agent/docs for details."),
 ];
 
 //                                                                            
@@ -303,24 +305,27 @@ const appendixA = [
 //                                                                            
 const appendixB = [
   new Paragraph({ children: [new PageBreak()] }),
-  h1("Appendix B, Maintenance Guide"),
-  p("This guide covers what is needed to continue developing, retraining, or extending this project after its initial delivery. It assumes familiarity with standard Python development and does not cover installing well known general purpose infrastructure (Python itself, Git, a code editor) in detail."),
+  h1("Appendix B, Developer / Maintenance Guide"),
+  p("This appendix is a condensed version of the project's standalone Developer Guide, delivered alongside this book as PhaseB/Developer_Guide.docx, which additionally covers the full system architecture, a complete repository map, a code walkthrough of both agents, the project's evaluation methodology in detail, known limitations, and the coding conventions used throughout this codebase. What follows here covers what is needed to continue developing, retraining, or extending this project after its initial delivery. It assumes familiarity with standard Python development."),
   h2("B.1 Required Environment"),
   bullet("Python 3.10, with the packages listed in the project's requirements file (notably: Stable-Baselines3, sb3-contrib, sumo-rl, pandas, matplotlib, seaborn, customtkinter, FastAPI, uvicorn)."),
   bullet("SUMO (Simulation of Urban Mobility), including its Python/TraCI and libsumo bindings, installed and available on the system path."),
   bullet("A multi core CPU is strongly recommended: training and full evaluation sweeps run ten parallel simulation instances by default."),
   h2("B.2 Project Specific Installation"),
-  p("Clone the project's Git repository, then install Python dependencies from the included requirements file into a virtual environment. No project specific installation step beyond this is required, the environment and training scripts locate the SUMO network and route files via paths defined in the code."),
+  p("Clone the project's Git repository, then install Python dependencies from the included requirements file into a virtual environment. No project specific installation step beyond this is required, the environment and training scripts locate the SUMO network and route files via paths defined in the code, anchored at the project root's SharedData folder."),
   h2("B.3 Project Structure, at a Glance"),
-  bullet("Each trained agent version lives in its own folder under saved_agents/, containing its environment definition, training script, saved checkpoints, and evaluation results, never overwritten by later versions."),
-  bullet("Shared, version agnostic tools (comparison applications, evaluation sweeps, plotting utilities) live in a common tools/ folder and are reused across every agent version."),
-  bullet("A version history document records every major iteration, what changed, and why, and should be extended rather than replaced when a new version is added."),
+  bullet("PPO_Agent/ holds the final, submitted agent (V8): scripts/ has every runnable tool, models/ and checkpoints/ the trained weights, results/ every evaluation run performed against it."),
+  bullet("DQN_Agent/ holds the project's original, self contained agent, with its own flowgrid/ package, gui/, web/, and scripts/."),
+  bullet("Old_Versions/ preserves every earlier or alternate agent version, each self contained in its own folder, never overwritten by later versions."),
+  bullet("A version history document (PPO_Agent/docs/PPO_VERSION_HISTORY.md) records every major PPO iteration, what changed, and why, and should be extended rather than replaced when a new version is added."),
   h2("B.4 Retraining or Extending the Agent"),
-  p("To train a new version, copy an existing version's folder rather than modifying it in place, update its internal import references to point to the copy, and adjust the training script's hyperparameters as needed. This preserves every previous version as a working fallback. Never resume training an existing checkpoint after changing its reward function or observation definition; train a fresh agent from random initialization instead, since resuming under a changed definition has previously produced a full, unrecoverable policy collapse."),
+  p("To train a new version, copy PPO_Agent/scripts/ into a new folder under Old_Versions/PPO/ rather than modifying PPO_Agent/ in place, update its internal import references to point to the copy, and adjust the training script's hyperparameters as needed. This preserves the current submitted agent as a working reference. Never resume training an existing checkpoint after changing its reward function or observation definition; train a fresh agent from random initialization instead, since resuming under a changed definition has previously produced a full, unrecoverable policy collapse."),
   h2("B.5 Adding a New Baseline or Comparison Target"),
-  p("New fixed time or rule based baselines can be added by extending the baseline list used by the evaluation tools; each baseline needs only a name and, for fixed time controllers, a cycle length, since the comparison tools handle result collection and reporting generically."),
+  p("New fixed time or rule based baselines can be added by extending AVAILABLE_BASELINES in comparison_core.py; each baseline needs only a name and, for fixed time controllers, a cycle length, since the comparison tools handle result collection and reporting generically."),
   h2("B.6 Running an Evaluation Sweep"),
   p("The project's evaluation tools support a dry run mode that reports exactly how many simulation runs a given sweep will perform and how long it is expected to take, without executing anything, always run this first before committing to a long sweep. Sweeps also write partial results incrementally as they progress and can be resumed from where they left off if interrupted."),
+  h2("B.7 Evaluation Methodology"),
+  p("This project's evaluation rigor escalated deliberately over its course: from a couple of fixed seeds during early development, to fifty independently drawn seeds when a specific comparison needed more confidence, to a fully unfiltered methodology in which every saved checkpoint is evaluated against its own freshly drawn random seed and scenario, nothing reused, nothing cherry picked. Any future evaluation work on this codebase should adopt this final, most rigorous methodology from the outset rather than repeat that escalation."),
 ];
 
 //
