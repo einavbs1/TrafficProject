@@ -1,2 +1,9 @@
-FinalProjectBook/node_modules/
-FinalProjectBook/~$*.docx
+PhaseB/book_source/node_modules/
+PhaseB/~$*.docx
+PhaseB/book_source/~$*.docx
+__pycache__/
+*.pyc
+
+.claude/
+.cursor/
+.agents/

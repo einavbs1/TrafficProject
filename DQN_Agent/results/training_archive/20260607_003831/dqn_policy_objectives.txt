@@ -1,0 +1,23 @@
+Policy: FlowGrid intersection DQN
+Config: C:\Users\Einavs_PC\Documents\TrafficProject\data\defaults\dqn_policy_config.yaml
+PRIMARY (maximize reward ≈ minimize): Maximize throughput and frequent control decisions to prevent starvation and enable early gap-out
+Secondary:
+  - Minimize waiting time for all vehicles, with modest extra weight for bus and emergency
+  - Reward vehicles that clear the intersection (throughput-first flow)
+  - Balance wait across N, S, E, W without overpowering delay
+  - Avoid queue spillback without freezing the signal (proportional penalties)
+Hard rules (not learned):
+  - Action masking — agent cannot select illegal phase switches
+  - Phase ring: N_ALL → S_ALL → E_ALL → W_ALL (thru + left per arm, not dual-left splits)
+  - Dynamic min green: max(safety_min, min(min_green_cap, cars*sec_per_car)) — cap is a floor, not fixed phase length
+  - Agent may hold green longer than min green cap unless max_green is set
+  - Baseline compare: fixed seconds per phase; DQN compare reloads identical snapshot traffic
+  - Bulk-first actuated switching when switching is allowed
+  - Bus/emergency: next green when switching (min green respected); no instant phase cut
+Reward priority: spillback > delay_delta (all vehicles + bus/emergency extras) > total_wait penalty > drain bonus > throughput > fairness (capped)
+Action masking: invalid switch requests penalized without phase change
+Actions:
+  0 = Hold current green (only valid action when switch is masked)
+  1 = Advance phase (masked when min green / bulk rules block switch)
+
+Updated: 2026-06-07T00:37:06+03:00
