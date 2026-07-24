@@ -1,0 +1,1 @@
+{"event": "episode", "timestamp": "2026-05-22T19:30:16+03:00", "episode": 104, "reward_total": -11285.820000000012, "total_wait": 0.0, "epsilon": 0.3516092065580223, "reward_components": {"spillback": 0.0, "delay_delta": 0.0, "throughput": 11.5, "fairness": -11297.320000000003, "switch": 0.0, "invalid_action": 0.0}, "actions": {"hold": 55, "advance": 122, "invalid": 0}}

@@ -1,0 +1,3 @@
+Run: 20260629_235614
+Seeds: [42, 123, 1337, 2026, 9999]
+Agent: V4 initial (diff_waiting_time)

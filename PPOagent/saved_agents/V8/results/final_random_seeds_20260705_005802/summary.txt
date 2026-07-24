@@ -1,0 +1,23 @@
+Rows so far: 60   (53/60 beat ALL 3 fixed timers, 88.3%)
+
+Low traffic (20 random draws so far):
+  vs Fixed_30s: 19/20 wins (95.0%)
+  vs Fixed_45s: 19/20 wins (95.0%)
+  vs Fixed_60s: 15/20 wins (75.0%)
+Medium traffic (20 random draws so far):
+  vs Fixed_30s: 19/20 wins (95.0%)
+  vs Fixed_45s: 19/20 wins (95.0%)
+  vs Fixed_60s: 19/20 wins (95.0%)
+High traffic (20 random draws so far):
+  vs Fixed_30s: 20/20 wins (100.0%)
+  vs Fixed_45s: 19/20 wins (95.0%)
+  vs Fixed_60s: 19/20 wins (95.0%)
+
+7/60 checkpoints (so far) lost to at least one fixed timer on their random draw (full list, nothing excluded):
+  step   100,000  scenario=Low     seed=129691  ppo_wait=101,470,136  pct_vs_30/45/60s=-660.5/-1016.3/-1700.1
+  step   200,000  scenario=Medium  seed=888224  ppo_wait=64,875,502  pct_vs_30/45/60s=-40.1/-92.8/-126.5
+  step   300,000  scenario=High    seed=718913  ppo_wait=113,919,094  pct_vs_30/45/60s=7.2/-44.1/-81.6
+  step 1,000,000  scenario=Low     seed=898164  ppo_wait=4,382,117  pct_vs_30/45/60s=73.9/38.1/-3.8
+  step 2,500,000  scenario=Low     seed=738537  ppo_wait=3,835,232  pct_vs_30/45/60s=64.5/21.7/-7.7
+  step 2,800,000  scenario=Low     seed=963277  ppo_wait=4,135,507  pct_vs_30/45/60s=65.2/30.6/-11.7
+  step 3,100,000  scenario=Low     seed=738060  ppo_wait=3,895,958  pct_vs_30/45/60s=74.4/33.7/-8.1

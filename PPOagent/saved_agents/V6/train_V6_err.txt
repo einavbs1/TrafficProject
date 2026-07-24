@@ -1,0 +1,120 @@
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\site-packages\stable_baselines3\common\utils.py:193: UserWarning: get_linear_fn() is deprecated, please use LinearSchedule() instead
+  warnings.warn("get_linear_fn() is deprecated, please use LinearSchedule() instead")
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Warning: Environment variable SUMO_HOME is not set properly, disabling XML validation. Set 'auto' or 'always' for web lookups.
+Process SpawnProcess-6:
+Process SpawnProcess-1:
+Process SpawnProcess-10:
+Process SpawnProcess-7:
+Traceback (most recent call last):
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+Traceback (most recent call last):
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\site-packages\stable_baselines3\common\vec_env\subproc_vec_env.py", line 43, in _worker
+    remote.send((observation, reward, done, info, reset_info))
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+Process SpawnProcess-3:
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\connection.py", line 206, in send
+    self._send_bytes(_ForkingPickler.dumps(obj))
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\site-packages\stable_baselines3\common\vec_env\subproc_vec_env.py", line 43, in _worker
+    remote.send((observation, reward, done, info, reset_info))
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\connection.py", line 280, in _send_bytes
+    ov, err = _winapi.WriteFile(self._handle, buf, overlapped=True)
+Traceback (most recent call last):
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\site-packages\stable_baselines3\common\vec_env\subproc_vec_env.py", line 43, in _worker
+    remote.send((observation, reward, done, info, reset_info))
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\connection.py", line 206, in send
+    self._send_bytes(_ForkingPickler.dumps(obj))
+BrokenPipeError: [WinError 232] The pipe is being closed
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\connection.py", line 206, in send
+    self._send_bytes(_ForkingPickler.dumps(obj))
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\site-packages\stable_baselines3\common\vec_env\subproc_vec_env.py", line 43, in _worker
+    remote.send((observation, reward, done, info, reset_info))
+Process SpawnProcess-8:
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\connection.py", line 280, in _send_bytes
+    ov, err = _winapi.WriteFile(self._handle, buf, overlapped=True)
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\site-packages\stable_baselines3\common\vec_env\subproc_vec_env.py", line 43, in _worker
+    remote.send((observation, reward, done, info, reset_info))
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\connection.py", line 206, in send
+    self._send_bytes(_ForkingPickler.dumps(obj))
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\connection.py", line 280, in _send_bytes
+    ov, err = _winapi.WriteFile(self._handle, buf, overlapped=True)
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\connection.py", line 280, in _send_bytes
+    ov, err = _winapi.WriteFile(self._handle, buf, overlapped=True)
+BrokenPipeError: [WinError 232] The pipe is being closed
+BrokenPipeError: [WinError 232] The pipe is being closed
+Traceback (most recent call last):
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\site-packages\stable_baselines3\common\vec_env\subproc_vec_env.py", line 43, in _worker
+    remote.send((observation, reward, done, info, reset_info))
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\connection.py", line 206, in send
+    self._send_bytes(_ForkingPickler.dumps(obj))
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\connection.py", line 280, in _send_bytes
+    ov, err = _winapi.WriteFile(self._handle, buf, overlapped=True)
+BrokenPipeError: [WinError 232] The pipe is being closed
+BrokenPipeError: [WinError 232] The pipe is being closed
+Process SpawnProcess-9:
+Traceback (most recent call last):
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\site-packages\stable_baselines3\common\vec_env\subproc_vec_env.py", line 43, in _worker
+    remote.send((observation, reward, done, info, reset_info))
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\connection.py", line 206, in send
+    self._send_bytes(_ForkingPickler.dumps(obj))
+  File "C:\Users\Einavs_PC\AppData\Local\Programs\Python\Python310\lib\multiprocessing\connection.py", line 280, in _send_bytes
+    ov, err = _winapi.WriteFile(self._handle, buf, overlapped=True)
+BrokenPipeError: [WinError 232] The pipe is being closed
+Error: tcpip::Socket::recvAndCheck @ recv: Socket reset by peer
+Quitting (on error).
+Error: tcpip::Socket::recvAndCheck @ recv: Socket reset by peer
+Quitting (on error).
+Error: tcpip::Socket::recvAndCheck @ recv: Socket reset by peer
+Quitting (on error).
+Error: tcpip::Socket::recvAndCheck @ recv: Socket reset by peer
+Quitting (on error).
+Error: tcpip::Socket::recvAndCheck @ recv: Socket reset by peer
+Quitting (on error).
+Error: tcpip::Socket::recvAndCheck @ recv: Socket reset by peer
+Quitting (on error).

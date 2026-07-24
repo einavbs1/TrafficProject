@@ -1,0 +1,6 @@
+Model,Total_Wait_Time,Peak_Max_Wait_s
+Maskable_PPO_V6_camera,26879486.8,0.0
+Fixed_60s,27017519.6,0.0
+Fixed_45s,32728343.8,0.0
+Fixed_30s,45071000.0,0.0
+Max_Pressure,572592833.2,8110.0
