@@ -1,10 +1,14 @@
 const fs = require("fs");
+const path = require("path");
 const {
   Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType,
   PageBreak, TableOfContents, Header, Footer, PageNumber, ImageRun,
   Table, TableRow, TableCell, WidthType, ShadingType, BorderStyle,
   LevelFormat, convertInchesToTwip
 } = require("docx");
+
+// __dirname = PhaseB/book_source/; project root is two levels up.
+const PROJECT_ROOT = path.join(__dirname, "..", "..");
 
 const FONT = "Calibri";
 const SIZE = 24; // 12pt in half points
@@ -81,7 +85,7 @@ function simpleTable(headerRow, rows, colWidths) {
   });
 }
 
-const logoBuffer = fs.readFileSync("C:\\Users\\Einavs_PC\\Documents\\TrafficProject\\LOGO1.png");
+const logoBuffer = fs.readFileSync(path.join(PROJECT_ROOT, "LOGO1.png"));
 
 function coverPage(title, subtitle) {
   return [
@@ -101,6 +105,8 @@ function coverPage(title, subtitle) {
       children: [new TextRun({ text: "Advisor: ", font: FONT, size: SIZE, bold: true }), new TextRun({ text: "Dr. Cohen Reuven", font: FONT, size: SIZE, bold: true, color: "1F2D3D" })] }),
     new Paragraph({ spacing: { before: 400, after: 100 }, alignment: AlignmentType.CENTER,
       children: [new TextRun({ text: "Git Repository: ", font: FONT, size: 20 }), new TextRun({ text: "https://github.com/einavbs1/FlowGrid", font: FONT, size: 20, color: "1F2D3D" })] }),
+    new Paragraph({ spacing: { after: 100 }, alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: "Demo Video: ", font: FONT, size: 20 }), new TextRun({ text: "https://drive.google.com/file/d/1BE3oeGWWbVrQEC_ZL0rVh5AdPs9kDNTY/view", font: FONT, size: 20, color: "1F2D3D" })] }),
     new Paragraph({ children: [new PageBreak()] }),
   ];
 }
@@ -134,9 +140,9 @@ function buildDoc(fileName, bodySections) {
     }],
   });
   Packer.toBuffer(doc).then(buffer => {
-    fs.writeFileSync("../" + fileName, buffer);
+    fs.writeFileSync(path.join(__dirname, "..", fileName), buffer);
     console.log("Written: " + fileName);
   });
 }
 
-module.exports = { p, para, h1, h2, h3, bullet, code, note, warning, simpleTable, coverPage, toc, buildDoc, logoBuffer, FONT, SIZE };
+module.exports = { p, para, h1, h2, h3, bullet, code, note, warning, simpleTable, coverPage, toc, buildDoc, logoBuffer, FONT, SIZE, fs, path, ImageRun, AlignmentType };

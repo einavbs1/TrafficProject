@@ -1,10 +1,15 @@
 import json
+import os
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-with open(r"C:\Users\Einavs_PC\Documents\TrafficProject\DQNagent\data\reports\reports\comparison_history.json",
-          encoding="utf-8") as f:
+# __file__ = PhaseB/book_source/plot_dqn_inconsistency.py; project root is two levels up.
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_PROJECT_ROOT = os.path.join(_HERE, "..", "..")
+_COMPARISON_HISTORY = os.path.join(_PROJECT_ROOT, "SharedData", "reports", "comparison_history.json")
+
+with open(_COMPARISON_HISTORY, encoding="utf-8") as f:
     data = json.load(f)
 
 records = [r for r in data["records"] if r.get("map_name") != "Test"]
@@ -33,5 +38,5 @@ legend_elems = [
 ]
 plt.legend(handles=legend_elems, loc="lower left")
 plt.tight_layout()
-plt.savefig(r"C:\Users\Einavs_PC\Documents\TrafficProject\FinalProjectBook\dqn_inconsistency_chart.png", dpi=130)
+plt.savefig(os.path.join(_HERE, "dqn_inconsistency_chart.png"), dpi=130)
 print("saved")
