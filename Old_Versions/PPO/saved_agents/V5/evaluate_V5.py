@@ -1,4 +1,6 @@
-﻿"""
+import os
+_MAPS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "SharedData", "maps", "flowgrid")
+"""
 V5 Evaluation Script â€” run from THIS folder.
 
     cd PPOagent/saved_agents/V5
@@ -49,9 +51,9 @@ def main():
     print(f"Model: {model_path}")
 
     maps = [
-        {"name": "Low_Traffic",    "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes.rou.xml"},
-        {"name": "Medium_Traffic", "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_hard.rou.xml"},
-        {"name": "High_Traffic",   "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_extreme.rou.xml"},
+        {"name": "Low_Traffic",    "route": os.path.join(_MAPS_DIR, "routes.rou.xml")},
+        {"name": "Medium_Traffic", "route": os.path.join(_MAPS_DIR, "routes_hard.rou.xml")},
+        {"name": "High_Traffic",   "route": os.path.join(_MAPS_DIR, "routes_extreme.rou.xml")},
     ]
     models_to_test = [
         {"name": "Maskable_PPO_V5", "type": "ppo",   "path": model_path},

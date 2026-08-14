@@ -185,11 +185,11 @@ def main():
         staged = stage_checkpoint(stage_dir, steps, zpath, pkl)
         for scen, route in SCENARIOS:
             for seed in args.seeds:
-                tasks.append((f"ck{steps}|{scen}", "ppo", route, seed, None, staged, False))
+                tasks.append((f"ck{steps}|{scen}", "ppo", route, seed, None, staged, False, None))
     for ct in FIXED_TIMERS:
         for scen, route in SCENARIOS:
             for seed in seeds_to_run_fixed:
-                tasks.append((f"Fixed_{ct}s|{scen}", "fixed", route, seed, ct, None, False))
+                tasks.append((f"Fixed_{ct}s|{scen}", "fixed", route, seed, ct, None, False, None))
 
     print(f"\nRunning {len(tasks)} episodes on {args.workers} workers ...", flush=True)
     rows = []

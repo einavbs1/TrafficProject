@@ -1,12 +1,11 @@
 """
 Comparison Core -- shared, UI-agnostic logic for comparing PPO checkpoints.
 
-Used by BOTH comparison_gui.py (Tkinter) and comparison_web/server.py
-(FastAPI) so neither duplicates the registry/task-building/evaluation logic.
-Nothing in this module depends on Tkinter, FastAPI, or any other UI layer --
-`run_comparison`'s only requirement on its `sink` argument is that it have a
-`.put(msg_dict)` method, so a real `queue.Queue` (Tkinter) or any other
-thread-safe sink (e.g. the web app's JobState) both work unmodified.
+Used by comparison_web/server.py (FastAPI), FlowGrid's PPO interface, so the
+registry/task-building/evaluation logic lives in exactly one place. Nothing
+in this module depends on FastAPI or any other UI layer -- `run_comparison`'s
+only requirement on its `sink` argument is that it have a `.put(msg_dict)`
+method, satisfied here by the web app's JobState.
 
 HARD CONSTRAINT: evaluate_models.py resolves its environment class via
 `from sumo_rl_env import ...`, a process-wide import cached the first time it
@@ -30,7 +29,7 @@ from sweep_aggregate import SCENARIOS
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import pandas as pd
 
-REGISTRY_PATH      = os.path.join(_HERE, "comparison_gui_models.json")
+REGISTRY_PATH      = os.path.join(_HERE, "model_registry.json")
 DEFAULT_MODEL_NAME = "PPO_Agent_V8"
 DEFAULT_MODEL_PATH = os.path.join(_VDIR, "models", "ppo_model_20260702_011233.zip")
 EST_MIN_PER_EPISODE = 2.5
@@ -93,12 +92,17 @@ def describe_task(label):
     return f"{name} -- {scen} traffic (seed {seed})"
 
 
-def build_tasks(models, seeds, scenario_names, baselines=None, use_gui=False):
+def build_tasks(models, seeds, scenario_names, baselines=None, use_gui=False, live_state=None):
     """models: list of {"name", "path"}; scenario_names: e.g. ["Low", "High"];
     baselines: list of entries from AVAILABLE_BASELINES (or a matching dict),
     added alongside the PPO models using the same "fixed"/"mp" model types
     evaluate_models.py already supports. use_gui: threaded into every task's
     last slot -- True opens a real SUMO window per episode (see run_comparison's
+    live_state: a multiprocessing.Manager().dict() proxy, only meaningful
+    (and only ever paired with a single task) when use_gui=True -- lets the
+    evaluation subprocess publish live per-direction queue/signal state back
+    to the server process while the episode runs. None for normal headless
+    comparisons.
     max_workers note: only ever run with max_workers=1 when use_gui=True)."""
     scen_lookup = dict(SCENARIOS)
     tasks = []
@@ -108,12 +112,12 @@ def build_tasks(models, seeds, scenario_names, baselines=None, use_gui=False):
         for m in models:
             for seed in seeds:
                 label = f"{scen}|{m['name']}|{seed}"
-                tasks.append((label, "ppo", route, seed, None, m["path"], use_gui))
+                tasks.append((label, "ppo", route, seed, None, m["path"], use_gui, live_state))
                 task_meta[label] = (scen, m["name"], seed)
         for b in (baselines or []):
             for seed in seeds:
                 label = f"{scen}|{b['name']}|{seed}"
-                tasks.append((label, b["type"], route, seed, b.get("cycle_time"), None, use_gui))
+                tasks.append((label, b["type"], route, seed, b.get("cycle_time"), None, use_gui, live_state))
                 task_meta[label] = (scen, b["name"], seed)
     return tasks, task_meta
 

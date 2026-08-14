@@ -9,28 +9,32 @@
 <body>
   <header class="topbar">
     <img src="/static/logo.png" class="logo" alt="FlowGrid">
+    <button id="tour-btn" class="tour-btn" title="Show me around">? Guide</button>
   </header>
 
   <div class="page">
 
-    <section class="card">
+    <section class="card" data-tour-step="1" data-tour-title="Models to Compare">
       <h2><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Models to Compare</h2>
+      <p class="muted help-text">Tick the trained agents you want to test. The project's champion model is ticked by default. Add another saved .zip checkpoint's full path below to test it alongside.</p>
       <div id="models-list" class="models-list"></div>
       <div class="add-row">
         <input id="model-path-input" type="text"
-               placeholder="Absolute path to a .zip, e.g. ...\saved_agents\V8_replicate\models\ppo_model_...zip">
+               placeholder="Absolute path to a .zip, e.g. ...\Old_Versions\PPO\saved_agents\V8_replicate\models\ppo_model_...zip">
         <button id="add-model-btn" class="btn">+ Add Model</button>
       </div>
     </section>
 
-    <section class="card">
+    <section class="card" data-tour-step="2" data-tour-title="Baselines to Include">
       <h2><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="8.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="15.5" r="1.3" fill="currentColor" stroke="none"/></svg>Baselines to Include</h2>
+      <p class="muted help-text">Plain, non-learned traffic lights to compare against, each running a fixed cycle of the given length in seconds. Tick any you want included; the trained agent's whole point is to beat these.</p>
       <div id="baselines-list" class="models-list"></div>
     </section>
 
     <section class="card run-config">
-      <div class="config-col">
+      <div class="config-col" data-tour-step="3" data-tour-title="Seeds">
         <h2><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="7" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="7" cy="17" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="17" r="1.4" fill="currentColor" stroke="none"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg>Seeds</h2>
+        <p class="muted help-text">A seed fixes the exact traffic (which cars, when) so every model and baseline faces the identical situation. Random: generate that many fresh, never-used seeds. Manual: type specific seed numbers to reproduce an exact past result.</p>
         <div class="segmented" id="seed-mode-toggle">
           <button class="seg-btn active" data-value="random">Random</button>
           <button class="seg-btn" data-value="manual">Manual</button>
@@ -46,8 +50,9 @@
           <div id="seed-chips" class="chips"></div>
         </div>
       </div>
-      <div class="config-col">
+      <div class="config-col" data-tour-step="4" data-tour-title="Scenario">
         <h2><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20 L10 4 H14 L20 20"/><path d="M7.5 13 H16.5"/></svg>Scenario</h2>
+        <p class="muted help-text">How much traffic to simulate. Low: light, sparse traffic. Medium: typical, steady traffic. High: heavy, near-saturating traffic. All: run all three in one comparison (Watch Live needs exactly one, not All).</p>
         <div class="segmented" id="scenario-toggle">
           <button class="seg-btn active" data-value="Low">Low</button>
           <button class="seg-btn" data-value="Medium">Medium</button>
@@ -57,15 +62,16 @@
       </div>
     </section>
 
-    <section class="card start-card">
+    <section class="card start-card" data-tour-step="5" data-tour-title="Watch Live and Start">
       <p id="estimate-text" class="muted"></p>
       <label class="watch-live-row">
         <input type="checkbox" id="watch-live-checkbox">
         <span>Watch Live (opens a real SUMO window)</span>
       </label>
-      <p class="muted watch-live-help">
+      <p class="muted watch-live-help help-text">
         Requires exactly 1 seed and one specific scenario (not "All"). Any number of
-        models/baselines run one at a time, one visible window at a time.
+        models/baselines run one at a time, one visible window at a time. When you are
+        ready, click Start Comparison below to run every selected model and baseline.
       </p>
       <div class="start-row">
         <button id="start-btn" class="btn btn-primary btn-big">Start Comparison</button>
@@ -78,8 +84,9 @@
       <p id="status-message" class="status-message"></p>
     </section>
 
-    <section class="card results-box">
+    <section class="card results-box" data-tour-step="6" data-tour-title="Reading the Results">
       <h2><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19 V5 M4 19 H20"/><rect x="7" y="12" width="3" height="7"/><rect x="12.5" y="8" width="3" height="11"/><rect x="18" y="4" width="3" height="15"/></svg>Results</h2>
+      <p class="muted help-text">Once a run finishes, a table appears here for each tested scenario: total waiting time per seed and an overall average for every model and baseline. The best (lowest) average in each table is highlighted, with a bar chart below it for a quick visual comparison. Lower is better.</p>
       <div id="results-content">
         <p class="muted placeholder">Run a comparison to see results here.</p>
       </div>
@@ -87,5 +94,6 @@
 
   </div>
   <script src="/static/app.js"></script>
+  <script src="/static/tour.js"></script>
 </body>
 </html>

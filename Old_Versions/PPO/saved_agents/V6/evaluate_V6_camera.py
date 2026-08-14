@@ -10,6 +10,8 @@ evaluate_models.py resolves to the camera-limited environment, not src/sumo_rl_e
 Auto-finds latest model from ./models/
 Saves results to ./results/
 """
+import os
+_MAPS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "SharedData", "maps", "flowgrid")
 import os, sys, glob, shutil
 from datetime import datetime
 import pandas as pd
@@ -89,11 +91,11 @@ def main():
 
     maps = [
         {"name": "Low_Traffic",
-         "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes.rou.xml"},
+         "route": os.path.join(_MAPS_DIR, "routes.rou.xml")},
         {"name": "Medium_Traffic",
-         "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_hard.rou.xml"},
+         "route": os.path.join(_MAPS_DIR, "routes_hard.rou.xml")},
         {"name": "High_Traffic",
-         "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_extreme.rou.xml"},
+         "route": os.path.join(_MAPS_DIR, "routes_extreme.rou.xml")},
     ]
 
     models_to_test = [

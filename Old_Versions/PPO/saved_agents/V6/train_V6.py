@@ -10,6 +10,8 @@ Outputs:
 
 V6 change from V4: diff_waiting_time + starvation_penalty reward.
 """
+import os
+_MAPS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "SharedData", "maps", "flowgrid")
 import os, sys, glob, shutil
 from datetime import datetime
 import torch
@@ -74,11 +76,11 @@ def main():
         agent_id = datetime.now().strftime("%Y%m%d_%H%M%S")
         print(f"Fresh V6 agent: {agent_id}")
 
-    net_file = r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\network.net.xml"
+    net_file = os.path.join(_MAPS_DIR, "network.net.xml")
     route_files = [
-        r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes.rou.xml",
-        r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_hard.rou.xml",
-        r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_extreme.rou.xml",
+        os.path.join(_MAPS_DIR, "routes.rou.xml"),
+        os.path.join(_MAPS_DIR, "routes_hard.rou.xml"),
+        os.path.join(_MAPS_DIR, "routes_extreme.rou.xml"),
     ]
     num_cpu = 10
     vec_env = SubprocVecEnv([make_env(net_file, route_files) for _ in range(num_cpu)])

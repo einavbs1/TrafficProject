@@ -1,3 +1,5 @@
+import os
+_MAPS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "SharedData", "maps", "flowgrid")
 import argparse
 import torch
 from sb3_contrib import MaskablePPO
@@ -14,8 +16,8 @@ def train_online_ppo():
     args = parser.parse_args()
 
     base_env = create_sumo_env(
-        net_file=r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\network.net.xml",
-        route_file=r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes.rou.xml",
+        net_file=os.path.join(_MAPS_DIR, "network.net.xml"),
+        route_file=os.path.join(_MAPS_DIR, "routes.rou.xml"),
         use_gui=args.gui
     )
     env = ActionMaskerWrapper(base_env)

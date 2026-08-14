@@ -51,7 +51,8 @@ class DummyObservationFunction(ObservationFunction):
         return spaces.Box(low=0.0, high=1.0, shape=(1,), dtype=np.float32)
 
 
-def create_sumo_env(net_file, route_file, use_gui=False, out_csv_name=None, sumo_seed="random"):
+def create_sumo_env(net_file, route_file, use_gui=False, out_csv_name=None, sumo_seed="random",
+                     additional_sumo_cmd=None):
     if not use_gui:
         os.environ["LIBSUMO_AS_TRACI"] = "1"
     elif "LIBSUMO_AS_TRACI" in os.environ:
@@ -70,7 +71,8 @@ def create_sumo_env(net_file, route_file, use_gui=False, out_csv_name=None, sumo
         min_green=10,
         max_green=60,
         delta_time=5,
-        single_agent=True
+        single_agent=True,
+        additional_sumo_cmd=additional_sumo_cmd,
     )
     return env
 

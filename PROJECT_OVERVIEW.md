@@ -123,7 +123,7 @@ reward = diff_wait - starvation_penalty
 
 ## 3. DQN (secondary subject)
 
-**Folder:** `DQN_Agent/flowgrid/` (separate codebase/package from `PPO_Agent/`)
+**Folder:** `Old_Versions/DQN_Agent/flowgrid/` (separate codebase/package from `PPO_Agent/`)
 
 ### 3.1 MDP formulation
 - **State (10-dim, normalized to [0,1])**: 8 queue counts (one per

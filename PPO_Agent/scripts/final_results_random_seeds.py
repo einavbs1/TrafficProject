@@ -317,11 +317,11 @@ def main():
     for (steps, zpath, pkl), (scen, route), seed in assignments:
         staged = stage_checkpoint(stage_dir, steps, zpath, pkl)
         label_ppo = f"ck{steps}|ppo"
-        tasks.append((label_ppo, "ppo", route, seed, None, staged, False))
+        tasks.append((label_ppo, "ppo", route, seed, None, staged, False, None))
         task_meta[label_ppo] = (steps, scen, seed)
         for ct in FIXED_TIMERS:
             label_fixed = f"ck{steps}|fixed{ct}"
-            tasks.append((label_fixed, "fixed", route, seed, ct, None, False))
+            tasks.append((label_fixed, "fixed", route, seed, ct, None, False, None))
             task_meta[label_fixed] = (steps, scen, seed)
 
     # Crash-safe incremental writer: append a checkpoint's row to

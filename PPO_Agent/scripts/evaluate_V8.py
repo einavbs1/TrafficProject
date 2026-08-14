@@ -13,6 +13,8 @@ import pandas as pd
 
 _HERE       = os.path.dirname(os.path.abspath(__file__))
 _ROOT       = os.path.abspath(os.path.join(_HERE, ".."))   # PPO_Agent root
+_PROJECT_ROOT = os.path.abspath(os.path.join(_HERE, "..", ".."))   # TrafficProject root
+_MAPS_DIR   = os.path.join(_PROJECT_ROOT, "SharedData", "maps", "flowgrid")
 MODELS_DIR  = os.path.join(_ROOT, "models")
 RESULTS_DIR = os.path.join(_ROOT, "results")
 
@@ -74,12 +76,9 @@ def main():
     print(f"Model: {model_path}")
 
     maps = [
-        {"name": "Low_Traffic",
-         "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes.rou.xml"},
-        {"name": "Medium_Traffic",
-         "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_hard.rou.xml"},
-        {"name": "High_Traffic",
-         "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_extreme.rou.xml"},
+        {"name": "Low_Traffic", "route": os.path.join(_MAPS_DIR, "routes.rou.xml")},
+        {"name": "Medium_Traffic", "route": os.path.join(_MAPS_DIR, "routes_hard.rou.xml")},
+        {"name": "High_Traffic", "route": os.path.join(_MAPS_DIR, "routes_extreme.rou.xml")},
     ]
     models_to_test = [
         {"name": "Maskable_PPO_V8", "type": "ppo",   "path": model_path},

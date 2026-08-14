@@ -3,6 +3,8 @@ Quick MP verification: runs evaluate_mp_on_seed on 2 seeds per traffic level
 to confirm the halting-vehicle fix + TL re-assertion + dynamic MIN_GREEN work.
 Takes ~5 minutes. Run this while the main training job is in progress.
 """
+import os
+_MAPS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "SharedData", "maps", "flowgrid")
 import sys
 import os
 sys.path.insert(0, os.path.dirname(__file__))
@@ -10,9 +12,9 @@ sys.path.insert(0, os.path.dirname(__file__))
 from evaluate_models import evaluate_mp_on_seed
 
 ROUTE_FILES = {
-    "Low":    r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes.rou.xml",
-    "Medium": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_hard.rou.xml",
-    "High":   r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_extreme.rou.xml",
+    "Low":    os.path.join(_MAPS_DIR, "routes.rou.xml"),
+    "Medium": os.path.join(_MAPS_DIR, "routes_hard.rou.xml"),
+    "High":   os.path.join(_MAPS_DIR, "routes_extreme.rou.xml"),
 }
 SEEDS = [1337, 42]  # seed 1337 worked before; seed 42 was broken
 

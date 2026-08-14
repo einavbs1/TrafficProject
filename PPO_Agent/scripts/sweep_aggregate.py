@@ -10,10 +10,14 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+# PPO_Agent/scripts/ -> PPO_Agent -> project root (two levels up)
+_PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+_MAPS_DIR = os.path.join(_PROJECT_ROOT, "SharedData", "maps", "flowgrid")
+
 SCENARIOS = [
-    ("Low",    r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes.rou.xml"),
-    ("Medium", r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_hard.rou.xml"),
-    ("High",   r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_extreme.rou.xml"),
+    ("Low",    os.path.join(_MAPS_DIR, "routes.rou.xml")),
+    ("Medium", os.path.join(_MAPS_DIR, "routes_hard.rou.xml")),
+    ("High",   os.path.join(_MAPS_DIR, "routes_extreme.rou.xml")),
 ]
 FIXED_TIMERS = [30, 45, 60]
 

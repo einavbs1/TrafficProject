@@ -4,12 +4,15 @@ This is the trained reinforcement learning agent that controls the FlowGrid
 intersection: a Maskable PPO policy trained on SUMO's ground-truth traffic
 state. It is the only PPO version carried forward into the final submission;
 every earlier iteration (V4 through V9, plus two longer-training experiments)
-is preserved for reference under `../Old_Versions/PPO/`.
+is preserved for reference under `../Old_Versions/PPO/`, alongside the
+project's original agent, `../Old_Versions/DQN_Agent/`.
 
 ## What's in this folder
 
-- `scripts/` — everything you run: training, evaluation, and the two
-  comparison apps (desktop GUI and browser). See below.
+- `run_web.bat` / `run_web.vbs` — double-click to launch the comparison app.
+  This is FlowGrid's PPO interface; start here.
+- `scripts/` — everything you run: training, evaluation, and the browser
+  comparison app itself. See below.
 - `models/`, `checkpoints/` — the trained agent. `models/ppo_model_20260702_011233.zip`
   (+ its matching `vec_normalize_20260702_011233.pkl`) is the champion model
   used everywhere in the submitted book and poster. `checkpoints/` holds a
@@ -56,15 +59,24 @@ python final_results_random_seeds.py --version-dir ..
 Crash-safe: re-running with `--resume <out_dir>` continues an interrupted
 run instead of restarting it.
 
-**Launch the comparison tools** (pick any trained model, any traffic
-scenario, any seed — including one typed in on the spot — and watch the
-result, optionally live in an actual SUMO window):
+**Launch the comparison app** — FlowGrid's PPO interface: pick any trained
+model, any traffic scenario, any seed (including one typed in on the spot),
+and watch the result, optionally live in an actual SUMO window. Double-click
+`run_web.bat` right in the `PPO_Agent/` folder (or `run_web.vbs` for no
+console window), or run it directly:
 ```
-python comparison_gui.py                 # desktop app (Tkinter)
-cd comparison_web && python server.py    # browser app (opens automatically)
+cd comparison_web && python server.py    # opens your browser automatically
 ```
-Both share the same underlying logic (`comparison_core.py`) and read/write
-the same model registry, `comparison_gui_models.json`.
+The app includes a built-in guided tour (top-right "? Guide" button) that
+walks through every field on first load and any time you reopen it. Its
+logic lives in `comparison_core.py`, shared with the CLI sweep tools below,
+and it reads/writes the model registry, `model_registry.json` (regenerated
+automatically per machine, not checked into git).
+
+This is a developer-only tool for comparing checkpoints. For a
+customer-facing dashboard with one junction wired to this same agent live,
+see `../FlowGrid_Web/` (`../FlowGrid_Web/run_web.bat`) — a separate product
+with its own dedicated backend, not connected to this app.
 
 ## Docs in this folder
 

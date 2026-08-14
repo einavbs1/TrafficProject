@@ -25,6 +25,8 @@ torch.set_num_threads(2)  # 2 spare cores (10 SUMO + 2 PyTorch = 12 logical)
 
 _HERE      = os.path.dirname(os.path.abspath(__file__))
 _ROOT      = os.path.abspath(os.path.join(_HERE, ".."))   # PPO_Agent root
+_PROJECT_ROOT = os.path.abspath(os.path.join(_HERE, "..", ".."))   # TrafficProject root
+_MAPS_DIR  = os.path.join(_PROJECT_ROOT, "SharedData", "maps", "flowgrid")
 MODELS_DIR = os.path.join(_ROOT, "models")
 CKPT_DIR   = os.path.join(_ROOT, "checkpoints")
 os.makedirs(MODELS_DIR, exist_ok=True)
@@ -102,11 +104,11 @@ def main():
         agent_id = datetime.now().strftime("%Y%m%d_%H%M%S")
         print(f"Fresh V8 agent: {agent_id}")
 
-    net_file = r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\network.net.xml"
+    net_file = os.path.join(_MAPS_DIR, "network.net.xml")
     route_files = [
-        r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes.rou.xml",
-        r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_hard.rou.xml",
-        r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_extreme.rou.xml",
+        os.path.join(_MAPS_DIR, "routes.rou.xml"),
+        os.path.join(_MAPS_DIR, "routes_hard.rou.xml"),
+        os.path.join(_MAPS_DIR, "routes_extreme.rou.xml"),
     ]
     num_cpu = 10
     vec_env = SubprocVecEnv([make_env(net_file, route_files) for _ in range(num_cpu)])

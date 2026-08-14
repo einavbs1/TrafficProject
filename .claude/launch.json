@@ -4,8 +4,21 @@
     {
       "name": "comparison-web",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["PPOagent/tools/comparison_web/server.py"],
+      "runtimeArgs": ["PPO_Agent/scripts/comparison_web/server.py"],
       "port": 8000
+    },
+    {
+      "name": "flowgrid-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "FlowGrid_Web",
+      "port": 5173
+    },
+    {
+      "name": "flowgrid-web-backend",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["FlowGrid_Web/backend/server.py"],
+      "port": 8001
     }
   ]
 }

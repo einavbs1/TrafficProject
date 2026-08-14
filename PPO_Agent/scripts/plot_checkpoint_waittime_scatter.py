@@ -20,8 +20,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-DEFAULT_CSV = (r"C:\Users\Einavs_PC\Documents\TrafficProject\PPO_Agent"
-               r"\results\final_random_seeds_20260705_005802\final_results.csv")
+_ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))  # PPO_Agent root
+DEFAULT_CSV = os.path.join(_ROOT, "results", "final_random_seeds_20260705_005802", "final_results.csv")
 
 PALETTE = {"PPO": "red", "Fixed_30s": "tab:blue",
            "Fixed_45s": "tab:orange", "Fixed_60s": "tab:green"}

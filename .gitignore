@@ -1,9 +1,17 @@
 PhaseB/book_source/node_modules/
 PhaseB/~$*.docx
 PhaseB/book_source/~$*.docx
+FlowGrid_Web/node_modules/
+FlowGrid_Web/dist/
 __pycache__/
 *.pyc
 
 .claude/
 .cursor/
 .agents/
+
+# machine-specific: regenerated on first run from a portable default path
+PPO_Agent/scripts/model_registry.json
+
+# runtime artifact: overwritten every step of a live run, not real content
+FlowGrid_Web/backend/static/live_snapshot.png

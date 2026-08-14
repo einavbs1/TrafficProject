@@ -1,4 +1,6 @@
 import os
+_MAPS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "SharedData", "maps", "flowgrid")
+import os
 import argparse
 import shutil
 from datetime import datetime
@@ -86,7 +88,7 @@ def evaluate_mp_on_seed(route_file, seed, use_gui=False):
 
     # -- SUMO setup ---------------------------------------------------------------
     base_env = create_sumo_env(
-        net_file=r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\network.net.xml",
+        net_file=os.path.join(_MAPS_DIR, "network.net.xml"),
         route_file=route_file,
         use_gui=use_gui,
         sumo_seed=seed
@@ -267,7 +269,7 @@ def evaluate_model_on_seed(model_name, model_type, route_file, seed, cycle_time=
         return evaluate_mp_on_seed(route_file, seed, use_gui)
 
     base_env = create_sumo_env(
-        net_file=r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\network.net.xml",
+        net_file=os.path.join(_MAPS_DIR, "network.net.xml"),
         route_file=route_file,
         use_gui=use_gui,
         sumo_seed=seed
@@ -539,9 +541,9 @@ def main():
     print(f"=========================================\n", flush=True)
 
     maps = [
-        {"name": "Low_Traffic", "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes.rou.xml"},
-        {"name": "Medium_Traffic", "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_hard.rou.xml"},
-        {"name": "High_Traffic", "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_extreme.rou.xml"}
+        {"name": "Low_Traffic", "route": os.path.join(_MAPS_DIR, "routes.rou.xml")},
+        {"name": "Medium_Traffic", "route": os.path.join(_MAPS_DIR, "routes_hard.rou.xml")},
+        {"name": "High_Traffic", "route": os.path.join(_MAPS_DIR, "routes_extreme.rou.xml")}
     ]
     
     import glob

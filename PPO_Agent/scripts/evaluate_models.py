@@ -12,10 +12,82 @@ from sb3_contrib import MaskablePPO
 from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
 from sumo_rl_env import create_sumo_env, SwitchOrKeepWrapper
 
+# PPO_Agent/scripts/ -> PPO_Agent -> project root (two levels up)
+_PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+_MAPS_DIR = os.path.join(_PROJECT_ROOT, "SharedData", "maps", "flowgrid")
+_NET_FILE = os.path.join(_MAPS_DIR, "network.net.xml")
+
+# Served by FlowGrid_Web's own dedicated backend (FlowGrid_Web/backend/
+# server.py)'s /static mount, so its Live Junction panel can poll this as
+# a "camera" image. Not related to comparison_web/server.py's own static/.
+_LIVE_SNAPSHOT_PATH = os.path.join(_PROJECT_ROOT, "FlowGrid_Web", "backend", "static", "live_snapshot.png")
+
 def run_evaluation_task(args):
-    model_name, model_type, route_file, seed, cycle_time, model_path, use_gui = args
-    df = evaluate_model_on_seed(model_name, model_type, route_file, seed, cycle_time, model_path, use_gui)
+    model_name, model_type, route_file, seed, cycle_time, model_path, use_gui, live_state = args
+    df = evaluate_model_on_seed(model_name, model_type, route_file, seed, cycle_time, model_path, use_gui,
+                                 live_state=live_state)
     return model_name, seed, df
+
+
+_LANE_DIRECTION_PREFIXES = {"n": "north", "s": "south", "e": "east", "w": "west"}
+
+
+def _lane_direction(lane_id):
+    return _LANE_DIRECTION_PREFIXES.get(lane_id.split("_")[0])
+
+
+def _publish_live_state(ts, live_state, step_count, total_queued):
+    """Snapshot real per-direction queue lengths and signal colors from the
+    running SUMO episode into a shared multiprocessing dict, so the FastAPI
+    server (a separate process) can serve them to the web dashboard while
+    the episode is still in progress."""
+    # Raw halting-vehicle counts per lane (not ts.get_lanes_queue(), which
+    # normalizes to a [0,1] lane-capacity fraction -- not human-readable).
+    dir_queues = {"north": 0, "south": 0, "east": 0, "west": 0}
+    for lane_id in ts.lanes:
+        direction = _lane_direction(lane_id)
+        if direction:
+            dir_queues[direction] += ts.sumo.lane.getLastStepHaltingNumber(lane_id)
+
+    dir_colors = {}
+    try:
+        # Case matters here: SUMO uses uppercase G for a real priority green
+        # and lowercase g for a "permitted" minor-link green (e.g. this
+        # network's always-yielding slip lane at index 0 of every approach,
+        # which is lowercase g in every phase regardless of who has right
+        # of way). Treating lowercase g as green would show every direction
+        # as "Green" at once -- only uppercase G reflects the actual phase.
+        state_str = ts.sumo.trafficlight.getRedYellowGreenState(ts.id)
+        controlled = ts.sumo.trafficlight.getControlledLanes(ts.id)
+        for direction in ("north", "south", "east", "west"):
+            chars_seen = set()
+            for lane_id in ts.lanes:
+                if _lane_direction(lane_id) != direction or lane_id not in controlled:
+                    continue
+                idx = controlled.index(lane_id)
+                if idx < len(state_str):
+                    chars_seen.add(state_str[idx])
+            if "G" in chars_seen:
+                dir_colors[direction] = "Green"
+            elif "y" in chars_seen or "Y" in chars_seen:
+                dir_colors[direction] = "Yellow"
+            else:
+                dir_colors[direction] = "Red"
+    except Exception:
+        pass
+
+    try:
+        ts.sumo.gui.screenshot("View #0", _LIVE_SNAPSHOT_PATH)
+    except Exception:
+        pass
+
+    live_state.update({
+        "active": True,
+        "step": step_count,
+        "lane_queues": dir_queues,
+        "phase_colors": dir_colors,
+        "total_queued": total_queued,
+    })
 
 def evaluate_mp_on_seed(route_file, seed, use_gui=False):
     """
@@ -86,7 +158,7 @@ def evaluate_mp_on_seed(route_file, seed, use_gui=False):
 
     # -- SUMO setup ---------------------------------------------------------------
     base_env = create_sumo_env(
-        net_file=r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\network.net.xml",
+        net_file=_NET_FILE,
         route_file=route_file,
         use_gui=use_gui,
         sumo_seed=seed
@@ -262,15 +334,22 @@ def evaluate_mp_on_seed(route_file, seed, use_gui=False):
     })
 
 
-def evaluate_model_on_seed(model_name, model_type, route_file, seed, cycle_time=None, model_path=None, use_gui=False):
+def evaluate_model_on_seed(model_name, model_type, route_file, seed, cycle_time=None, model_path=None, use_gui=False,
+                            live_state=None):
     if model_type == "mp":
         return evaluate_mp_on_seed(route_file, seed, use_gui)
 
     base_env = create_sumo_env(
-        net_file=r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\network.net.xml",
+        net_file=_NET_FILE,
         route_file=route_file,
         use_gui=use_gui,
-        sumo_seed=seed
+        sumo_seed=seed,
+        # Paces the SUMO GUI to at least 100ms of wall-clock time per
+        # simulated second, only for FlowGrid_Web's Live Junction demo
+        # (live_state is only ever set on that path) -- otherwise a Watch
+        # Live episode renders and finishes faster than a human, or even
+        # this dashboard's 1s poll, can follow.
+        additional_sumo_cmd="--delay 100" if live_state is not None else None,
     )
 
     env = SwitchOrKeepWrapper(base_env)
@@ -368,6 +447,9 @@ def evaluate_model_on_seed(model_name, model_type, route_file, seed, cycle_time=
         queues.append(total_queued)
         waiting_times.append(total_wait)
 
+        if live_state is not None:
+            _publish_live_state(ts, live_state, step_count, total_queued)
+
         # Stop immediately once the road is genuinely empty: no vehicles left
         # AND none still expected to depart later in this route file. Same
         # reasoning as evaluate_mp_on_seed's early-stop -- total wait/arrived
@@ -380,7 +462,10 @@ def evaluate_model_on_seed(model_name, model_type, route_file, seed, cycle_time=
             pass
 
     env.close()
-    
+
+    if live_state is not None:
+        live_state["active"] = False
+
     # Return as a pandas DataFrame
     return pd.DataFrame({
         "step": range(0, len(queues) * 5, 5),
@@ -408,7 +493,7 @@ def evaluate_scenario(map_name, route_file, seeds, models_to_test, eval_dir, use
     tasks = []
     for m in models_to_test:
         for seed in seeds:
-            tasks.append((m["name"], m["type"], route_file, seed, m.get("cycle_time"), m.get("path"), use_gui))
+            tasks.append((m["name"], m["type"], route_file, seed, m.get("cycle_time"), m.get("path"), use_gui, None))
             
     model_results = {m["name"]: [] for m in models_to_test}
     
@@ -539,9 +624,9 @@ def main():
     print(f"=========================================\n", flush=True)
 
     maps = [
-        {"name": "Low_Traffic", "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes.rou.xml"},
-        {"name": "Medium_Traffic", "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_hard.rou.xml"},
-        {"name": "High_Traffic", "route": r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_extreme.rou.xml"}
+        {"name": "Low_Traffic", "route": os.path.join(_MAPS_DIR, "routes.rou.xml")},
+        {"name": "Medium_Traffic", "route": os.path.join(_MAPS_DIR, "routes_hard.rou.xml")},
+        {"name": "High_Traffic", "route": os.path.join(_MAPS_DIR, "routes_extreme.rou.xml")}
     ]
     
     import glob

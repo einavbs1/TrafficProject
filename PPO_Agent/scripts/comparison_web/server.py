@@ -1,8 +1,14 @@
 """
 Comparison Web App -- FastAPI + vanilla HTML/CSS/JS frontend for
-interactively comparing PPO checkpoints. Web equivalent of comparison_gui.py
-(Tkinter), sharing all non-UI logic via comparison_core.py -- neither UI
-duplicates the registry/task-building/evaluation code.
+interactively comparing PPO checkpoints. This is FlowGrid's PPO interface;
+all non-UI logic (registry/task-building/evaluation) lives in
+comparison_core.py rather than in this file.
+
+This is a developer-only tool, entirely separate from FlowGrid_Web (the
+customer-facing product, with its own dedicated backend at
+FlowGrid_Web/backend/server.py). Nothing here is imported by or coupled to
+that app; they only happen to share the underlying comparison_core.py /
+evaluate_models.py simulation code.
 
 Usage:
     cd PPO_Agent/scripts/comparison_web

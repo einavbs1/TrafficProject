@@ -1,3 +1,5 @@
+import os
+_MAPS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "SharedData", "maps", "flowgrid")
 import torch
 from sb3_contrib import MaskablePPO
 from stable_baselines3.common.policies import ActorCriticPolicy
@@ -10,11 +12,11 @@ def train_curriculum():
     args = parser.parse_args()
 
     curriculum = [
-        r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_hard.rou.xml",
-        r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\routes_extreme.rou.xml"
+        os.path.join(_MAPS_DIR, "routes_hard.rou.xml"),
+        os.path.join(_MAPS_DIR, "routes_extreme.rou.xml")
     ]
     
-    net_file = r"C:\Users\Einavs_PC\Documents\TrafficProject\SharedData\maps\flowgrid\network.net.xml"
+    net_file = os.path.join(_MAPS_DIR, "network.net.xml")
     
     model = None
     
