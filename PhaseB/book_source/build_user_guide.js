@@ -3,9 +3,9 @@ const { p, para, h1, h2, h3, bullet, code, note, warning, simpleTable, coverPage
 const intro = [
   h1("1. Introduction"),
   p("FlowGrid is a reinforcement learning based traffic signal controller for a single SUMO simulated intersection. This guide is written for anyone who wants to run the project's tools directly: reviewers checking the delivered agent's claims, future developers picking the project back up, or anyone curious to watch the agent control traffic themselves."),
-  p("Two independent agents were built over the course of this project: a Maskable PPO agent (the final, submitted \"champion\" agent, referred to throughout this guide as PPO_Agent) and an earlier Deep Q Network agent (DQN_Agent). PPO_Agent has two browser based interfaces, the original comparison app (Section 5) and a newer SaaS style dashboard, FlowGrid_Web (Section 6), with one junction wired to the live agent; DQN_Agent's interface is its own desktop application. Each is described separately below. If you only have time to try one thing, start with Section 4, Quick Start."),
+  p("Two independent agents were built over the course of this project: a Maskable PPO agent (the final, submitted \"champion\" agent, referred to throughout this guide as PPO_Agent) and an earlier Deep Q Network agent (DQN_Agent). PPO_Agent has two browser based interfaces, the original comparison app (Section 5) and a newer SaaS style dashboard, FlowGrid_Web (Section 6), with one junction wired to the live agent. DQN_Agent's interface is its own desktop application. Each is described separately below. If you only have time to try one thing, start with Section 4, Quick Start."),
   p("PPO_Agent's web app includes a built in, floating guided tour that walks a first time user through every field on the page (which models and baselines to pick, how seeds and traffic scenarios work, what \"Watch Live\" does) with a short, plain language explanation for each, plus Skip, Previous, and Next controls. It starts automatically the first time the page loads and can be reopened anytime from the \"? Guide\" button in the page header, so this written guide and the app's own in page help reinforce each other rather than duplicate effort. Section 5.2 covers it in more detail."),
-  p("This guide covers normal, successful operating flow: installing the software, launching each tool, and reading the results it produces. It intentionally does not cover every error condition; if something does not behave as described here, see Section 8, Troubleshooting."),
+  p("This guide covers normal, successful operating flow: installing the software, launching each tool, and reading the results it produces. It intentionally does not cover every error condition. If something does not behave as described here, see Section 8, Troubleshooting."),
 ];
 
 const requirements = [
@@ -14,12 +14,12 @@ const requirements = [
   simpleTable(
   ["Requirement", "Version / Notes"],
   [
-  ["Operating system", "Windows 10/11 (developed and tested here); Linux/macOS should work with SUMO and Python installed, but were not tested"],
+  ["Operating system", "Windows 10/11 (developed and tested here). Linux/macOS should work with SUMO and Python installed, but were not tested"],
   ["Python", "3.10"],
   ["SUMO (Simulation of Urban Mobility)", "1.20 or later, with the SUMO_HOME environment variable set and the TraCI/libsumo Python bindings on the path"],
-  ["CPU", "A multi core processor is strongly recommended; training and full evaluation sweeps run ten parallel SUMO instances by default"],
-  ["GPU", "Optional. Training uses CUDA if available (torch.device(\"cuda\")); it also runs on CPU, just considerably slower"],
-  ["Disk space", "Several hundred MB for the trained models and evaluation results already included in this repository; several GB free if you plan to retrain from scratch"],
+  ["CPU", "A multi core processor is strongly recommended. Training and full evaluation sweeps run ten parallel SUMO instances by default"],
+  ["GPU", "Optional. Training uses CUDA if available (torch.device(\"cuda\")). It also runs on CPU, just considerably slower"],
+  ["Disk space", "Several hundred MB for the trained models and evaluation results already included in this repository. Several GB free if you plan to retrain from scratch"],
   ],
   [3200, 5800]
   ),
@@ -41,7 +41,7 @@ const quickStart = [
   h1("4. Quick Start"),
   p("The fastest way to see the delivered agent in action is the web comparison app, which lets you pick a traffic scenario and watch the trained PPO agent control the intersection live, side by side with a plain fixed time signal."),
   bullet("Double click run_web.bat right in the PPO_Agent folder (or run it directly: cd PPO_Agent/scripts/comparison_web, then python server.py)."),
-  bullet("Your browser opens automatically. A built in guided tour walks through every field the first time; click \"? Guide\" in the top bar to see it again anytime."),
+  bullet("Your browser opens automatically. A built in guided tour walks through every field the first time. Click \"? Guide\" in the top bar to see it again anytime."),
   bullet("In the page that opens, leave the pre selected champion model and the three fixed time baselines ticked."),
   bullet("Choose \"Manual\" seeds, type in any number (e.g. 42), and select one traffic scenario, e.g. Medium."),
   bullet("Tick \"Watch Live\" and click \"Start Comparison.\""),
@@ -58,9 +58,9 @@ const ppoSection = [
   code("cd PPO_Agent/scripts/comparison_web\npython server.py"),
   p("A local web server starts and a browser tab opens automatically (default: http://127.0.0.1:8000)."),
   h2("5.2 The Built In Guided Tour"),
-  p("A floating, step by step tour starts automatically every time the page loads, spotlighting each section in turn (Models, Baselines, Seeds, Scenario, Watch Live and Start, Results) with a short explanation. Use Next and Previous to move through it, or Skip guide to dismiss it for that visit; click \"? Guide\" in the top bar to bring it back at any time."),
+  p("A floating, step by step tour starts automatically every time the page loads, spotlighting each section in turn (Models, Baselines, Seeds, Scenario, Watch Live and Start, Results) with a short explanation. Use Next and Previous to move through it, or Skip guide to dismiss it for that visit. Click \"? Guide\" in the top bar to bring it back at any time."),
   h2("5.3 Selecting Models to Compare"),
-  p("The Models panel lists every trained agent currently registered in model_registry.json, with the project's champion model (PPO_Agent_V8) pre selected. Tick the checkbox beside any additional model you want included. To compare against a model not yet in the list, use \"Add Model\" and browse to its .zip file (the default browse location is PPO_Agent/models); it is added to the registry immediately and persists for future sessions."),
+  p("The Models panel lists every trained agent currently registered in model_registry.json, with the project's champion model (PPO_Agent_V8) pre selected. Tick the checkbox beside any additional model you want included. To compare against a model not yet in the list, use \"Add Model\" and browse to its .zip file (the default browse location is PPO_Agent/models). It is added to the registry immediately and persists for future sessions."),
   h2("5.4 Selecting Baselines"),
   p("The Baselines panel lists the fixed time controllers available for comparison: Fixed_30s, Fixed_45s, and Fixed_60s (cycle length in seconds). Tick any you want included alongside the selected model(s)."),
   h2("5.5 Choosing Seeds and a Traffic Scenario"),
@@ -83,7 +83,7 @@ const flowgridWebSection = [
   h2("6.1 Launching FlowGrid_Web"),
   p("FlowGrid_Web runs as a single process: one double click of run_web.bat inside the FlowGrid_Web folder builds the dashboard, starts its own backend, which serves both the built dashboard and its live data API from one FastAPI server on port 8001, and opens it in your browser automatically. There is no separate dev server to start, and this never touches the separate PPO comparison app from Section 5."),
   code("cd FlowGrid_Web\nrun_web.bat"),
-  p("Allow up to about 30 seconds after launch before using Run Agent (Section 6.5); FlowGrid_Web's backend needs that long to finish importing torch, SUMO, and Stable-Baselines3. Trying Run Agent before it is ready shows a plain, expected message asking you to try again in a few seconds, not an error. (A separate script, run_flowgrid_demo.bat at the project root, additionally starts the Section 5 comparison app alongside FlowGrid_Web, for a full project demo; it is not needed just to use FlowGrid_Web.)"),
+  p("Allow up to about 30 seconds after launch before using Run Agent (Section 6.5). FlowGrid_Web's backend needs that long to finish importing torch, SUMO, and Stable-Baselines3. Trying Run Agent before it is ready shows a plain, expected message asking you to try again in a few seconds, not an error. (A separate script, run_flowgrid_demo.bat at the project root, additionally starts the Section 5 comparison app alongside FlowGrid_Web, for a full project demo. It is not needed just to use FlowGrid_Web.)"),
   h2("6.2 Logging In"),
   p("The login screen accepts two fixed demonstration accounts (there is no real authentication server behind this login, by design, see Section 6.6):"),
   simpleTable(
@@ -101,19 +101,19 @@ const flowgridWebSection = [
   h2("6.5 Running the Agent Live"),
   p("On the Dashboard page for the Live Junction, pick a traffic scenario (Low, Medium, or High) and click \"Run Agent\". Unlike the PPO comparison app, there is no seed field here, a random seed is chosen for you automatically every time, so every run is a genuinely fresh episode, never a rehearsed replay. Once running, all four direction cards update roughly once a second with the real vehicle queue count, the real signal color, and a live snapshot image captured directly from the running SUMO window, deliberately paced (at least 100 milliseconds of simulated time per real second) so the numbers and image are actually watchable rather than flashing past instantly."),
   h2("6.6 What Is Real and What Is a Demonstration"),
-  p("To be direct about the boundary: \"Live Junction (SUMO Simulation)\" is real, its queue counts, signal colors, and camera image come from an actual SUMO episode driven by the trained PPO agent, the same one evaluated throughout the book. Every other junction, every login, and every other feature (device settings, reports, user management, adding a junction) is a complete, working UI backed by simulated or randomly generated demonstration data, not a live backend, database, or camera. We built it this way deliberately, to demonstrate the target system's shape honestly without claiming a deployment that does not exist; see the book, Section 2.3 and Section 2.5, for the full reasoning."),
+  p("To be direct about the boundary: \"Live Junction (SUMO Simulation)\" is real, its queue counts, signal colors, and camera image come from an actual SUMO episode driven by the trained PPO agent, the same one evaluated throughout the book. Every other junction, every login, and every other feature (device settings, reports, user management, adding a junction) is a complete, working UI backed by simulated or randomly generated demonstration data, not a live backend, database, or camera. We built it this way deliberately, to demonstrate the target system's shape honestly without claiming a deployment that does not exist. See the book, Chapter 4 and Section 3.7, for the full reasoning."),
 ];
 
 const dqnSection = [
   h1("7. Using the DQN Tools (Original Agent, Archived)"),
-  p("DQN_Agent is the project's original reinforcement learning approach. It predates PPO_Agent and is preserved, fully runnable, under Old_Versions/DQN_Agent since PPO_Agent is the current submitted agent. See the book (Section 2.3) for why the project moved from DQN to PPO."),
+  p("DQN_Agent is the project's original reinforcement learning approach. It predates PPO_Agent and is preserved, fully runnable, under Old_Versions/DQN_Agent since PPO_Agent is the current submitted agent. See the book (Section 4.3) for why the project moved from DQN to PPO."),
   h2("6.1 Desktop Application"),
   code("cd Old_Versions/DQN_Agent/gui\npython flowgrid_gui.py"),
   p("On Windows, double clicking Old_Versions/DQN_Agent/launchers/run_gui.bat launches the same application in its own process, so closing the terminal window does not close the app."),
   h2("6.2 Web Dashboard"),
   code("cd Old_Versions/DQN_Agent/web\npython main.py"),
   h2("6.3 The Compare Tab"),
-  p("The Compare tab answers a focused question: on the same traffic demand, does the DQN signal policy reduce delay more than fixed time control? To make the comparison fair, both runs use the same vehicles (same count, routes, lanes, and depart times); only the traffic light policy differs. A run has two phases: a fixed time baseline pass (random vehicle injection, then drain), followed by the DQN policy pass replaying the identical vehicle stream. See Old_Versions/DQN_Agent/docs/COMPARE.md for the full technical explanation of how this pairing is guaranteed."),
+  p("The Compare tab answers a focused question: on the same traffic demand, does the DQN signal policy reduce delay more than fixed time control? To make the comparison fair, both runs use the same vehicles (same count, routes, lanes, and depart times). Only the traffic light policy differs. A run has two phases: a fixed time baseline pass (random vehicle injection, then drain), followed by the DQN policy pass replaying the identical vehicle stream. See Old_Versions/DQN_Agent/docs/COMPARE.md for the full technical explanation of how this pairing is guaranteed."),
   h2("6.4 Command Line / Menu"),
   code("cd Old_Versions/DQN_Agent/scripts\npython run_menu.py"),
   p("An interactive menu over training, evaluation, and comparison, useful for running the DQN agent's tools without a graphical interface."),
@@ -125,9 +125,9 @@ const scenarios = [
   simpleTable(
   ["Scenario", "Demand", "What it tests"],
   [
-  ["Low", "Light, sparse traffic", "Whether the agent can find a useful signal to act on when very few vehicles are present (an early failure mode of this project, see the book Section 2.6)"],
+  ["Low", "Light, sparse traffic", "Whether the agent can find a useful signal to act on when very few vehicles are present (an early failure mode of this project, see the book Section 7.3)"],
   ["Medium", "Moderate, steady traffic", "Typical day to day operating conditions"],
-  ["High", "Heavy, near saturating traffic", "Behavior as demand approaches the intersection's physical capacity, where every controller's performance converges (see the book Section 2.7)"],
+  ["High", "Heavy, near saturating traffic", "Behavior as demand approaches the intersection's physical capacity, where every controller's performance converges (see the book Section 5.3)"],
   ],
   [1800, 3400, 3800]
   ),
@@ -142,11 +142,11 @@ const troubleshooting = [
   h3("The comparison tool is very slow"),
   p("Evaluation runs execute multiple SUMO simulations in parallel, bounded by CPU core count. Reducing the number of seeds, or running fewer scenarios at once, will reduce total wait time. \"Watch Live\" mode is inherently slower since it runs at a visible, non accelerated pace."),
   h3("I changed the reward function or observation and now training behaves strangely"),
-  p("Never resume training from an existing checkpoint after changing the reward function or observation definition. Train a fresh agent from random initialization instead. This project encountered a full, unrecoverable policy collapse from doing exactly this once (see the book, Section 2.6); it is documented there as a cautionary example, not a theoretical risk."),
+  p("Never resume training from an existing checkpoint after changing the reward function or observation definition. Train a fresh agent from random initialization instead. This project encountered a full, unrecoverable policy collapse from doing exactly this once (see the book, Section 7.2). It is documented there as a cautionary example, not a theoretical risk."),
   h3("Where do I find the raw evaluation numbers behind the book's claims?"),
-  p("PPO_Agent/results/final_random_seeds_20260705_005802/ contains the full, unfiltered evaluation (summary.txt, final_results.csv) behind the 88.3% win rate figure reported in the book. Old_Versions/DQN_Agent/results/comparison_history.json contains the equivalent raw evaluation history for the DQN agent, discussed in the book's Section 2.3."),
+  p("PPO_Agent/results/final_random_seeds_20260705_005802/ contains the full, unfiltered evaluation (summary.txt, final_results.csv) behind the 88.3% win rate figure reported in the book. Old_Versions/DQN_Agent/results/comparison_history.json contains the equivalent raw evaluation history for the DQN agent, discussed in the book's Section 4.3."),
   h3("FlowGrid_Web's Run Agent button says \"Failed to fetch\" or asks me to try again"),
-  p("This means FlowGrid_Web's own backend (port 8001) is not reachable yet, either it was never started (see Section 6.1, run_web.bat starts it together with the dashboard) or it is still importing torch, SUMO, and Stable-Baselines3, which can take up to about 30 seconds after launch. Wait a few seconds and click Run Agent again; this is expected right after starting the servers, not a bug."),
+  p("This means FlowGrid_Web's own backend (port 8001) is not reachable yet, either it was never started (see Section 6.1, run_web.bat starts it together with the dashboard) or it is still importing torch, SUMO, and Stable-Baselines3, which can take up to about 30 seconds after launch. Wait a few seconds and click Run Agent again. This is expected right after starting the servers, not a bug."),
 ];
 
 const glossary = [
@@ -157,11 +157,11 @@ const glossary = [
   ["Baseline", "A non learned controller (fixed time cycle) the trained agent is compared against"],
   ["Checkpoint", "A saved copy of the agent's weights at a specific point during training"],
   ["Episode", "One complete simulated run of a traffic scenario, from an empty road to a defined end condition"],
-  ["MaskablePPO", "The specific reinforcement learning algorithm used by PPO_Agent; standard PPO extended with action masking"],
+  ["MaskablePPO", "The specific reinforcement learning algorithm used by PPO_Agent. Standard PPO extended with action masking"],
   ["Seed", "A number that deterministically fixes SUMO's randomly generated vehicle stream, so a given seed always produces the identical traffic"],
   ["SUMO", "Simulation of Urban Mobility, the open source traffic simulator this project's environment is built on"],
   ["TraCI", "SUMO's Traffic Control Interface, the Python API used to step the simulation and read/control the traffic light"],
-  ["Vecnormalize", "Stable-Baselines3's running statistics for normalizing observations; must be loaded alongside a model checkpoint to reproduce its trained behavior correctly"],
+  ["Vecnormalize", "Stable-Baselines3's running statistics for normalizing observations. Must be loaded alongside a model checkpoint to reproduce its trained behavior correctly"],
   ["Watch Live", "A comparison tool option that opens a real, visible SUMO simulation window instead of running in the background"],
   ],
   [2600, 6400]

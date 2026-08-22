@@ -56,8 +56,11 @@ function note(text) {
 function warning(text) {
   return new Paragraph({
     spacing: { before: 100, after: 200 },
-    shading: { type: ShadingType.CLEAR, fill: "FDEDED" },
-    children: [new TextRun({ text: "Caution: " + text, font: FONT, size: SIZE, bold: true, color: "8A1F1F" })],
+    shading: { type: ShadingType.CLEAR, fill: "F5F5F5" },
+    children: [
+      new TextRun({ text: "Pay attention: ", font: FONT, size: SIZE, bold: true }),
+      new TextRun({ text: text, font: FONT, size: SIZE }),
+    ],
   });
 }
 
