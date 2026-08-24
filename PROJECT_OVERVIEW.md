@@ -5,6 +5,9 @@ verify that" for both approaches tried in this project. **PPO is the main
 subject and the shipped/champion approach.** DQN was an earlier/parallel
 approach, kept as a smaller secondary section.
 
+Recorded demo video (the agent running live, and the comparison app end to
+end): https://drive.google.com/file/d/1BE3oeGWWbVrQEC_ZL0rVh5AdPs9kDNTY/view
+
 ---
 
 ## 1. Is this an MDP? Yes -- here's the mapping

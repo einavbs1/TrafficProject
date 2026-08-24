@@ -15,3 +15,7 @@ PPO_Agent/scripts/model_registry.json
 
 # runtime artifact: overwritten every step of a live run, not real content
 FlowGrid_Web/backend/static/live_snapshot.png
+
+# Demo video is distributed via the Drive link in README.md, not committed
+# (GitHub rejects files over 100 MB)
+*.mp4

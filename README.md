@@ -49,5 +49,7 @@ both the Phase A proposal and the delivered Phase B project.
   double click `FlowGrid_Web/run_web.bat`, or see `FlowGrid_Web/README.md`.
 - Run both at once for a full demo: `run_flowgrid_demo.bat`, at the
   project root.
+- Watch the recorded demo video instead of running anything:
+  https://drive.google.com/file/d/1BE3oeGWWbVrQEC_ZL0rVh5AdPs9kDNTY/view
 - Run the original DQN agent: `Old_Versions/DQN_Agent/README.md`.
 - Understand the RL design of either: `PROJECT_OVERVIEW.md`.
